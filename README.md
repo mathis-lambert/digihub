@@ -1,4 +1,4 @@
-# Projet d'études : Librairie en ligne
+# Projet d'études : Librairie en ligne "DigiHub"
 
 ## Description
 
