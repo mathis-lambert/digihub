@@ -1,17 +1,92 @@
-/* NEW CSS PROJECT */
 /* reset */
 *,
 :before,
 :after {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* VARIABLES */
 /* body */
+html,
 body {
   font-family: "Roboto", sans-serif;
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 400;
+  color: #000;
+  background-color: #fff;
 }
-/*# sourceMappingURL=style.css.map */
+
+/* IMPORTS FROM components */
+/* MAIN ASSETS STYLESHEET */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+.container {
+  width: min(100% - 2rem, 1300px);
+  margin-inline: auto;
+  padding-top: 100px;
+}
+
+a {
+  padding: 1rem;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease-in-out;
+}
+a:hover {
+  transform: scale(1.05);
+  color: grey;
+}
+
+button,
+.btn {
+  padding: 0.5rem;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 9px;
+  transition: all 0.3s ease-in-out;
+}
+button:hover,
+.btn:hover {
+  background-color: black;
+  border: 1px solid white;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
+  background-color: #000;
+  padding: 0.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
+}
+header .widgets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=style.css.map */

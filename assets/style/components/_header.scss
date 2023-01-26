@@ -1,0 +1,26 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
+  background-color: $color-primary;
+  padding: 0.5rem 3rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px;
+  }
+  .widgets {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
