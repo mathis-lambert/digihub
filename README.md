@@ -3,12 +3,12 @@
 ## Description
 
 E-Library est un site web permettant de gérer les ressources (livres, DVD, bandes dessinées, etc) d’une médiathèque.
-Les utilisateurs peuvent s’inscrire, se connecter avec les informations d’identification fournies et peuventt explorer les médias disponibles dans la bibliothèque.
+Les utilisateurs peuvent s’inscrire, se connecter avec les informations d’identification fournies et peuvent explorer les médias disponibles dans la bibliothèque.
 
 ## Fonctionnalités
 
 1. Nouveautés
-   Présente les nouvelles ressources en fonction de la date d’ajout des médias (affiche les pllus récents).
+   Présente les nouvelles ressources en fonction de la date d’ajout des médias (affiche les plus récents).
 2. Top
    Présente les ressources les plus consultées.
 3. Sélection
