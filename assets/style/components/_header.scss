@@ -23,4 +23,46 @@ header {
     justify-content: center;
     align-items: center;
   }
+  .logo_img {
+    img {
+      max-width: 100px;
+    }
+
+    filter: hue-rotate(0deg);
+
+    &:hover {
+      animation: logo 1s ease-in-out alternate;
+      filter: hue-rotate(360deg);
+    }
+  }
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      stroke: $color-primary;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:hover {
+      svg {
+        stroke: $color-secondary;
+      }
+    }
+  }
+}
+
+@keyframes logo {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }

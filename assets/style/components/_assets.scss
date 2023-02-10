@@ -5,7 +5,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: $font-family;
+  font-family: $font-family-title;
   font-weight: 700;
   color: $color-primary;
 }
@@ -35,13 +35,13 @@ button,
 .btn {
   padding: 0.5rem;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid $color-primary;
   border-radius: 9px;
 
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background-color: black;
+    background-color: $color-primary;
     border: 1px solid white;
   }
 }

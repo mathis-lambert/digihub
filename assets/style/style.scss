@@ -1,3 +1,5 @@
+@import "components/fonts";
+
 /* reset */
 *,
 :before,
@@ -10,16 +12,17 @@
 }
 
 /* VARIABLES */
-$color-primary: #000;
-$color-secondary: #fff;
+$color-primary: #0c1e3a;
+$color-secondary: #f2f2f2;
 $color-tertiary: rgb(14, 41, 58);
 $color-quaternary: rgb(20, 208, 171);
-$font-family: "Roboto", sans-serif;
+$font-family-text: "Jost", sans-serif;
+$font-family-title: "Righteous", cursive;
 
 /* body */
 html,
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: $font-family-text;
   font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 400;
   color: $color-primary;
@@ -27,6 +30,7 @@ body {
 }
 
 /* IMPORTS FROM components */
+@import "components/searchbar";
 @import "components/assets";
 @import "components/header";
 @import "components/footer";
