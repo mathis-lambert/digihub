@@ -11,8 +11,9 @@ h6 {
 }
 
 .container {
-  width: min(100% - 2rem, 1300px);
+  width: min(100%, 1300px);
   margin-inline: auto;
+  padding: 1rem;
   padding-top: 100px;
 }
 
@@ -37,6 +38,7 @@ button,
   background-color: white;
   border: 1px solid $color-primary;
   border-radius: 9px;
+  cursor: pointer;
 
   transition: all 0.3s ease-in-out;
 

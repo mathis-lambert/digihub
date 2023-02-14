@@ -5,18 +5,25 @@ header {
   height: 80px;
   width: 100%;
   background-color: $color-primary;
-  padding: 0.5rem 3rem;
+  padding: 0.5rem;
+
+  z-index: 1000;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+
+  .header_container {
+    display: flex;
+    justify-content: space-between;
+    width: min(100%, 1300px);
+  }
 
   nav {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    padding: 0 20px;
   }
   .widgets {
     display: flex;

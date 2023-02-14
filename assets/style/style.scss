@@ -20,7 +20,7 @@ $font-family-text: "Jost", sans-serif;
 $font-family-title: "Righteous", cursive;
 
 /* body */
-html,
+
 body {
   font-family: $font-family-text;
   font-size: clamp(14px, 1.5vw, 16px);
@@ -33,4 +33,5 @@ body {
 @import "components/searchbar";
 @import "components/assets";
 @import "components/header";
+@import "components/viewMedia";
 @import "components/footer";
