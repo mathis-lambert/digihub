@@ -12,13 +12,11 @@
 
     <div class="searchbar__container">
         <div class="searchbar__container__input">
-            <input type="text" placeholder="Rechercher un film, une série, un acteur...">
+            <input type="text" placeholder="Rechercher un film, un livre, des mots clés...">
         </div>
         <div class="searchbar__results__container">
-            <div class="searchbar__results">
-
-            </div>
-            <!-- <a href="#">Voir tous les résultats</a> -->
+            <div class="searchbar__results"> </div>
+            <a href="#" class="btn btn--primary search__link">Rechercher</a>
         </div>
     </div>
 

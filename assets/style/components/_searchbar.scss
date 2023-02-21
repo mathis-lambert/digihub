@@ -83,6 +83,23 @@ $musicColor: hsl(120, 100%, 86%);
         }
       }
     }
+
+    .search__link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: $color-primary;
+      width: fit-content;
+      margin: 1rem auto;
+      border-radius: 9px;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 10px 0 rgba(0, 0, 0, 0.3);
+      &:hover {
+        transform: none;
+        color: white;
+      }
+    }
   }
 
   &__results__container {
@@ -91,11 +108,6 @@ $musicColor: hsl(120, 100%, 86%);
     left: 0;
     z-index: -1;
     width: 100%;
-    padding-top: 1rem;
-
-    background-color: $color-secondary;
-
-    border-radius: 0 0 9px 9px;
 
     opacity: 0;
     transition: all 0.3s ease-in-out;
@@ -103,6 +115,10 @@ $musicColor: hsl(120, 100%, 86%);
 
   &__results {
     display: flex;
+    background-color: $color-secondary;
+    padding-top: 1rem;
+    border-radius: 0 0 9px 9px;
+
     flex-direction: column;
 
     &__result {

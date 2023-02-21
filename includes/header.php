@@ -7,7 +7,7 @@
             <a href="./">Accueil</a>
             <a href="./nouveautes">Nouveautés</a>
             <a href="./top">Top</a>
-            <a href="./catalogue">Catalogue</a>
+            <button class="linkbutton" onclick="toggleCatalogue()">Catalogue</button>
         </nav>
 
         <div class="widgets">
@@ -21,3 +21,7 @@
         </div>
     </div>
 </header>
+
+<div class="catalogue">
+
+</div>

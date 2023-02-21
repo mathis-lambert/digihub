@@ -42,10 +42,27 @@ header {
       filter: hue-rotate(360deg);
     }
   }
-  a {
+  a,
+  button.linkbutton {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    font-family: $font-family-text;
+    padding: 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    &:hover {
+      color: white;
+      text-decoration: none;
+      background-color: transparent;
+      border: none;
+      transform: scale(1.05);
+    }
   }
 
   .search-button {
@@ -71,5 +88,20 @@ header {
   }
   100% {
     filter: hue-rotate(360deg);
+  }
+}
+
+.catalogue {
+  height: 50vh;
+  position: fixed;
+  top: -50vh;
+  left: 0;
+  width: 100%;
+  background-color: $color-primary;
+  z-index: 999;
+  transition: all 0.3s ease-in-out;
+
+  &.active {
+    top: 0;
   }
 }

@@ -69,7 +69,7 @@ searchbarInput.addEventListener("input", () => {
 
   value = value.replace(/ /g, "+");
 
-  if (value.length > 2) {
+  if (value.length > 1) {
     searchbar.classList.add("searching");
     loadSearchResults(value);
   } else {
@@ -80,18 +80,30 @@ searchbarInput.addEventListener("input", () => {
 
 async function loadSearchResults(value) {
   console.log("searching ", value);
-  await fetch("./controllers/php/search.php?method=searching&q=" + value)
+  document.querySelector(".search__link").href = `./results.php?s=${value}`;
+
+  await fetch(
+    "./controllers/php/normalizeQuery.php?method=searching&q=" + value
+  )
     .then((response) => response.json())
-    .then((data) => {
-      data = data.sort((a, b) => {
-        return b._pertinence - a._pertinence;
-      });
-      console.log("Success:", data);
-      displaySearchResults(data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      displaySearchResults([]);
+    .then(async (data) => {
+      let query = data.url;
+
+      await fetch("./controllers/php/" + query)
+        .then((response) => response.json())
+        .then((data) => {
+          data = data.sort((a, b) => {
+            return b._score - a._score;
+          });
+          //max 5 results
+          data = data.slice(0, 5);
+          console.log("Success:", data);
+          displaySearchResults(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          displaySearchResults([]);
+        });
     });
 }
 
@@ -167,4 +179,17 @@ function clearSearchResults() {
   searchResultsContainer.innerHTML = "";
 }
 
+/////////////////////
+// Searchbar - end
+/////////////////////
+
+/////////////////////
+// HEADER
+/////////////////////
+function toggleCatalogue() {
+  const catalogue = document.querySelector(".catalogue");
+  catalogue.classList.toggle("active");
+}
+/////////////////////
+// HEADER - end
 /////////////////////

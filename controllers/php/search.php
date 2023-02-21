@@ -1,22 +1,43 @@
 <?php
 require '../../config/config.php';
 
-$search = strval($_GET['q']);
-$method = strval($_GET['method']);
+$method = strval($_GET['method']) ?? "searching";
+$keywords = strval($_GET['q']) ?? "";
+$types = strval($_GET['types']) ?? "";
+$genres = strval($_GET['genres']) ?? "";
+
 
 if ($method === "searching") {
-    $filterSearchParam = explode(" ", $search);
+    //create array from keywords, types and genres
+    $keywords = explode(" ", $keywords);
+    $types = explode(" ", $types);
+    $genres = explode(" ", $genres);
 
+    // all first letters to uppercase
+    $genres = array_map('ucfirst', $genres);
+    $types = array_map('ucfirst', $types);
+
+    // bools to check if the user has entered a type or a genre
+    $typesBool = $types[0] === "";
+    $genresBool = $genres[0] === "";
+
+    // columns to search in and their importance
     $criticalColumns = ['mediaName'];
-    $importantColumns = ['mediaTags',  'authorLastname'];
-    $minorColumns = ['mediaShortDesc', 'mediaLongDesc', 'typeName', 'mediaYear'];
+    $importantColumns = ['authorLastname', 'genreName', 'authorFirstname', 'authorLastname', 'mediaTags'];
+    $minorColumns = ['mediaDescription', 'typeName', 'mediaYear'];
 
+    // init array to store medias
     $mediasArr = [];
 
-    foreach ($filterSearchParam as $word) {
+    // init sql queries for types and genres
+    $sqlTypes = " AND types.typeName IN ('" . implode("', '", $types) . "')";
+    $sqlGenres = " AND genres.genreName IN ('" . implode("', '", $genres) . "')";
+
+    foreach ($keywords as $word) {
         $word = strtolower($word);
-        $medias = $conn->prepare("SELECT * FROM medias, types, authors WHERE medias.mediaTypeId = types.typeID AND medias.mediaAuthorId = authors.authorID AND concat_ws(' ', mediaName, mediaTags, mediaShortDesc, mediaLongDesc, typeName, authorLastname, authorFirstname, mediaYear) LIKE '%$word%' AND medias.mediaStatus = 'available'");
-        $medias->execute();
+        $sql = "SELECT * FROM medias, authors, genres, types, appartient_genre, appartient_author WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_author.appartientMediaId  AND appartient_author.appartientAuthorId = authors.authorId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND concat_ws(' ', medias.mediaName, medias.mediaTags, medias.mediaDescription, types.typeName, authors.authorLastname, authors.authorFirstname, medias.mediaYear, genres.genreName) LIKE ? AND medias.mediaStatus = 'available'" . ($typesBool ? "" : $sqlTypes) . ($genresBool ? "" : $sqlGenres) . " GROUP BY medias.mediaId";
+        $medias = $conn->prepare($sql);
+        $medias->execute([sprintf('%%%s%%', $word)]);
         $medias = $medias->fetchAll(PDO::FETCH_ASSOC);
         if ($medias) {
             foreach ($medias as $media) {
@@ -26,6 +47,7 @@ if ($method === "searching") {
             }
         }
     }
+
 
     /* Pour chaque mots, je veux chercher une occurence dans une des colonnes $importantColumns & $minorColumns
 * un taux de pertinence sera calculé en fonction du nombre de mots trouvés dans la colonne
@@ -39,47 +61,68 @@ if ($method === "searching") {
     foreach ($mediasArr as $key => $media) {
         $mediaPertinence = 0;
         $coeff = 0;
-        foreach ($filterSearchParam as $param) {
-            $param = strtolower($param);
+
+        foreach ($keywords as $keyword) {
+            $keyword = strtolower($keyword);
+
 
             $calculatedCoeff = 70;
 
-            foreach ($criticalColumns as $column) {
-                $i = count($criticalColumns);
-                $multiplier = $calculatedCoeff > 70 ? $calculatedCoeff : 70;
-                $coeff += round($multiplier / $i) / count($filterSearchParam);
-                if (strpos(strtolower($media[$column]), $param . " ") !== false) {
-                    $mediaPertinence += $multiplier / $i / count($filterSearchParam);
+            for (
+                $i = 0;
+                $i < count($criticalColumns);
+                $i++
+            ) {
+                $multiplier = $calculatedCoeff > 70 ? (100 - $calculatedCoeff) / 2 : 70;
+                $coeff += round($multiplier / count($criticalColumns)) / count($keywords);
+                if (stripos($media[$criticalColumns[$i]], $keyword) !== false) {
+                    $mediaPertinence += round($multiplier / count($criticalColumns)) / count($keywords);
                 }
             }
-            foreach ($importantColumns as $column) {
-                $i = count($importantColumns);
+
+            for (
+                $i = 0;
+                $i < count($importantColumns);
+                $i++
+            ) {
                 $multiplier = $calculatedCoeff > 70 ? (100 - $calculatedCoeff) / 2 : 20;
-                $coeff += round($multiplier / $i) / count($filterSearchParam);
-                if (strpos(strtolower($media[$column]), $param) !== false) {
-                    $mediaPertinence += $multiplier / $i / count($filterSearchParam);
+                $coeff += round($multiplier / count($importantColumns)) / count($keywords);
+                if (stripos($media[$importantColumns[$i]], $keyword) !== false) {
+                    $mediaPertinence += round($multiplier / count($importantColumns)) / count($keywords);
                 }
             }
-            foreach ($minorColumns as $column) {
-                $i = count($minorColumns);
+
+            for ($i = 0; $i < count($minorColumns); $i++) {
                 $multiplier = $calculatedCoeff > 70 ? (100 - $calculatedCoeff) / 2 : 10;
-                $coeff += round($multiplier / $i) / count($filterSearchParam);
-                if (strpos(strtolower($media[$column]), $param) !== false) {
-                    $mediaPertinence += $multiplier / $i / count($filterSearchParam);
+                $coeff += round($multiplier / count($minorColumns)) / count($keywords);
+                if (stripos($media[$minorColumns[$i]], $keyword) !== false) {
+                    $mediaPertinence += round($multiplier / count($minorColumns)) / count($keywords);
                 }
             }
         }
         $mediaPertinence = round(($mediaPertinence / $coeff) * 1000) / 1000;
         //add pertinence to result array
         if ($mediaPertinence > 0) {
-            $resultArray[] = ["media" => $media, "_pertinence" => $mediaPertinence, "_coeff" => $coeff, "_wordsTested" => count($filterSearchParam)];
+            $resultArray[] = ["media" => $media, "_pertinence" => $mediaPertinence, "_coeff" => $coeff, "_wordsTested" => count($keywords)];
         } else {
-            unset($mediasArr[$key]);
+            //unset($mediasArr[$key]);
         }
     }
 
+    $MAX_RESULTS = 50;
+
+    //order result array by pertinence
+    usort($resultArray, function ($a, $b) {
+        return $b['_pertinence'] <=> $a['_pertinence'];
+    });
+
+    $resultArray = array_slice($resultArray, 0, $MAX_RESULTS);
+
     echo json_encode($resultArray);
 }
+
+
+
 
 if ($method === "result") {
 }

@@ -16,7 +16,7 @@ require_once './includes/head.php';
   require_once './includes/searchbar.php';
   require_once './includes/header.php';
   ?>
-  <h1 class="container">Hello World !</h1>
+  <h1 class="container">Accueil DIGIHUB</h1>
   <?php require_once './includes/footer.php'; ?>
 </body>
 

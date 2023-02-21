@@ -10,14 +10,12 @@ require_once './includes/head.php';
 ?>
 
 <body>
-
-
     <?php
     require_once './includes/searchbar.php';
     require_once './includes/header.php';
 
     $mediaId = $_GET['id'];
-    $media = $conn->prepare("SELECT * FROM medias, types, authors WHERE medias.mediaTypeId = types.typeID AND medias.mediaAuthorId = authors.authorID AND medias.mediaID = $mediaId");
+    $media = $conn->prepare("SELECT * FROM medias, authors, genres, types, appartient_genre, appartient_author WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_author.appartientMediaId  AND appartient_author.appartientAuthorId = authors.authorId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaID = $mediaId");
     $media->execute();
     $media = $media->fetch(PDO::FETCH_ASSOC);
 
@@ -25,28 +23,27 @@ require_once './includes/head.php';
     $mediaType = $media['typeName'];
     $mediaAuthor = $media['authorFirstname'] . ' ' . $media['authorLastname'];
     $mediaYear = $media['mediaYear'];
-    $mediaShortDesc = $media['mediaShortDesc'];
-    $mediaLongDesc = $media['mediaLongDesc'];
+    $mediaDescription = $media['mediaDescription'];
     $mediaCover = $media['mediaCoverImage'];
     $mediaBgImage = $media['mediaBackgroundImage'];
     ?>
     <div class="media_container">
         <div class="background">
-            <img src="./assets/img/backgrounds/<?= $mediaBgImage; ?>" alt="background">
+            <img src="https://image.tmdb.org/t/p/w1280<?= $mediaBgImage; ?>" alt="background">
             <div class="overlay"></div>
         </div>
 
         <div class="inner_container">
             <div class=" landing">
                 <div class="left">
-                    <div class="cover">
-                        <img src="./assets/img/cover/<?= $mediaCover; ?>" alt="couverture">
-                    </div>
                     <div class="infos">
-                        <h1><?= $mediaName; ?></h1>
-                        <p><?= $mediaType; ?></p>
-                        <p><?= $mediaAuthor; ?></p>
-                        <p><?= $mediaYear; ?></p>
+                        <h1 data-aos="fade-right" data-aos-duration="750" data-aos-delay="100"><?= $mediaName; ?></h1>
+                        <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="150"><?= $mediaType; ?></p>
+                        <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="200"><?= $mediaAuthor; ?></p>
+                        <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="250"><?= $mediaYear; ?></p>
+                    </div>
+                    <div class="cover" data-aos="fade-right" data-aos-duration="750" data-aos-delay="0">
+                        <img src="https://image.tmdb.org/t/p/w500<?= $mediaCover; ?>" alt="cover">
                     </div>
                 </div>
             </div>

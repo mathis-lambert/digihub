@@ -12,7 +12,7 @@
 }
 
 /* VARIABLES */
-$color-primary: #0c1e3a;
+$color-primary: #050e1d;
 $color-secondary: #f2f2f2;
 $color-tertiary: rgb(14, 41, 58);
 $color-quaternary: rgb(20, 208, 171);
@@ -34,4 +34,5 @@ body {
 @import "components/assets";
 @import "components/header";
 @import "components/viewMedia";
+@import "components/searchResults";
 @import "components/footer";
