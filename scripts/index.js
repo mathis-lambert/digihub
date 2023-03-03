@@ -80,7 +80,7 @@ searchbarInput.addEventListener("input", () => {
 
 async function loadSearchResults(value) {
   console.log("searching ", value);
-  document.querySelector(".search__link").href = `./results.php?s=${value}`;
+  document.querySelector(".search__link").href = `./?results&q=${value}`;
 
   await fetch(
     "./controllers/php/normalizeQuery.php?method=searching&q=" + value
@@ -115,7 +115,7 @@ async function displaySearchResults(results) {
     searchResultsContainer.innerHTML += "<p>✨ Meilleur résultat ✨</p>";
 
     searchResultsContainer.innerHTML += `
-    <a class="searchbar__results__result" data-type="${results[0].media.typeName}" href="./view.php?id=${results[0].media.mediaId}">
+    <a class="searchbar__results__result" data-type="${results[0].media.typeName}" href="./?view&id=${results[0].media.mediaId}">
             <div class="searchbar__results__result__icon icon_best"></div>
             <div class="searchbar__results__result__title">
                 ${results[0].media.mediaName}
@@ -136,7 +136,7 @@ async function displaySearchResults(results) {
       for (let i = 1; i < results.length; i++) {
         const result = results[i].media;
         searchResultsContainer.innerHTML += `
-    <a class="searchbar__results__result" data-type="${result.typeName}" href="./view.php?id=${result.mediaId}">
+    <a class="searchbar__results__result" data-type="${result.typeName}" href="./?view&id=${result.mediaId}">
             <div class="searchbar__results__result__icon icon_${i}"></div>
             <div class="searchbar__results__result__title">
                 ${result.mediaName}

@@ -5,8 +5,8 @@
                 <img src="./assets/img/digihub-full-png.png" alt="logo">
             </a>
             <a href="./">Accueil</a>
-            <a href="./nouveautes">Nouveautés</a>
-            <a href="./top">Top</a>
+            <a href="./?nouveautes">Nouveautés</a>
+            <a href="./?top">Top</a>
             <button class="linkbutton" onclick="toggleCatalogue()">Catalogue</button>
         </nav>
 
@@ -17,7 +17,7 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
             </button>
-            <a href="./connexion">Se connecter</a>
+            <a href="./?connexion">Se connecter</a>
         </div>
     </div>
 </header>

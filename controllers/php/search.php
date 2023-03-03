@@ -5,6 +5,7 @@ $method = strval($_GET['method']) ?? "searching";
 $keywords = strval($_GET['q']) ?? "";
 $types = strval($_GET['types']) ?? "";
 $genres = strval($_GET['genres']) ?? "";
+$authors = strval($_GET['authors']) ?? "";
 
 
 if ($method === "searching") {
@@ -12,14 +13,39 @@ if ($method === "searching") {
     $keywords = explode(" ", $keywords);
     $types = explode(" ", $types);
     $genres = explode(" ", $genres);
+    $authors = explode(" ", $authors);
 
     // all first letters to uppercase
     $genres = array_map('ucfirst', $genres);
     $types = array_map('ucfirst', $types);
+    $authors = array_map('ucfirst', $authors);
+
+    // Split authors into firstname and lastname
+    $authorsLastname = [];
+    $authorsFirstname = [];
+
+    $authorsDatabase = quickFetchAll($conn, "authors", TRUE, TRUE);
+    foreach ($authors as $author) {
+        foreach ($authorsDatabase as $authorDatabase) {
+            if ($author === $authorDatabase['authorLastname']) {
+                $authorsLastname[] = $authorDatabase['authorLastname'];
+            }
+
+            if ($author === $authorDatabase['authorFirstname']) {
+                $authorsFirstname[] = $authorDatabase['authorFirstname'];
+            }
+        }
+    }
+
+    // if author's arrays are empty, we add a random string to avoid errors
+    empty($authorsLastname) ? $authorsLastname[] = "" : $authorsLastname;
+    empty($authorsFirstname) ? $authorsFirstname[] = "" : $authorsFirstname;
 
     // bools to check if the user has entered a type or a genre
     $typesBool = $types[0] === "";
     $genresBool = $genres[0] === "";
+    $authorsFirstnameBool = $authorsFirstname[0] === "";
+    $authorsLastnameBool = $authorsLastname[0] === "";
 
     // columns to search in and their importance
     $criticalColumns = ['mediaName'];
@@ -32,10 +58,12 @@ if ($method === "searching") {
     // init sql queries for types and genres
     $sqlTypes = " AND types.typeName IN ('" . implode("', '", $types) . "')";
     $sqlGenres = " AND genres.genreName IN ('" . implode("', '", $genres) . "')";
+    $sqlAuthorsLastname = " AND authors.authorLastname IN ('" . implode("', '", $authorsLastname) . "')"; // lastname
+    $sqlAuthorsFirstname = " AND authors.authorFirstname IN ('" . implode("', '", $authorsFirstname) . "')"; // firstname
 
     foreach ($keywords as $word) {
         $word = strtolower($word);
-        $sql = "SELECT * FROM medias, authors, genres, types, appartient_genre, appartient_author WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_author.appartientMediaId  AND appartient_author.appartientAuthorId = authors.authorId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND concat_ws(' ', medias.mediaName, medias.mediaTags, medias.mediaDescription, types.typeName, authors.authorLastname, authors.authorFirstname, medias.mediaYear, genres.genreName) LIKE ? AND medias.mediaStatus = 'available'" . ($typesBool ? "" : $sqlTypes) . ($genresBool ? "" : $sqlGenres) . " GROUP BY medias.mediaId";
+        $sql = "SELECT * FROM medias, authors, genres, types, appartient_genre, appartient_author WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_author.appartientMediaId  AND appartient_author.appartientAuthorId = authors.authorId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND concat_ws(' ', medias.mediaName, medias.mediaTags, medias.mediaDescription, types.typeName, authors.authorLastname, authors.authorFirstname, medias.mediaYear, genres.genreName) LIKE ? AND medias.mediaStatus = 'available'" . ($typesBool ? "" : $sqlTypes) . ($genresBool ? "" : $sqlGenres) . ($authorsLastnameBool ? "" : $sqlAuthorsLastname) . ($authorsFirstnameBool ? "" : $sqlAuthorsFirstname) . " GROUP BY medias.mediaId";
         $medias = $conn->prepare($sql);
         $medias->execute([sprintf('%%%s%%', $word)]);
         $medias = $medias->fetchAll(PDO::FETCH_ASSOC);

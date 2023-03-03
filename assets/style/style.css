@@ -14,6 +14,11 @@
 
 /* VARIABLES */
 /* body */
+html {
+  scroll-behavior: smooth;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
   font-family: "Jost", sans-serif;
   font-size: clamp(14px, 1.5vw, 16px);

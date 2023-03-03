@@ -8,7 +8,7 @@ require '../../config/config.php';
 
 // It is a NLP like script that will try to find the most relevant words
 // in the search query and will return a URL 
-// with types, genres and keywords parameters
+// with types, genres, authors and keywords parameters
 
 
 // Get the search query
@@ -27,11 +27,18 @@ $mediaGenres = array_column($mediaGenres, 'genreName');
 $mediaGenres = array_map('strtolower', $mediaGenres);
 $genre = array_intersect($wordsArray, $mediaGenres); // keep only the genres that are in the search query
 
+// Get the media authors
+$mediaAuthorsDb = quickFetchAll($conn, "authors", TRUE, TRUE);
+$mediaAuthors = array_column($mediaAuthorsDb, 'authorFirstname');
+$mediaAuthors = array_merge($mediaAuthors, array_column($mediaAuthorsDb, 'authorLastname'));
+$mediaAuthors = array_map('strtolower', $mediaAuthors);
+$author = array_intersect($wordsArray, $mediaAuthors); // keep only the authors that are in the search query
+
 // Filter the words
-$keywords = array_diff($wordsArray, $mediaTypes, $mediaGenres); // keep only the keywords that are not included in the types and genres
+$keywords = array_diff($wordsArray, $mediaTypes, $mediaGenres, $mediaAuthors); // keep only the keywords that are not included in the types and genres
 
 // Create the URL
-$url = "search.php?method=searching&q=" . implode(" ", $keywords) . "&types=" . implode(" ", $type) . "&genres=" . implode(" ", $genre);
+$url = "search.php?method=searching&q=" . implode(" ", $keywords) . "&types=" . implode(" ", $type) . "&genres=" . implode(" ", $genre) . "&authors=" . implode(" ", $author);
 
 $json = json_encode([
     "url" => $url

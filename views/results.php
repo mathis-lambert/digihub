@@ -1,14 +1,10 @@
-<?php
-require_once './config/config.php';
-?>
 <!DOCTYPE html>
 <html lang="fr">
 
 <?php
-$currentPage = 'Vue média';
 require_once './includes/head.php';
 
-$words = $_GET['s'];
+$words = $_GET['q'];
 ?>
 
 <body>
@@ -20,11 +16,13 @@ $words = $_GET['s'];
     <h1 class="container">Résultats de la recherche pour : <?= $words ?></h1>
     <h2 class="container">Essayez avec :</h2>
     <div class="try_with"></div>
-    <div class="container search-result"></div>
+    <div class="container search-result">
+
+    </div>
+    <script src="./scripts/search_result.js"></script>
 
 
     <?php require_once './includes/footer.php'; ?>
-    <script src="./scripts/search_result.js"></script>
     <script>
         /////////////////////
         // Spellcheck

@@ -1,23 +1,6 @@
 <?php
-require_once './config/config.php';
-?>
-<!DOCTYPE html>
-<html lang="fr">
+require_once './controllers/php/controller.php';
+include_once './config/config.php';
 
-<?php
-$currentPage = 'Accueil';
-require_once './includes/head.php';
-?>
-
-<body>
-
-
-  <?php
-  require_once './includes/searchbar.php';
-  require_once './includes/header.php';
-  ?>
-  <h1 class="container">Accueil DIGIHUB</h1>
-  <?php require_once './includes/footer.php'; ?>
-</body>
-
-</html>
+$controller = new Controller($conn);
+$controller->invoke();

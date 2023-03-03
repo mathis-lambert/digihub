@@ -1,5 +1,5 @@
 (async () => {
-  const value = new URLSearchParams(window.location.search).get("s");
+  const value = new URLSearchParams(window.location.search).get("q");
   const searchResult = document.querySelector(".search-result");
 
   if (value) {
@@ -20,7 +20,7 @@
               let mediaData = media.media;
               searchResult.innerHTML += `
             <div class="search-result__item">
-                <a href="./view.php?id=${mediaData.mediaId}" class="cover">
+                <a href="./?view&id=${mediaData.mediaId}" class="cover">
                     <img src="https://image.tmdb.org/t/p/w500${mediaData.mediaCoverImage}" alt="${mediaData.title}" class="search-result__item__image">
                 </a>
             </div>
