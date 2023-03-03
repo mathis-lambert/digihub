@@ -27,7 +27,7 @@ require_once './includes/head.php';
    </form>
 
    <?php require_once './includes/footer.php'; ?>
-   <script src="../controllers/js/connect.js"></script>
+   <script src="./controllers/js/connect.js"></script>
 </body>
 
 </html>
