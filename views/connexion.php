@@ -16,18 +16,17 @@ require_once './includes/head.php';
       <div class="input-div">
          <label for="email">Email</label>
          <input type="email" name="email" id="email" placeholder="mail@exemple.com" required />
-         <p class="error_msg" id="mail_error"></p>
       </div>
       <div class="input-div">
          <label for="password">Mot de passe</label>
          <input type="password" name="password" id="password" placeholder="************" required />
-         <p class="error_msg" id="password_error"></p>
       </div>
-      <input type="submit" value="Login" id="submitForm" />
+      <input type="submit" value="Se connecter" />
+      <a href="./?inscription" style="color: black;">Pas encore inscrit ? Créez votre compte !</a>
    </form>
 
    <?php require_once './includes/footer.php'; ?>
-   <script src="./controllers/js/connect.js"></script>
+   <script src="./controllers/js/connexion.js"></script>
 </body>
 
 </html>

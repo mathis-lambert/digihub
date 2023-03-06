@@ -44,6 +44,10 @@ class Controller
             $currentPage = 'Connexion';
             include 'views/connexion.php';
             break;
+         case 'inscription':
+            $currentPage = 'Inscription';
+            include 'views/inscription.php';
+            break;
          default:
             include 'views/home.php';
             break;
