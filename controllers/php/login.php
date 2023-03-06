@@ -26,8 +26,4 @@ if (!empty($email) && !empty($password)) {
    );
 }
 
-// $body = array(
-//    "error" => "Veuillez remplir tous les champs"
-// );
-
 echo json_encode($body);

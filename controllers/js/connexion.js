@@ -24,6 +24,14 @@ login_form.addEventListener("submit", async (e) => {
             const data = await response.json();
             console.log(data);
 
+            if (data.success) {
+               window.location.href = "./?";
+            } else if (data.error) {
+               alert(data.error);
+            } else {
+               alert("Erreur lors de la connexion");
+            }
+
          } else {
             alert("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial");
          }
