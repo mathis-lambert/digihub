@@ -4,12 +4,11 @@ include_once './models/Model.php';
 class Controller
 {
    public $model;
-   public $conn;
+   private $conn;
 
-   public function __construct($conn)
+   public function __construct()
    {
-      $this->conn = $conn;
-      $this->model = new Model($conn);
+      $this->model = new Model();
    }
 
    public function invoke()

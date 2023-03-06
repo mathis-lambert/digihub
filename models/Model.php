@@ -1,30 +1,19 @@
 <?php
 include_once './models/Media.php';
+include_once './models/Db.php';
+include_once './models/User.php';
 
 class Model
 {
-
-    public $conn;
-
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
-    }
-
     public function getConn()
     {
-        return $this->conn;
-    }
-
-    public function setConn($conn)
-    {
-        $this->conn = $conn;
+        return Db::getInstance()->getConnection();
     }
 
     public function getMedia($id)
     {
         $sql = "SELECT * FROM medias, authors, genres, types, appartient_genre, appartient_author WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_author.appartientMediaId  AND appartient_author.appartientAuthorId = authors.authorId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaID = $id";
-        $result = $this->conn->prepare($sql);
+        $result = $this->getConn()->prepare($sql);
         $result->execute();
         $medias = $result->fetchAll(PDO::FETCH_ASSOC);
 
