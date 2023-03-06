@@ -2,14 +2,14 @@
 <html lang="fr">
 
 <?php
-require_once './includes/head.php';
+require_once './assets/includes/head.php';
 ?>
 
 <body>
 
    <?php
-   require_once './includes/searchbar.php';
-   require_once './includes/header.php';
+   require_once './assets/includes/searchbar.php';
+   require_once './assets/includes/header.php';
    ?>
 
    <form method="post" id="login_form" class="container">
@@ -25,7 +25,7 @@ require_once './includes/head.php';
       <a href="./?inscription" style="color: black;">Pas encore inscrit ? Créez votre compte !</a>
    </form>
 
-   <?php require_once './includes/footer.php'; ?>
+   <?php require_once './assets/includes/footer.php'; ?>
    <script src="./controllers/js/connexion.js"></script>
 </body>
 
