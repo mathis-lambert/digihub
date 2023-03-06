@@ -22,13 +22,8 @@ login_form.addEventListener("submit", async (e) => {
                body: JSON.stringify(formdata),
             });
             const data = await response.json();
-
-            // get data array from php
-            if (data[0] === "error") {
-               alert(data[1]);
-            }
-
             console.log(data);
+
          } else {
             alert("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial");
          }
