@@ -32,7 +32,12 @@ searchbarBackground.addEventListener("click", () => {
   searchbar.classList.remove("active");
 });
 
+let searchTimeout;
+let currentSearch = "";
+
 searchbarInput.addEventListener("input", () => {
+  clearTimeout(searchTimeout);
+
   let value = searchbarInput.value
     .trim()
     .toLowerCase()
@@ -71,7 +76,12 @@ searchbarInput.addEventListener("input", () => {
 
   if (value.length > 1) {
     searchbar.classList.add("searching");
-    loadSearchResults(value);
+    if (currentSearch != value) {
+      searchTimeout = setTimeout(() => {
+        loadSearchResults(value);
+        currentSearch = value;
+      }, 300);
+    }
   } else {
     searchbar.classList.remove("searching");
     clearSearchResults();
