@@ -45,4 +45,22 @@ class Db
     {
         return $this->conn->prepare($sql);
     }
+
+    public static function quickFetch($table, $column, $value)
+    {
+        $conn = Db::getInstance()->getConnection();
+        $sql = $conn->prepare("SELECT * FROM $table WHERE $column = '$value'");
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public static function quickFetchAll($table, $column, $value)
+    {
+        $conn = Db::getInstance()->getConnection();
+        $sql = $conn->prepare("SELECT * FROM $table WHERE $column = '$value'");
+        $sql->execute();
+        $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }
