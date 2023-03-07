@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 06 mars 2023 à 23:33
+-- Généré le : mar. 07 mars 2023 à 00:23
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -166,7 +166,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `userFavoriteMovieTag` varchar(64) NOT NULL DEFAULT '[]',
   PRIMARY KEY (`userId`),
   KEY `favMediaType` (`userFavoriteMediaType`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`userId`, `userFirstname`, `userLastname`, `userBirthdate`, `userMail`, `userRole`, `userStatus`, `userPassword`, `userCreationDate`, `userFavoriteMediaType`, `userFavoriteBookTag`, `userFavoriteMovieTag`) VALUES
+(3, 'Clément', 'FAVAREL', '2004-07-28 00:00:00', 'clmt.fvrl@gmail.com', 0, 'ok', '$2y$10$AnL9yuuVNZOGHqwHHY17cODtadYdetj7auPYZq4hB3rzehRZ/.t5e', '2023-03-07 01:07:06', 1, '[]', '[]');
 
 --
 -- Contraintes pour les tables déchargées
