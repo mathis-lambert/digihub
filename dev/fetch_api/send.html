@@ -5,9 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+        font-size: 16px;
+      }
+
+      body {
+        margin: 0;
+        padding: 1rem;
+        background-color: #f0f0f0;
+      }
+
+      .range_container {
+        width: 100%;
+        height: 20px;
+        padding: 2px;
+        background-color: #ccc;
+        position: relative;
+      }
+
+      .range_bar {
+        width: 0;
+        height: 100%;
+        background-color: #00a6ff;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
   </head>
   <body>
-    <h1>Envoyer les données</h1>
+    <h1>Charger et envoyer les données de l'API TMDB</h1>
+    <input type="number" name="" id="page_number" />
+    <button id="btn">Envoyer</button>
+    <br />
+    <br />
+    <span id="status_page"></span>
+    <br />
+    <br />
+    <span id="status_film"></span>
+    <br />
+    <br />
+    <div class="range_container">
+      <div class="range_bar"></div>
+    </div>
 
     <script src="fetchFilms.js"></script>
   </body>
