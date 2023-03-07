@@ -32,6 +32,21 @@ if (isset($json['authors'])) {
     }
 }
 
+if (isset($json['actors'])) {
+    $actors = $json['actors'];
+
+    for ($i = 0; $i < count($actors); $i++) {
+        $actor = $actors[$i];
+        $id = intval($actor['actorId']);
+        $firstname = $actor['actorFirstname'];
+        $lastname = $actor['actorLastname'];
+        $birthdate = $actor['actorBirthDate'];
+        $biography = $actor['actorBiography'];
+        $picture = $actor['actorProfileImage'];
+        $birthplace = $actor['actorBirthPlace'];
+    }
+}
+
 if (isset($json['movies'])) {
     $movies = $json['movies'];
     for ($i = 0; $i < count($movies); $i++) {

@@ -56,25 +56,29 @@ sendMovies = async (movies) => {
 computeData = async (data_array) => {
   const filmArray = [];
   const directorArray = [];
+  const actorsArray = [];
 
   for (let i = 0; i < data_array.length; i++) {
+    console.info(`page ${i} of ${data_array.length}`);
+
     const page = data_array[i];
 
     for (let j = 0; j < page.results.length; j++) {
+      console.info(`media ${i} of ${page.results.length}`);
+
       const result = page.results[j];
       const credits = await fetchCredits(result.id);
       const directors = credits.crew.filter((crew) => crew.job === "Director");
 
       for (let k = 0; k < directors.length; k++) {
+        console.info(`director ${k} of ${directors.length}`);
         const director = directors[k];
         const directorDetails = await fetchCreditsDetails(director.id);
 
         let directorExists = directorArray.find(
           (director) => director.directorId === directorDetails.id
         );
-        if (directorExists) {
-          continue;
-        }
+        if (directorExists) continue;
 
         // split director name into first and last name with the first space
         let directorName = directorDetails.name.split(" ");
@@ -98,9 +102,7 @@ computeData = async (data_array) => {
       }
 
       let filmExists = filmArray.find((film) => film.mediaId === result.id);
-      if (filmExists) {
-        continue;
-      }
+      if (filmExists) continue;
 
       filmArray.push({
         mediaId: result.id,
@@ -116,8 +118,8 @@ computeData = async (data_array) => {
       });
     }
   }
-  sendAuthors(directorArray);
-  sendMovies(filmArray);
+  //sendAuthors(directorArray);
+  //sendMovies(filmArray);
 };
 
-fetchFilms(25);
+fetchFilms(10);
