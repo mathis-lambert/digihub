@@ -47,6 +47,10 @@ class Controller
             $currentPage = 'Inscription';
             include 'views/inscription.php';
             break;
+         case 'profil':
+            $currentPage = 'Profil';
+            include 'views/profil.php';
+            break;
          default:
             include 'views/home.php';
             break;

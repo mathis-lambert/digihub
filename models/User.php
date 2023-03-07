@@ -2,66 +2,66 @@
 
 class User
 {
-    public $id;
-    public $name;
-    public $email;
-    public $password;
-    public $created_at;
-    public $updated_at;
+   public $userId;
+   public $userFirstname;
+   public $userLastname;
+   public $userBirthdate;
+   public $userMail;
+   public $userPassword;
 
-    public function __construct($id, $name, $email, $password, $created_at, $updated_at)
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->created_at = $created_at;
-        $this->updated_at = $updated_at;
-    }
+   public function __construct($userId, $userFirstname, $userLastname, $userBirthdate, $userMail, $userPassword)
+   {
+      $this->userId = $userId;
+      $this->userFirstname = $userFirstname;
+      $this->userLastname = $userLastname;
+      $this->userBirthdate = $userBirthdate;
+      $this->userMail = $userMail;
+      $this->userPassword = $userPassword;
+   }
 
-    public static function all()
-    {
-        $list = [];
-        $db = Db::getInstance();
-        $req = $db->query('SELECT * FROM users');
+   public static function all()
+   {
+      $list = [];
+      $db = Db::getInstance();
+      $req = $db->query('SELECT * FROM users');
 
-        foreach ($req->fetchAll() as $user) {
-            $list[] = new User($user['id'], $user['name'], $user['email'], $user['password'], $user['created_at'], $user['updated_at']);
-        }
+      foreach ($req->fetchAll() as $user) {
+         $list[] = new User($user['userId'], $user['userFirstname'], $user['userLastname'], $user['userBirthdate'], $user['userMail'], $user['userPassword']);
+      }
 
-        return $list;
-    }
+      return $list;
+   }
 
-    public static function find($id)
-    {
-        $db = Db::getInstance();
-        $id = intval($id);
-        $req = $db->prepare('SELECT * FROM users WHERE id = :id');
-        $req->execute(array('id' => $id));
-        $user = $req->fetch();
+   public static function find($userId)
+   {
+      $db = Db::getInstance();
+      $userId = intval($userId);
+      $req = $db->prepare('SELECT * FROM users WHERE userId = :userId');
+      $req->execute(array('userId' => $userId));
+      $user = $req->fetch();
 
-        return new User($user['id'], $user['name'], $user['email'], $user['password'], $user['created_at'], $user['updated_at']);
-    }
+      return new User($user['userId'], $user['userFirstname'], $user['userLastname'], $user['userBirthdate'], $user['userMail'], $user['userPassword']);
+   }
 
-    public static function create($name, $email, $password)
-    {
-        $db = Db::getInstance();
-        $req = $db->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
-        $req->execute(array('name' => $name, 'email' => $email, 'password' => $password));
-    }
+   public static function create($userFirstname, $userLastname, $userBirthdate, $userMail, $userPassword)
+   {
+      $db = Db::getInstance();
+      $req = $db->prepare('INSERT INTO users (userFirstname, userLastname, userBirthdate, userMail, userPassword) VALUES (:userFirstname, :userLastname, :userBirthdate, :userMail, :userPassword)');
+      $req->execute(array('userFirstname' => $userFirstname, 'userLastname' => $userLastname, 'userBirthdate' => $userBirthdate, 'userMail' => $userMail, 'userPassword' => $userPassword));
+   }
 
-    public static function update($id, $name, $email, $password)
-    {
-        $db = Db::getInstance();
-        $req = $db->prepare('UPDATE users SET name = :name, email = :email, password = :password WHERE id = :id');
-        $req->execute(array('id' => $id, 'name' => $name, 'email' => $email, 'password' => $password));
-    }
+   public static function update($userId, $userFirstname, $userLastname, $userBirthdate, $userMail, $userPassword)
+   {
+      $db = Db::getInstance();
+      $req = $db->prepare('UPDATE users SET userFirstname = :userFirstname, userLastname = :userLastname, userBirthdate = :userBirthdate, userMail = :userMail, userPassword = :userPassword WHERE userId = :userId');
+      $req->execute(array('userId' => $userId, 'userFirstname' => $userFirstname, 'userLastname' => $userLastname, 'userBirthdate' => $userBirthdate, 'userMail' => $userMail, 'userPassword' => $userPassword));
+   }
 
-    public static function delete($id)
-    {
-        $db = Db::getInstance();
-        $id = intval($id);
-        $req = $db->prepare('DELETE FROM users WHERE id = :id');
-        $req->execute(array('id' => $id));
-    }
+   public static function delete($userId)
+   {
+      $db = Db::getInstance();
+      $userId = intval($userId);
+      $req = $db->prepare('DELETE FROM users WHERE userId = :userId');
+      $req->execute(array('userId' => $userId));
+   }
 }

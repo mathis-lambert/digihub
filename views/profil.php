@@ -1,19 +1,27 @@
+<?php
+// if session is not set and this page is directly typed in the url, redirect to home
+session_start();
+if (!isset($_SESSION['user'])) {
+   header('Location: ./?');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
 <?php
-session_start();
 require_once './assets/includes/head.php';
 ?>
 
 <body>
 
-
    <?php
    require_once './assets/includes/searchbar.php';
    require_once './assets/includes/header.php';
    ?>
-   <h1 class="container">Accueil DIGIHUB</h1>
+
+   <h1 class="container">Profil de <?php echo $_SESSION['user']; ?></h1>
+
    <?php require_once './assets/includes/footer.php'; ?>
 </body>
 

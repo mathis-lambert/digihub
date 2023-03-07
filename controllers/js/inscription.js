@@ -20,6 +20,7 @@ register_form.addEventListener("submit", async (e) => {
                   birthdate,
                   email,
                   password,
+                  confirm_password
                };
 
                const response = await fetch("./controllers/php/register.php", {
@@ -30,8 +31,16 @@ register_form.addEventListener("submit", async (e) => {
                   body: JSON.stringify(formdata),
                });
                const data = await response.json();
-
                console.log(data);
+
+               if (data.success) {
+                  window.location.href = "./?";
+               } else if (data.error) {
+                  alert(data.error);
+               } else {
+                  alert("Erreur lors de l'inscription");
+               }
+
             } else {
                alert("Les mots de passe ne correspondent pas");
             }

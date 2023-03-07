@@ -1,4 +1,8 @@
 <?php
+
+include '../../models/Db.php';
+include '../../models/User.php';
+
 $body = file_get_contents("php://input");
 
 $register = json_decode($body);
@@ -15,6 +19,23 @@ if (!empty($firstname) && !empty($lastname) && !empty($birthdate) && !empty($ema
       if (preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $password)) {
          if ($password === $confirm_password) {
             // check if the email is not already in the database
+            $result = Db::quickFetch('users', 'userMail', $email);
+            if (empty($result)) {
+               // hash the password
+               $password = password_hash($password, PASSWORD_DEFAULT);
+               // insert the user in the database
+               User::create($firstname, $lastname, $birthdate, $email, $password);
+               // start the session and store the userFirstname in it
+               session_start();
+               $_SESSION['user'] = $firstname;
+               $body = array(
+                  "success" => "Votre compte a bien été créé"
+               );
+            } else {
+               $body = array(
+                  "error" => "Cette adresse mail est déjà utilisée"
+               );
+            }
          } else {
             $body = array(
                "error" => "Les mots de passe ne correspondent pas"
