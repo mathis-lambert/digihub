@@ -69,6 +69,8 @@ computeData = async (data_array) => {
 
   //sendGenres("genres",genreArray);
 
+  let filmNumber = 0;
+
   for (let i = 0; i < data_array.length; i++) {
     const page = data_array[i];
 
@@ -77,73 +79,76 @@ computeData = async (data_array) => {
     }`;
 
     for (let j = 0; j < page.results.length; j++) {
-      document.querySelector("#status_film").innerHTML = `film ${j + 1}/${
+      filmNumber++;
+      document.querySelector("#status_film").innerHTML = `film ${filmNumber}/${
         data_array.length * page.results.length
       }`;
 
       range.style.width = `${
-        ((i * page.results.length + j) /
-          (data_array.length * page.results.length)) *
-        100
+        (filmNumber / (data_array.length * page.results.length)) * 100
       }%`;
 
       const filmArray = [];
-      const directorArray = [];
-      const actorsArray = [];
+      const peoplesArray = [];
+      const appartientArray = [];
 
       const result = page.results[j];
       const credits = await fetchCredits(result.id);
       const directors = credits.crew.filter((crew) => crew.job === "Director");
-      const actors = credits.cast;
+      const peoples = [...credits.cast, ...directors];
 
-      for (let k = 0; k < actors.length; k++) {
-        const actor = actors[k];
-        const actorDetails = await fetchCreditsDetails(actor.id);
+      console.log(peoples);
 
-        let actorExists = actorsArray.find(
-          (actor) => actor.actorId === actorDetails.id
-        );
-        if (actorExists) continue;
+      const appartientModel = {
+        mediaId: result.id,
+        peopleId: null,
+        departmentName: null,
+        characterName: null,
+      };
 
-        actorsArray.push({
-          actorId: actorDetails.id,
-          actorFullname: actorDetails.name,
-          actorBiography: actorDetails.biography,
-          actorBirthDate: actorDetails.birthday,
-          actorDeathDate: actorDetails.deathday,
-          actorBirthPlace: actorDetails.place_of_birth,
-          actorProfileImage: actorDetails.profile_path,
-          actorDepartment: actorDetails.known_for_department,
-        });
-      }
+      for (let k = 0; k < peoples.length; k++) {
+        const people = peoples[k];
+        const peopleDetails = await fetchCreditsDetails(people.id);
 
-      for (let k = 0; k < directors.length; k++) {
-        const director = directors[k];
-        const directorDetails = await fetchCreditsDetails(director.id);
-
-        let directorExists = directorArray.find(
-          (director) => director.directorId === directorDetails.id
-        );
-        if (directorExists) continue;
-
-        // split director name into first and last name with the first space
-        let directorName = directorDetails.name.split(" ");
-        let firstName = directorName[0];
-        let lastName = "";
-        for (let i = 1; i < directorName.length; i++) {
-          if (i === directorName.length - 1) lastName += directorName[i];
-          else lastName += directorName[i] + " ";
+        if (people.job) {
+          appartientArray.push({
+            ...appartientModel,
+            peopleId: peopleDetails.id,
+            departmentName: "Director",
+          });
+        } else {
+          appartientArray.push({
+            ...appartientModel,
+            peopleId: peopleDetails.id,
+            departmentName: "Actor",
+            characterName: people.character,
+          });
         }
 
-        directorArray.push({
-          directorId: directorDetails.id,
-          directorFirstname: firstName,
-          directorLastname: lastName,
-          directorBiography: directorDetails.biography,
-          directorBirthDate: directorDetails.birthday,
-          directorBirthPlace: directorDetails.place_of_birth,
-          directorProfileImage: directorDetails.profile_path,
-          directorDepartment: directorDetails.known_for_department,
+        let peopleExists = peoplesArray.find(
+          (people) => people.peopleId === peopleDetails.id
+        );
+        if (peopleExists) continue;
+
+        let peopleName = peopleDetails.name.split(" ");
+        let firstName = peopleName[0];
+        let lastName = "";
+        for (let i = 1; i < peopleName.length; i++) {
+          if (i === peopleName.length - 1) lastName += peopleName[i];
+          else lastName += peopleName[i] + " ";
+        }
+
+        peoplesArray.push({
+          peopleId: peopleDetails.id,
+          peopleFirstname: firstName,
+          peopleLastname: lastName,
+          peopleFullname: peopleDetails.name,
+          peopleBiography: peopleDetails.biography,
+          peopleBirthday: peopleDetails.birthday,
+          peopleDeathday: peopleDetails.deathday,
+          peopleBirthplace: peopleDetails.place_of_birth,
+          peoplePicture: peopleDetails.profile_path,
+          peopleKnownForDepartment: peopleDetails.known_for_department,
         });
       }
 
@@ -160,16 +165,13 @@ computeData = async (data_array) => {
         mediaYear: result.release_date.split("-")[0],
         mediaTypeId: 2,
         mediaGenres: [...result.genre_ids],
-        mediaDirectors: directors.map((director) => director.id),
-        mediaActors: [
-          actors.map((actor) => actor.id),
-          actors.map((actor) => actor.character),
-        ],
       });
-      await sendData("authors", directorArray);
-      await sendData("actors", actorsArray);
+      console.log(appartientArray);
+
+      await sendData("peoples", peoplesArray);
       await sendData("movies", filmArray);
-      console.log(directorArray, actorsArray, filmArray);
+      await sendData("appartient", appartientArray);
+      //console.log(filmArray, peoplesArray, appartientArray);
     }
   }
   console.info("done");

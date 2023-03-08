@@ -9,6 +9,13 @@ require_once '../../models/Db.php';
 // in the search query and will return a URL 
 // with types, genres, authors and keywords parameters
 
+function spliSpacedWords($string)
+{
+    $string = preg_replace('/\s+/', ' ', $string);
+    $string = trim($string);
+    $string = explode(" ", $string);
+    return $string;
+}
 
 // Get the search query
 $words = $_GET['q'];
@@ -26,18 +33,26 @@ $mediaGenres = array_column($mediaGenres, 'genreName');
 $mediaGenres = array_map('strtolower', $mediaGenres);
 $genre = array_intersect($wordsArray, $mediaGenres); // keep only the genres that are in the search query
 
-// Get the media authors
-$mediaAuthorsDb = Db::quickFetchAll("authors", TRUE, TRUE);
-$mediaAuthors = array_column($mediaAuthorsDb, 'authorFirstname');
-$mediaAuthors = array_merge($mediaAuthors, array_column($mediaAuthorsDb, 'authorLastname'));
-$mediaAuthors = array_map('strtolower', $mediaAuthors);
-$author = array_intersect($wordsArray, $mediaAuthors); // keep only the authors that are in the search query
+// Get the media people
+$mediaPeoplesDb = Db::quickFetchAll("peoples", TRUE, TRUE);
+$mediaPeoples = array_column($mediaPeoplesDb, 'peopleFirstname');
+$mediaPeoples = array_merge($mediaPeoples, array_column($mediaPeoplesDb, 'peopleLastname'));
+$mediaPeoples = array_map('strtolower', $mediaPeoples);
+$mediaPeoples = array_map('mb_convert_encoding', $mediaPeoples, array_fill(0, count($mediaPeoples), "UTF-8"), array_fill(0, count($mediaPeoples), "HTML-ENTITIES"));
+$mediaPeoples = array_map('html_entity_decode', $mediaPeoples);
+$mediaPeoples2 = array_map('spliSpacedWords', $mediaPeoples);
+$mediaPeoples = array_merge(...$mediaPeoples2);
+$mediaPeoples = array_unique($mediaPeoples);
+$mediaPeoples = array_filter($mediaPeoples, function ($value) {
+    return $value !== '';
+});
+$people = array_intersect($wordsArray, $mediaPeoples); // keep only the people that are in the search query
 
 // Filter the words
-$keywords = array_diff($wordsArray, $mediaTypes, $mediaGenres, $mediaAuthors); // keep only the keywords that are not included in the types and genres
+$keywords = array_diff($wordsArray, $type, $genre, $people); // keep only the keywords that are in the search query
 
 // Create the URL
-$url = "search.php?method=searching&q=" . implode(" ", $keywords) . "&types=" . implode(" ", $type) . "&genres=" . implode(" ", $genre) . "&authors=" . implode(" ", $author);
+$url = "search.php?method=searching&q=" . implode(" ", $keywords) . "&types=" . implode(" ", $type) . "&genres=" . implode(" ", $genre) . "&peoples=" . implode(" ", $people);
 
 $json = json_encode([
     "url" => $url

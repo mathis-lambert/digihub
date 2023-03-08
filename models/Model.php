@@ -12,14 +12,14 @@ class Model
 
     public function getMedia($id)
     {
-        $sql = "SELECT * FROM medias, authors, genres, types, appartient_genre, appartient_author WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_author.appartientMediaId  AND appartient_author.appartientAuthorId = authors.authorId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaID = $id";
+        $sql = "SELECT * FROM medias, peoples, genres, types, appartient_genre, appartient_media WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_media._mediaId  AND appartient_media._peopleId = peoples.peopleId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaID = $id";
         $result = $this->getConn()->prepare($sql);
         $result->execute();
         $medias = $result->fetchAll(PDO::FETCH_ASSOC);
 
         $media = $this->getMediaFromResult($medias);
 
-        $media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'],   $media['mediaPublishingDate'], $media['authors'], $media['genres'], $media['typeName']);
+        $media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'],   $media['mediaPublishingDate'], $media['directors'], $media['actors'], $media['genres'], $media['typeName']);
         return $media;
     }
 
@@ -27,21 +27,37 @@ class Model
     {
         $media = null;
         $genres = [];
-        $authors = [];
+        $actors = [];
+        $directors = [];
         foreach ($medias as $media) {
             if (!in_array($media['genreId'], $genres)) {
                 $genres[$media['genreId']] = $media['genreName'];
             }
-            if (!in_array($media['authorId'], $authors)) {
-                $authors[$media['authorId']] = $media['authorFirstname'] . ' ' . $media['authorLastname'];
+            if ($media['_departmentName'] == 'Actor') {
+                if (!in_array($media['peopleId'], $actors)) {
+                    $actors[$media['peopleId']] = [
+                        'peopleId' => $media['peopleId'],
+                        'peopleFullname' => $media['peopleFullname'],
+                        'characterName' => $media['characterName'],
+                        'peoplePicture' => $media['peoplePicture']
+                    ];
+                }
+            } else if ($media['_departmentName'] == 'Director') {
+                if (!in_array($media['peopleId'], $directors)) {
+                    $directors[$media['peopleId']] = [
+                        'peopleId' => $media['peopleId'],
+                        'peopleFullname' => $media['peopleFullname'],
+                        'peoplePicture' => $media['peoplePicture']
+                    ];
+                }
             }
         }
-
-        $authors = array_values($authors);
         $genres = array_values($genres);
         $media = $medias[0];
-        $media['authors'] = json_encode($authors);
+        $media['actors'] = json_encode($actors);
+        $media['directors'] = json_encode($directors);
         $media['genres'] = json_encode($genres);
+        // var_dump($media);
         return $media;
     }
 

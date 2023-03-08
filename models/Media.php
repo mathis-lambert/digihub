@@ -10,10 +10,11 @@ class Media
     public $background;
     public $date_sortie;
     public $authors;
+    public $actors;
     public $genres;
     public $type;
 
-    public function __construct($id, $titre, $annee, $synopsis, $affiche, $background, $date_sortie, $authors, $genres, $type)
+    public function __construct($id, $titre, $annee, $synopsis, $affiche, $background, $date_sortie, $authors, $actors, $genres, $type)
     {
         $this->id = $id;
         $this->titre = $titre;
@@ -23,6 +24,7 @@ class Media
         $this->background = $background;
         $this->date_sortie = $date_sortie;
         $this->authors = $authors;
+        $this->actors = $actors;
         $this->genres = $genres;
         $this->type = $type;
     }

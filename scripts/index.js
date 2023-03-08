@@ -67,10 +67,12 @@ searchbarInput.addEventListener("input", () => {
           return "c";
       }
     })
-    .removeNonChar()
-    .removeAloneLetters()
     .keepOnlyOneSpace()
     .trim();
+
+  // TODO: see if it's better to remove non char or not
+  /*     .removeNonChar()
+    .removeAloneLetters() */
 
   value = value.replace(/ /g, "+");
 
@@ -102,11 +104,13 @@ async function loadSearchResults(value) {
       await fetch("./controllers/php/" + query)
         .then((response) => response.json())
         .then((data) => {
-          data = data.sort((a, b) => {
+          console.log(data);
+          data.medias = data.medias.sort((a, b) => {
             return b._score - a._score;
           });
+
           //max 5 results
-          data = data.slice(0, 5);
+          data.medias = data.medias.slice(0, 5);
           console.log("Success:", data);
           displaySearchResults(data);
         })
@@ -119,12 +123,31 @@ async function loadSearchResults(value) {
 
 async function displaySearchResults(results) {
   searchResultsContainer.innerHTML = "";
-
+  console.log(results);
   // display best result
-  if (results.length > 0) {
-    searchResultsContainer.innerHTML += "<p>✨ Meilleur résultat ✨</p>";
+  if (results.medias.length > 0 || results.peoples.length > 0) {
+    // if results contains the key "people"
+    if (Object.hasOwn(results, "peoples")) {
+      let peoples = results.peoples;
 
-    searchResultsContainer.innerHTML += `
+      searchResultsContainer.innerHTML += "<p>✨ Meilleurs résultats ✨</p>";
+
+      peoples.forEach((people) => {
+        people = people.people;
+        console.log(people);
+        searchResultsContainer.innerHTML += `
+    <a class="searchbar__results__result" data-type="people" href="./?view&id=${people.peopleId}">
+            <div class="searchbar__results__result__title">
+                ${people.peopleFullname}
+            </div>
+            </a>
+        `;
+      });
+    } else {
+      results = results.medias;
+      searchResultsContainer.innerHTML += "<p>✨ Meilleur résultat ✨</p>";
+
+      searchResultsContainer.innerHTML += `
     <a class="searchbar__results__result" data-type="${results[0].media.typeName}" href="./?view&id=${results[0].media.mediaId}">
             <div class="searchbar__results__result__icon icon_best"></div>
             <div class="searchbar__results__result__title">
@@ -132,18 +155,22 @@ async function displaySearchResults(results) {
             </div>
             </a>
         `;
-    await fetch(`./assets/img/icons/${results[0].media.typeIcon}_icon.svg`)
-      .then((response) => response.text())
-      .then((data) => {
-        searchResultsContainer.querySelector(
-          `.searchbar__results__result__icon.icon_best`
-        ).innerHTML = data;
-      });
+      await fetch(
+        `./assets/img/icons/${results.medias[0].media.typeIcon}_icon.svg`
+      )
+        .then((response) => response.text())
+        .then((data) => {
+          searchResultsContainer.querySelector(
+            `.searchbar__results__result__icon.icon_best`
+          ).innerHTML = data;
+        });
+    }
 
-    if (results.length > 1) {
+    if (results.medias.length > 0) {
+      results = results.medias;
       searchResultsContainer.innerHTML +=
         "D'autres résultats qui pourraient vous intéresser";
-      for (let i = 1; i < results.length; i++) {
+      for (let i = 0; i < results.length; i++) {
         const result = results[i].media;
         searchResultsContainer.innerHTML += `
     <a class="searchbar__results__result" data-type="${result.typeName}" href="./?view&id=${result.mediaId}">

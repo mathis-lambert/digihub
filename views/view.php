@@ -12,8 +12,9 @@ require_once './assets/includes/head.php';
 
     $mediaName = $media->titre;
     $mediaType = $media->type;
-    $mediaGenres = $media->genres;
-    $mediaAuthors = $media->authors;
+    $mediaGenres = json_decode($media->genres);
+    $mediaAuthors = json_decode($media->authors);
+    $mediaActors = json_decode($media->actors);
     $mediaYear = $media->annee;
     $mediaDescription = $media->synopsis;
     $mediaCover = $media->affiche;
@@ -31,15 +32,13 @@ require_once './assets/includes/head.php';
                     <div class="infos">
                         <h1 data-aos="fade-right" data-aos-duration="750" data-aos-delay="100"><?= $mediaName; ?></h1>
                         <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="150"><?= $mediaType; ?> - <?php
-                                                                                                                    $mediaGenres = json_decode($mediaGenres);
                                                                                                                     foreach ($mediaGenres as $genre) {
                                                                                                                         echo $genre . ' ';
                                                                                                                     }
                                                                                                                     ?></p>
                         <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="200"><?php
-                                                                                                $mediaAuthors = json_decode($mediaAuthors);
                                                                                                 foreach ($mediaAuthors as $author) {
-                                                                                                    echo $author . ' ';
+                                                                                                    echo $author->peopleFullname . ' ';
                                                                                                 }
                                                                                                 ?></p>
                         <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="250"><?= $mediaYear; ?></p>
@@ -56,6 +55,25 @@ require_once './assets/includes/head.php';
         <div class="description">
             <h2>Synopsis</h2>
             <p><?= $mediaDescription; ?></p>
+        </div>
+        <div class="cast">
+            <h2>Cast</h2>
+            <div class="cast_container">
+                <?php
+                $mediaActors = json_decode($media->actors);
+                foreach ($mediaActors as $actor) {
+                    echo '<div class="actor">';
+                    if ($actor->peoplePicture != null) {
+                        echo '<img src="https://image.tmdb.org/t/p/w500' . $actor->peoplePicture . '" alt="actor" width="100px">';
+                    } else {
+                        echo '<img src="./assets/img/icons/err.svg" alt="actor" width="100px">';
+                    }
+                    echo $actor->peopleFullname;
+                    echo " | " . $actor->characterName;
+                    echo '</div>';
+                }
+                ?>
+            </div>
         </div>
 
 
