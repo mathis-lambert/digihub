@@ -471,4 +471,72 @@ header .search-button:hover svg {
   border-radius: 10px;
   width: 100%;
   height: auto;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-title, .form-link {
+  color: #050e1d;
+  text-align: center;
+}
+
+.form-title {
+  margin: 1rem;
+}
+
+.input-div {
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1rem auto 0 auto;
+  gap: 0.25rem;
+}
+
+.input-div label {
+  text-indent: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+}
+
+.input-div input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #888;
+  border-radius: 9px;
+  font-family: "Jost", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.input-div input:focus {
+  outline: none;
+  border: 1px solid #050e1d;
+}
+
+.form-btn {
+  display: block;
+  margin: 2rem auto 0.8rem auto;
+  color: white;
+  padding: 0.5rem 1rem;
+  background-color: #050e1d;
+  border: 1px solid #050e1d;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-family: "Jost", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.form-btn:hover {
+  background-color: white;
+  color: #050e1d;
 }/*# sourceMappingURL=style.css.map */
