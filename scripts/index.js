@@ -136,7 +136,7 @@ async function displaySearchResults(results) {
         people = people.people;
         console.log(people);
         searchResultsContainer.innerHTML += `
-    <a class="searchbar__results__result" data-type="people" href="./?view&id=${people.peopleId}">
+    <a class="searchbar__results__result" data-type="people" href="./?people&id=${people.peopleId}">
             <div class="searchbar__results__result__title">
                 ${people.peopleFullname}
             </div>

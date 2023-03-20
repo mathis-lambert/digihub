@@ -2,7 +2,7 @@
 if (!isset($_SESSION['user'])) {
 ?>
    <header>
-      <div class="header_container">
+      <div class="header_container" data-aos="fade-down" data-aos-duration="1000">
          <nav>
             <a href="./" class="logo_img">
                <img src="./assets/img/digihub-full-png.png" alt="logo">
@@ -18,7 +18,7 @@ if (!isset($_SESSION['user'])) {
 } else {
 ?>
    <header>
-      <div class="header_container">
+      <div class="header_container" data-aos="fade-down" data-aos-duration="1000">
          <nav>
             <a href="./" class="logo_img">
                <img src="./assets/img/digihub-full-png.png" alt="logo">
@@ -63,3 +63,15 @@ if (!isset($_SESSION['user'])) {
 <?php
 }
 ?>
+
+<script>
+   const header = document.querySelector('header');
+
+   window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+         header.classList.add('scrolled');
+      } else {
+         header.classList.remove('scrolled');
+      }
+   });
+</script>

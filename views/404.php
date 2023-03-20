@@ -6,14 +6,13 @@ require_once './assets/includes/head.php';
 ?>
 
 <body>
+
+
     <?php
     require_once './assets/includes/searchbar.php';
     require_once './assets/includes/header.php';
     ?>
-    <div class="container">
-        <h1>Veuillez vous connecter pour accéder à Digihub</h1>
-        <a href="./?connexion" class="btn no-scale">Se connecter</a>
-    </div>
+    <h1 class="container">Erreur : Aucune référence trouvée veuillez réessayer</h1>
     <?php require_once './assets/includes/footer.php'; ?>
 </body>
 

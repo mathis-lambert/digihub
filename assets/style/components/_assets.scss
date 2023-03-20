@@ -24,19 +24,23 @@ a {
   text-decoration: none;
   font-weight: 700;
   cursor: pointer;
+  width: fit-content;
 
   transition: all 0.3s ease-in-out;
 
-  &:hover {
-    transform: scale(1.05);
-    color: grey;
+  &:not(.no-scale) {
+    &:hover {
+      transform: scale(1.05);
+      color: grey;
+    }
   }
 }
 
 button,
 .btn {
   padding: 0.5rem;
-  background-color: white;
+  background-color: $color-primary;
+  color: white;
   border: 1px solid $color-primary;
   border-radius: 9px;
   cursor: pointer;
@@ -44,7 +48,7 @@ button,
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background-color: $color-primary;
-    border: 1px solid white;
+    background-color: transparent;
+    color: $color-primary;
   }
 }

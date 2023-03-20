@@ -1,7 +1,9 @@
 <?php
 include_once './models/Media.php';
+include_once './models/People.php';
 include_once './models/Db.php';
 include_once './models/User.php';
+
 
 class Model
 {
@@ -16,11 +18,12 @@ class Model
         $result = $this->getConn()->prepare($sql);
         $result->execute();
         $medias = $result->fetchAll(PDO::FETCH_ASSOC);
-
-        $media = $this->getMediaFromResult($medias);
-
-        $media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'],   $media['mediaPublishingDate'], $media['directors'], $media['actors'], $media['genres'], $media['typeName']);
-        return $media;
+        if ($medias) {
+            $media = $this->getMediaFromResult($medias);
+            $media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'],   $media['mediaPublishingDate'], $media['directors'], $media['actors'], $media['genres'], $media['typeName']);
+            return $media;
+        }
+        return null;
     }
 
     public function getMediaFromResult($medias)
@@ -85,7 +88,11 @@ class Model
         $result = $this->getConn()->prepare($sql);
         $result->execute();
         $people = $result->fetch(PDO::FETCH_ASSOC);
-        return $people;
+        if ($people) {
+            $people = new People($people['peopleId'], $people['peopleFirstname'], $people['peopleLastname'], $people['peopleFullname'], $people['peopleBirthday'], $people['peopleDeathday'], $people['peopleBiography'], $people['peoplePicture'], $people['peopleBirthplace'], $people['peopleKnownForDepartment']);
+            return $people;
+        }
+        return null;
     }
 
 

@@ -1,17 +1,29 @@
 header {
   position: fixed;
   top: 0;
-  left: 0;
-  height: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 70px;
   width: 100%;
+  margin-inline: auto;
+  margin-block: 0;
+  border-radius: 0;
   background-color: $color-primary;
   padding: 0.5rem;
-
   z-index: 1000;
-
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease-in-out;
+
+  &.scrolled {
+    width: min(100% - 2rem, 1500px);
+    margin-block: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    background-color: rgba($color: $color-primary, $alpha: 0.8);
+    backdrop-filter: blur(4px);
+    border-radius: 10px;
+  }
 
   .header_container {
     display: flex;
@@ -69,14 +81,16 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid white;
     svg {
-      stroke: $color-primary;
+      stroke: $color-secondary;
       transition: all 0.3s ease-in-out;
     }
 
     &:hover {
+      background-color: white;
       svg {
-        stroke: $color-secondary;
+        stroke: $color-primary;
       }
     }
   }
@@ -92,13 +106,20 @@ header {
 }
 
 .catalogue {
-  max-height: 60vh;
+  max-height: 0;
+  backdrop-filter: blur(4px);
+
+  opacity: 0;
+  overflow: hidden;
+  visibility: hidden;
   position: fixed;
-  top: -50vh;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 90px;
+  width: min(100% - 2rem, 1500px);
+  border-radius: 10px;
   padding: 1rem;
-  background-color: $color-primary;
+  background-color: rgba($color: $color-primary, $alpha: 0.8);
   z-index: 999;
   transition: all 0.3s ease-in-out;
 
@@ -107,7 +128,9 @@ header {
   }
 
   &.active {
-    top: 80px;
+    max-height: 60vh;
+    opacity: 1;
+    visibility: visible;
   }
 
   &_container {

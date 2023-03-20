@@ -21,21 +21,30 @@ function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?
             for ($i = 0; $i < count($criticalColumn); $i++) {
                 $multiplier = $calculatedCoeff > 70 ? (100 - $calculatedCoeff) / 2 : 70;
                 $coeff += round($multiplier / count($criticalColumn)) / count($keywords);
-                if (stripos($value[$criticalColumn[$i]], $keyword) !== false) {
+                if (is_null($value[$criticalColumn[$i]])) {
+                    $value[$criticalColumn[$i]] = "";
+                }
+                if (stripos($value[$criticalColumn[$i]], $keyword, 0) !== false) {
                     $score += round($multiplier / count($criticalColumn)) / count($keywords);
                 }
             }
             for ($i = 0; $i < count($majorColumn); $i++) {
                 $multiplier = $calculatedCoeff > 70 ? (100 - $calculatedCoeff) / 2 : 20;
                 $coeff += round($multiplier / count($majorColumn)) / count($keywords);
-                if (stripos($value[$majorColumn[$i]], $keyword) !== false) {
+                if (is_null($value[$majorColumn[$i]])) {
+                    $value[$majorColumn[$i]] = "";
+                }
+                if (stripos($value[$majorColumn[$i]], $keyword, 0) !== false) {
                     $score += round($multiplier / count($majorColumn)) / count($keywords);
                 }
             }
             for ($i = 0; $i < count($minorColumn); $i++) {
                 $multiplier = $calculatedCoeff > 70 ? (100 - $calculatedCoeff) / 2 : 10;
                 $coeff += round($multiplier / count($minorColumn)) / count($keywords);
-                if (stripos($value[$minorColumn[$i]], $keyword) !== false) {
+                if (is_null($value[$minorColumn[$i]])) {
+                    $value[$minorColumn[$i]] = "";
+                }
+                if (stripos($value[$minorColumn[$i]], $keyword, 0) !== false) {
                     $score += round($multiplier / count($minorColumn)) / count($keywords);
                 }
             }

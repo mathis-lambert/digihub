@@ -10,46 +10,36 @@ require_once './assets/includes/head.php';
     require_once './assets/includes/searchbar.php';
     require_once './assets/includes/header.php';
 
-    $peopleName = $people->peopleFullname;
-    $peopleBirthdate = $people->peopleBirthdate;
-    $peopleBirthplace = $people->peopleBirthplace;
+
+    $peopleId = $people->peopleId;
+    $peopleFirstname = $people->peopleFirstname;
+    $peopleLastname = $people->peopleLastname;
+    $peopleFullname = $people->peopleFullname;
+    $peopleBirthday = $people->peopleBirthday;
+    $peopleDeathday = $people->peopleDeathday;
     $peopleBiography = $people->peopleBiography;
-    $peopleImage = $people->peopleImage;
-    $peopleMovies = json_decode($people->peopleMovies);
-    $peopleSeries = json_decode($people->peopleSeries);
-
+    $peoplePicture = $people->peoplePicture;
+    $peopleBirthplace = $people->peopleBirthplace;
+    $peopleKnownForDepartment = $people->peopleKnownForDepartment;
     ?>
-    <div class="media_container">
-        <div class="background">
-            <img src="https://image.tmdb.org/t/p/w1280<?= $mediaBgImage; ?>" alt="background">
-            <div class="overlay"></div>
-        </div>
 
-        <div class="inner_container">
-            <div class=" landing">
-                <div class="left">
-                    <div class="infos">
-                        <h1 data-aos="fade-right" data-aos-duration="750" data-aos-delay="100"><?= $mediaName; ?></h1>
-                        <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="150"><?= $mediaType; ?> - <?php
-                                                                                                                    foreach ($mediaGenres as $genre) {
-                                                                                                                        echo $genre . ' ';
-                                                                                                                    }
-                                                                                                                    ?></p>
-                        <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="200"><?php
-                                                                                                foreach ($mediaAuthors as $author) {
-                                                                                                    echo $author->peopleFullname . ' ';
-                                                                                                }
-                                                                                                ?></p>
-                        <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="250"><?= $mediaYear; ?></p>
-                    </div>
-                    <div class="cover" data-aos="fade-right" data-aos-duration="750" data-aos-delay="0">
-                        <img src="https://image.tmdb.org/t/p/w500<?= $mediaCover; ?>" alt="cover">
-                    </div>
-                </div>
+    <div class="container">
+        <div class="people_container">
+            <div class="people_picture">
+                <img src="https://image.tmdb.org/t/p/w500<?= $peoplePicture; ?>" alt="people_picture">
+            </div>
+            <div class="people_infos">
+                <h1><?= $peopleFullname; ?></h1>
+                <p><?= $peopleBirthday; ?></p>
+                <p><?= $peopleBirthplace; ?></p>
+                <p><?= $peopleKnownForDepartment; ?></p>
             </div>
         </div>
+        <div class="people_biography">
+            <h2>Biography</h2>
+            <p><?= $peopleBiography; ?></p>
+        </div>
     </div>
-
 
 
     <?php require_once './assets/includes/footer.php'; ?>

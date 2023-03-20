@@ -16,7 +16,7 @@
         </div>
         <div class="searchbar__results__container">
             <div class="searchbar__results"> </div>
-            <a href="#" class="btn btn--primary search__link">Rechercher</a>
+            <a href="#" class="btn search__link no-scale">Rechercher</a>
         </div>
     </div>
 

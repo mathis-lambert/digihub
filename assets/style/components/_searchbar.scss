@@ -83,23 +83,6 @@ $musicColor: hsl(120, 100%, 86%);
         }
       }
     }
-
-    .search__link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      color: $color-primary;
-      width: fit-content;
-      margin: 1rem auto;
-      border-radius: 9px;
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 10px 0 rgba(0, 0, 0, 0.3);
-      &:hover {
-        transform: none;
-        color: white;
-      }
-    }
   }
 
   &__results__container {
@@ -122,10 +105,15 @@ $musicColor: hsl(120, 100%, 86%);
     flex-direction: column;
 
     &__result {
+      width: 100%;
       padding: 1rem;
       display: inline-flex;
       align-items: center;
       gap: 1rem;
+
+      &:hover {
+        transform: scale(1);
+      }
 
       &__title {
         color: $color-primary;

@@ -48,7 +48,11 @@ class Controller
                $currentPage = 'Vue média';
                $id = $_GET['id'];
                $media = $this->model->getMedia($id);
-               include 'views/view.php';
+               if (!is_null($media)) {
+                  include 'views/view.php';
+               } else {
+                  header('Location: ./?404');
+               }
                break;
             case 'nouveautes':
                $currentPage = 'Nouveautés';
@@ -66,7 +70,15 @@ class Controller
                $id = $_GET['id'];
                $people = $this->model->getPeople($id);
                $currentPage = 'Personne';
-               include 'views/people.php';
+               if (!is_null($people)) {
+                  include 'views/people.php';
+               } else {
+                  header('Location: ./?404');
+               }
+               break;
+            case '404':
+               $currentPage = '404';
+               include 'views/404.php';
                break;
             default:
                include 'views/home.php';
