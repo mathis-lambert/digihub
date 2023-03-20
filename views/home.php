@@ -2,7 +2,6 @@
 <html lang="fr">
 
 <?php
-session_start();
 require_once './assets/includes/head.php';
 ?>
 

@@ -1,6 +1,5 @@
 <?php
 // if session is not set and this page is directly typed in the url, redirect to home
-session_start();
 if (!isset($_SESSION['user'])) {
    header('Location: ./?');
 }

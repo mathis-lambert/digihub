@@ -16,7 +16,7 @@ header {
   .header_container {
     display: flex;
     justify-content: space-between;
-    width: min(100%, 1300px);
+    width: min(100%, 1500px);
   }
 
   nav {
@@ -92,16 +92,55 @@ header {
 }
 
 .catalogue {
-  height: 50vh;
+  max-height: 60vh;
   position: fixed;
   top: -50vh;
   left: 0;
   width: 100%;
+  padding: 1rem;
   background-color: $color-primary;
   z-index: 999;
   transition: all 0.3s ease-in-out;
 
+  * {
+    color: white;
+  }
+
   &.active {
-    top: 0;
+    top: 80px;
+  }
+
+  &_container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding-block: 3rem;
+  }
+
+  &_header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &_content {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 33%;
+    height: 100%;
+    .content_list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-height: 300px;
+
+      a {
+        padding: 0.25rem;
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+    }
   }
 }

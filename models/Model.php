@@ -61,6 +61,34 @@ class Model
         return $media;
     }
 
+    public function getGenres()
+    {
+        $sql = "SELECT * FROM genres";
+        $result = $this->getConn()->prepare($sql);
+        $result->execute();
+        $genres = $result->fetchAll(PDO::FETCH_ASSOC);
+        return $genres;
+    }
+
+    public function getNewMedias($type)
+    {
+        $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = '$type' ORDER BY medias.mediaAddedDate DESC LIMIT 10";
+        $result = $this->getConn()->prepare($sql);
+        $result->execute();
+        $medias = $result->fetchAll(PDO::FETCH_ASSOC);
+        return $medias;
+    }
+
+    public function getPeople($id)
+    {
+        $sql = "SELECT * FROM peoples, appartient_media, medias, types WHERE peoples.peopleId = appartient_media._peopleId AND appartient_media._mediaId = medias.mediaId AND medias.mediaTypeId = types.typeID AND peoples.peopleId = $id";
+        $result = $this->getConn()->prepare($sql);
+        $result->execute();
+        $people = $result->fetch(PDO::FETCH_ASSOC);
+        return $people;
+    }
+
+
     public function getMediasFromSearch($q)
     {
     }

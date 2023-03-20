@@ -154,13 +154,13 @@ body {
   fill: #fff;
 }
 .searchbar__results__result[data-type=Film] {
-  background-color: hsl(215deg, 100%, 86%);
+  background-color: hsl(215, 100%, 86%);
 }
 .searchbar__results__result[data-type=Livre], .searchbar__results__result[data-type="Bande dessinée"] {
-  background-color: hsl(0deg, 100%, 86%);
+  background-color: hsl(0, 100%, 86%);
 }
 .searchbar__results__result[data-type=music] {
-  background-color: hsl(120deg, 100%, 86%);
+  background-color: hsl(120, 100%, 86%);
 }
 .searchbar__results__result:last-child {
   border-radius: 0 0 9px 9px;
@@ -193,7 +193,7 @@ h6 {
 }
 
 .container {
-  width: min(100%, 1300px);
+  width: min(100%, 1500px);
   margin-inline: auto;
   padding: 1rem;
   padding-top: 100px;
@@ -244,7 +244,7 @@ header {
 header .header_container {
   display: flex;
   justify-content: space-between;
-  width: min(100%, 1300px);
+  width: min(100%, 1500px);
 }
 header nav {
   display: flex;
@@ -311,17 +311,51 @@ header .search-button:hover svg {
   }
 }
 .catalogue {
-  height: 50vh;
+  max-height: 60vh;
   position: fixed;
   top: -50vh;
   left: 0;
   width: 100%;
+  padding: 1rem;
   background-color: #050e1d;
   z-index: 999;
   transition: all 0.3s ease-in-out;
 }
+.catalogue * {
+  color: white;
+}
 .catalogue.active {
-  top: 0;
+  top: 80px;
+}
+.catalogue_container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding-block: 3rem;
+}
+.catalogue_header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.catalogue_content {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 33%;
+  height: 100%;
+}
+.catalogue_content .content_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-height: 300px;
+}
+.catalogue_content .content_list a {
+  padding: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
 .media_container {
@@ -422,4 +456,19 @@ header .search-button:hover svg {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 9px;
+}
+
+.gallery {
+  padding-top: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.gallery .gallery__item {
+  flex-basis: 15%;
+}
+.gallery .gallery__item img {
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
 }/*# sourceMappingURL=style.css.map */

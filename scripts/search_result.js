@@ -13,10 +13,10 @@
         await fetch("./controllers/php/" + query)
           .then((response) => response.json())
           .then((data) => {
-            data = data.sort((a, b) => {
+            data.medias = data.medias.sort((a, b) => {
               return b._score - a._score;
             });
-            data.forEach((media) => {
+            data.medias.forEach((media) => {
               let mediaData = media.media;
               searchResult.innerHTML += `
             <div class="search-result__item">

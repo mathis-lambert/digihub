@@ -82,6 +82,18 @@ if ($method === "searching") {
     $peoplesFirstname = [];
     $peoplesLastname = [];
 
+    // reconvert mb strings to normal strings
+    $keywords = array_map('strval', $keywords);
+    $genres = array_map('strval', $genres);
+    $types = array_map('strval', $types);
+    $peoples = array_map('strval', $peoples);
+
+    /*     print_r($peoples);
+    print_r($genres);
+    print_r($types);
+    print_r($keywords); */
+
+
     $peoplesDatabase = Db::getInstance()->prepare("SELECT peopleFirstname, peopleLastname, peopleFullname FROM peoples");
     $peoplesDatabase->execute();
     $peoplesDatabase = $peoplesDatabase->fetchAll(PDO::FETCH_ASSOC);

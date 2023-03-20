@@ -10,15 +10,14 @@ require_once './assets/includes/head.php';
     require_once './assets/includes/searchbar.php';
     require_once './assets/includes/header.php';
 
-    $mediaName = $media->titre;
-    $mediaType = $media->type;
-    $mediaGenres = json_decode($media->genres);
-    $mediaAuthors = json_decode($media->authors);
-    $mediaActors = json_decode($media->actors);
-    $mediaYear = $media->annee;
-    $mediaDescription = $media->synopsis;
-    $mediaCover = $media->affiche;
-    $mediaBgImage = $media->background;
+    $peopleName = $people->peopleFullname;
+    $peopleBirthdate = $people->peopleBirthdate;
+    $peopleBirthplace = $people->peopleBirthplace;
+    $peopleBiography = $people->peopleBiography;
+    $peopleImage = $people->peopleImage;
+    $peopleMovies = json_decode($people->peopleMovies);
+    $peopleSeries = json_decode($people->peopleSeries);
+
     ?>
     <div class="media_container">
         <div class="background">
@@ -49,37 +48,6 @@ require_once './assets/includes/head.php';
                 </div>
             </div>
         </div>
-
-    </div>
-    <div class="container">
-        <div class="description">
-            <h2>Synopsis</h2>
-            <p><?= $mediaDescription; ?></p>
-        </div>
-        <div class="cast">
-            <h2>Cast</h2>
-            <div class="gallery cast_container">
-                <?php
-                $mediaActors = json_decode($media->actors);
-                foreach ($mediaActors as $actor) {
-                    echo '<div class="actor">';
-                    echo '<a href="./?people&id=' . $actor->peopleId . '">';
-                    if ($actor->peoplePicture != null) {
-                        echo '<img src="https://image.tmdb.org/t/p/w500' . $actor->peoplePicture . '" alt="actor" width="100px">';
-                    } else {
-                        echo '<img src="./assets/img/icons/err.svg" alt="actor" width="100px">';
-                    }
-                    echo '<br>';
-                    echo $actor->peopleFullname;
-                    echo " <br> " . $actor->characterName;
-                    echo '</a>';
-                    echo '</div>';
-                }
-                ?>
-            </div>
-        </div>
-
-
     </div>
 
 

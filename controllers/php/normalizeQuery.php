@@ -9,7 +9,7 @@ require_once '../../models/Db.php';
 // in the search query and will return a URL 
 // with types, genres, authors and keywords parameters
 
-function spliSpacedWords($string)
+function splitSpacedWords($string)
 {
     $string = preg_replace('/\s+/', ' ', $string);
     $string = trim($string);
@@ -20,6 +20,11 @@ function spliSpacedWords($string)
 // Get the search query
 $words = $_GET['q'];
 $wordsArray = explode(" ", $words);
+$wordsArray = array_map('strtolower', $wordsArray);
+$wordsArray = array_map('trim', $wordsArray);
+$wordsArray = array_filter($wordsArray, function ($value) {
+    return $value !== '';
+});
 
 // Get the media types
 $mediaTypes = Db::quickFetchAll("types", "typeStatus", "available");
@@ -31,6 +36,8 @@ $type = array_intersect($wordsArray, $mediaTypes); // keep only the types that a
 $mediaGenres = Db::quickFetchAll("genres", TRUE, TRUE);
 $mediaGenres = array_column($mediaGenres, 'genreName');
 $mediaGenres = array_map('strtolower', $mediaGenres);
+$mediaGenres = array_map('mb_convert_encoding', $mediaGenres, array_fill(0, count($mediaGenres), "UTF-8"), array_fill(0, count($mediaGenres), "HTML-ENTITIES"));
+$mediaGenres = array_map('html_entity_decode', $mediaGenres);
 $genre = array_intersect($wordsArray, $mediaGenres); // keep only the genres that are in the search query
 
 // Get the media people
@@ -38,9 +45,7 @@ $mediaPeoplesDb = Db::quickFetchAll("peoples", TRUE, TRUE);
 $mediaPeoples = array_column($mediaPeoplesDb, 'peopleFirstname');
 $mediaPeoples = array_merge($mediaPeoples, array_column($mediaPeoplesDb, 'peopleLastname'));
 $mediaPeoples = array_map('strtolower', $mediaPeoples);
-$mediaPeoples = array_map('mb_convert_encoding', $mediaPeoples, array_fill(0, count($mediaPeoples), "UTF-8"), array_fill(0, count($mediaPeoples), "HTML-ENTITIES"));
-$mediaPeoples = array_map('html_entity_decode', $mediaPeoples);
-$mediaPeoples2 = array_map('spliSpacedWords', $mediaPeoples);
+$mediaPeoples2 = array_map('splitSpacedWords', $mediaPeoples);
 $mediaPeoples = array_merge(...$mediaPeoples2);
 $mediaPeoples = array_unique($mediaPeoples);
 $mediaPeoples = array_filter($mediaPeoples, function ($value) {
