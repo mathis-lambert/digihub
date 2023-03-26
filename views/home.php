@@ -12,7 +12,14 @@ require_once './assets/includes/head.php';
    require_once './assets/includes/searchbar.php';
    require_once './assets/includes/header.php';
    ?>
-   <h1 class="container">Accueil DIGIHUB</h1>
+   <h1 class="container">Notre suggestion</h1>
+   <?php
+   $medias = $this->model->getOwnSuggestion();
+
+   foreach ($medias as $media) {
+      print_r($media);
+   }
+   ?>
    <?php require_once './assets/includes/footer.php'; ?>
 </body>
 

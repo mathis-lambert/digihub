@@ -75,7 +75,7 @@ class Model
 
     public function getNewMedias($type)
     {
-        $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = '$type' ORDER BY medias.mediaAddedDate DESC LIMIT 10";
+        $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = '$type' ORDER BY medias.mediaPublishingDate DESC LIMIT 10";
         $result = $this->getConn()->prepare($sql);
         $result->execute();
         $medias = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -98,5 +98,22 @@ class Model
 
     public function getMediasFromSearch($q)
     {
+    }
+
+    public function getOwnSuggestion()
+    {
+        $sql = "SELECT * FROM medias, genres, types, appartient_genre WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_genre.appartientMediaId AND appartient_genre.appartientGenreId = genres.genreId ORDER BY RAND() LIMIT 3";
+        $result = $this->getConn()->prepare($sql);
+        $result->execute();
+        $results = $result->fetchAll(PDO::FETCH_ASSOC);
+        if ($results) {
+            $medias = [];
+            foreach ($results as $media) {
+                //$media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'],   $media['mediaPublishingDate'], [], [], $media['genre'], $media['typeName']);
+                $medias[] = $media;
+            }
+            return $medias;
+        }
+        return null;
     }
 }
