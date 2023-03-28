@@ -127,7 +127,7 @@ async function displaySearchResults(results) {
   // display best result
   if (results.medias.length > 0 || results.peoples.length > 0) {
     // if results contains the key "people"
-    if (Object.hasOwn(results, "peoples")) {
+    if (Object.hasOwn(results, "peoples") && results.peoples.length > 0) {
       let peoples = results.peoples;
 
       searchResultsContainer.innerHTML += "<p>✨ Meilleurs résultats ✨</p>";
@@ -144,14 +144,13 @@ async function displaySearchResults(results) {
         `;
       });
     } else {
-      results = results.medias;
       searchResultsContainer.innerHTML += "<p>✨ Meilleur résultat ✨</p>";
 
       searchResultsContainer.innerHTML += `
-    <a class="searchbar__results__result" data-type="${results[0].media.typeName}" href="./?view&id=${results[0].media.mediaId}">
+    <a class="searchbar__results__result" data-type="${results.medias[0].media.typeName}" href="./?view&id=${results.medias[0].media.mediaId}">
             <div class="searchbar__results__result__icon icon_best"></div>
             <div class="searchbar__results__result__title">
-                ${results[0].media.mediaName}
+                ${results.medias[0].media.mediaName}
             </div>
             </a>
         `;
@@ -164,6 +163,9 @@ async function displaySearchResults(results) {
             `.searchbar__results__result__icon.icon_best`
           ).innerHTML = data;
         });
+
+      // remove best result from results
+      results.medias.shift();
     }
 
     if (results.medias.length > 0) {

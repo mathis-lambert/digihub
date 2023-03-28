@@ -4,11 +4,14 @@
   flex-wrap: wrap;
   align-items: center;
   .gallery__item {
-    flex-basis: 15%;
+    flex: 1 1 150px;
+    max-width: 250px;
     img {
       border-radius: 10px;
       width: 100%;
       height: auto;
+      aspect-ratio: 2/3;
+      object-fit: cover;
     }
   }
 }

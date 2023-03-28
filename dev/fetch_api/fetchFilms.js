@@ -15,6 +15,14 @@ fetchFilms = async (page) => {
   computeData(data_array);
 };
 
+fetchMovieVideos = async (id) => {
+  const response = await fetch(
+    `${BASE_URL}movie/${id}/videos?api_key=${API_KEY}&language=fr-FR`
+  );
+  const data = await response.json();
+  return data;
+};
+
 fetchGenres = async () => {
   const response = await fetch(
     `${BASE_URL}genre/movie/list?api_key=${API_KEY}&language=fr-FR`
@@ -32,9 +40,14 @@ fetchCredits = async (id) => {
 };
 
 fetchCreditsDetails = async (id) => {
+  //handle 404 error
   const response = await fetch(
     `${BASE_URL}person/${id}?api_key=${API_KEY}&language=fr-FR`
   );
+  if (response.status === 404) {
+    console.debug("404 error");
+    return null; //renvoie une valeur vide
+  }
   const data = await response.json();
   return data;
 };
@@ -97,8 +110,6 @@ computeData = async (data_array) => {
       const directors = credits.crew.filter((crew) => crew.job === "Director");
       const peoples = [...credits.cast, ...directors];
 
-      console.log(peoples);
-
       const appartientModel = {
         mediaId: result.id,
         peopleId: null,
@@ -109,6 +120,8 @@ computeData = async (data_array) => {
       for (let k = 0; k < peoples.length; k++) {
         const people = peoples[k];
         const peopleDetails = await fetchCreditsDetails(people.id);
+
+        if (peopleDetails === null) continue;
 
         if (people.job) {
           appartientArray.push({
@@ -155,18 +168,26 @@ computeData = async (data_array) => {
       let filmExists = filmArray.find((film) => film.mediaId === result.id);
       if (filmExists) continue;
 
+      const videos = await fetchMovieVideos(result.id);
+      const trailer = videos.results.find((video) => video.type === "Trailer");
+
       filmArray.push({
         mediaId: result.id,
         mediaTitle: result.title,
         mediaCoverImage: result.poster_path,
         mediaBackdropImage: result.backdrop_path,
         mediaDescription: result.overview,
-        mediaPublishingDate: result.release_date,
-        mediaYear: result.release_date.split("-")[0],
+        mediaPublishingDate: result.release_date ? result.release_date : null,
+        mediaYear: result.release_date
+          ? result.release_date.split("-")[0]
+          : null,
         mediaTypeId: 2,
         mediaGenres: [...result.genre_ids],
+        mediaTrailer: trailer ? trailer.key : null,
       });
-      console.log(appartientArray);
+      // console.log(appartientArray);
+      // console.log(peoplesArray);
+      console.log(filmArray);
 
       await sendData("peoples", peoplesArray);
       await sendData("movies", filmArray);

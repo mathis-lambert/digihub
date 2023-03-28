@@ -21,12 +21,13 @@ if (!isset($_SESSION['user'])) {
       <div class="header_container" data-aos="fade-down" data-aos-duration="1000">
          <nav>
             <a href="./" class="logo_img">
-               <img src="./assets/img/digihub-full-png.png" alt="logo">
+               <img src="./assets/img/digihub-full-png.png" alt="logo" id="logo_full">
+               <img src="./assets/img/dh-icon.png" alt="logo" id="logo_small">
             </a>
-            <a href="./">Accueil</a>
-            <a href="./?nouveautes">Nouveautés</a>
-            <a href="./?top">Top</a>
-            <button class="linkbutton" onclick="toggleCatalogue()">Catalogue</button>
+            <a href="./" class="nav_link">Accueil</a>
+            <a href="./?nouveautes" class="nav_link">Nouveautés</a>
+            <a href="./?top" class="nav_link">Top</a>
+            <button class="nav_link linkbutton" onclick="toggleCatalogue()">Catalogue</button>
          </nav>
 
          <div class="widgets">
@@ -36,11 +37,28 @@ if (!isset($_SESSION['user'])) {
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                </svg>
             </button>
-
-            <a href="./?profil"><?= $_SESSION['user'] ?></a>
+            <div class="burger">
+               <div class="burger_line"></div>
+               <div class="burger_line"></div>
+               <div class="burger_line"></div>
+            </div>
+            <a href="./?profil" class="profil_link"><?= $_SESSION['user'] ?></a>
          </div>
       </div>
    </header>
+
+   <div class="small_menu">
+      <div class="small_menu_container">
+         <div class="small_menu_content">
+            <a href="./" class="nav_link">Accueil</a>
+            <a href="./?nouveautes" class="nav_link">Nouveautés</a>
+            <a href="./?top" class="nav_link">Top</a>
+            <a href="./?catalogue" class="nav_link">Catalogue</a>
+            <a href="./?profil" class="profil_link"><?= $_SESSION['user'] ?></a>
+            <a href="./?deconnexion" class="profil_link">Se déconnecter</a>
+         </div>
+      </div>
+   </div>
 
    <div class="catalogue">
       <div class="catalogue_header">
@@ -73,5 +91,13 @@ if (!isset($_SESSION['user'])) {
       } else {
          header.classList.remove('scrolled');
       }
+   });
+
+   const burger = document.querySelector('.burger');
+   const smallMenu = document.querySelector('.small_menu');
+
+   burger.addEventListener('click', () => {
+      burger.classList.toggle('active');
+      smallMenu.classList.toggle('active');
    });
 </script>
