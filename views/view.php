@@ -19,10 +19,11 @@ require_once './assets/includes/head.php';
     $mediaDescription = $media->synopsis;
     $mediaCover = $media->affiche;
     $mediaBgImage = $media->background;
+    $mediaTrailer = $media->trailer;
     ?>
     <div class="media_container">
         <div class="background">
-            <img src="https://image.tmdb.org/t/p/w1280<?= $mediaBgImage; ?>" alt="background">
+            <img src="https://image.tmdb.org/t/p/original<?= $mediaBgImage; ?>" alt="background">
             <div class="overlay"></div>
         </div>
 
@@ -56,6 +57,15 @@ require_once './assets/includes/head.php';
             <h2>Synopsis</h2>
             <p><?= $mediaDescription; ?></p>
         </div>
+        <?php
+        if (!is_null($mediaTrailer)) { ?>
+            <div class="trailer">
+                <h2>Trailer</h2>
+                <iframe width="100%" height="500px" src="https://www.youtube.com/embed/<?= $mediaTrailer; ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+        <?php } ?>
+
         <div class="cast">
             <h2>Cast</h2>
             <div class="gallery cast_container">

@@ -176,10 +176,11 @@ if ($method === "searching") {
     $criticalColumns = ['peopleFirstname'];
     $importantColumns = ['peopleLastname', "peopleFullname"];
     $minorColumns = ['peoplePicture', 'peopleBiography'];
+    $resultPeople = ["peoples" => []];
     if (!$peoplesFirstnameBool || !$peoplesLastnameBool) {
         $peoplesArray = [];
         foreach ($peoples as $people) {
-            $sql = "SELECT * FROM peoples WHERE concat_ws(' ', peoples.peopleFullname) LIKE ? GROUP BY peoples.peopleId";
+            $sql = "SELECT * FROM peoples WHERE concat_ws(' ', peoples.peopleFullname) LIKE ? GROUP BY peoples.peopleId LIMIT 5";
             $peopleDb = Db::getInstance()->prepare($sql);
             $peopleDb->execute([sprintf('%%%s%%', $people)]);
             $peopleDb = $peopleDb->fetchAll(PDO::FETCH_ASSOC);
@@ -193,7 +194,7 @@ if ($method === "searching") {
         }
         $resultPeople = getScore("people", $peoples, $peoplesArray, $criticalColumns, $importantColumns, $minorColumns);
     } else {
-        $resultPeople = [];
+        $resultPeople = ["peoples" => []];
     }
     $result = array_merge($resultMedia, $resultPeople);
     echo json_encode($result);

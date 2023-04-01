@@ -95,6 +95,7 @@ if (isset($json['movies'])) {
         $title = $movie['mediaTitle'];
         $picture = $movie['mediaCoverImage'];
         $backdropPicture = $movie['mediaBackdropImage'];
+        $video = $movie['mediaTrailer'];
         $description = $movie['mediaDescription'];
         $releaseDate = $movie['mediaPublishingDate'];
         $year = $movie['mediaYear'];
@@ -105,7 +106,7 @@ if (isset($json['movies'])) {
 
         if (!check_if_exists('medias', 'mediaId', $id, $conn)) {
             try {
-                $sql = "INSERT INTO medias (mediaId, mediaTypeId, mediaName, mediaDescription, mediaPublishingDate, mediaYear, mediaCoverImage, mediaBackgroundImage) VALUES (:mediaId, :mediaTypeId, :mediaName, :mediaDescription, :mediaPublishingDate, :mediaYear, :mediaCoverImage, :mediaBackgroundImage)";
+                $sql = "INSERT INTO medias (mediaId, mediaTypeId, mediaName, mediaDescription, mediaPublishingDate, mediaYear, mediaCoverImage, mediaBackgroundImage, mediaVideoLink) VALUES (:mediaId, :mediaTypeId, :mediaName, :mediaDescription, :mediaPublishingDate, :mediaYear, :mediaCoverImage, :mediaBackgroundImage , :mediaVideoLink)";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':mediaId', $id);
                 $stmt->bindParam(':mediaTypeId', $type);
@@ -115,6 +116,7 @@ if (isset($json['movies'])) {
                 $stmt->bindParam(':mediaYear', $year);
                 $stmt->bindParam(':mediaCoverImage', $picture);
                 $stmt->bindParam(':mediaBackgroundImage', $backdropPicture);
+                $stmt->bindParam(':mediaVideoLink', $video);
                 $stmt->execute();
             } catch (PDOException $e) {
                 echo $e->getMessage();
