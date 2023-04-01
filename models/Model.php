@@ -20,7 +20,7 @@ class Model
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
       if ($medias) {
          $media = $this->getMediaFromResult($medias);
-         $media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'],   $media['mediaPublishingDate'], $media['directors'], $media['actors'], $media['genres'], $media['typeName']);
+         $media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'], $media['mediaVideoLink'], $media['mediaPublishingDate'], $media['directors'], $media['actors'], $media['genres'], $media['typeName']);
          return $media;
       }
       return null;
@@ -75,7 +75,7 @@ class Model
 
    public function getNewMedias($type)
    {
-      $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = '$type' ORDER BY medias.mediaPublishingDate DESC LIMIT 10";
+      $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = '$type' ORDER BY medias.mediaPublishingDate DESC LIMIT 27";
       $result = $this->getConn()->prepare($sql);
       $result->execute();
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
