@@ -12,7 +12,6 @@ class Model
       return Db::getInstance()->getConnection();
    }
 
-<<<<<<< HEAD
    public function getMedia($id)
    {
       $sql = "SELECT * FROM medias, peoples, genres, types, appartient_genre, appartient_media WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_media._mediaId  AND appartient_media._peopleId = peoples.peopleId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaID = $id";
@@ -26,21 +25,6 @@ class Model
       }
       return null;
    }
-=======
-    public function getMedia($id)
-    {
-        $sql = "SELECT * FROM medias, peoples, genres, types, appartient_genre, appartient_media WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_media._mediaId  AND appartient_media._peopleId = peoples.peopleId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaID = $id";
-        $result = $this->getConn()->prepare($sql);
-        $result->execute();
-        $medias = $result->fetchAll(PDO::FETCH_ASSOC);
-        if ($medias) {
-            $media = $this->getMediaFromResult($medias);
-            $media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'], $media['mediaVideoLink'], $media['mediaPublishingDate'], $media['directors'], $media['actors'], $media['genres'], $media['typeName']);
-            return $media;
-        }
-        return null;
-    }
->>>>>>> bb984aa78b5ed1e1309562269a5e763f2a86e198
 
    public function getMediaFromResult($medias)
    {
@@ -89,7 +73,6 @@ class Model
       return $genres;
    }
 
-<<<<<<< HEAD
    public function getNewMedias($type)
    {
       $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = '$type' ORDER BY medias.mediaPublishingDate DESC LIMIT 10";
@@ -98,16 +81,6 @@ class Model
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
       return $medias;
    }
-=======
-    public function getNewMedias($type)
-    {
-        $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = '$type' ORDER BY medias.mediaPublishingDate DESC LIMIT 27";
-        $result = $this->getConn()->prepare($sql);
-        $result->execute();
-        $medias = $result->fetchAll(PDO::FETCH_ASSOC);
-        return $medias;
-    }
->>>>>>> bb984aa78b5ed1e1309562269a5e763f2a86e198
 
    public function getPeople($id)
    {
