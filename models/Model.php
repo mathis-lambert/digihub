@@ -135,4 +135,25 @@ class Model
       $type = $result->fetch(PDO::FETCH_ASSOC);
       return $type['typeName'];
    }
+
+   public function getFilmWithFilter($filter)
+   {
+      $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = 'Film'";
+      if ($filter['year']) {
+         $sql .= " AND medias.mediaYear = " . $filter['year'];
+      }
+      if ($filter['genre']) {
+         $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, appartient_genre WHERE appartient_media._mediaId = appartient_genre.appartientMediaId AND appartient_genre.appartientGenreId = " . $filter['genre'] . ")";
+      }
+      if ($filter['director']) {
+         $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, peoples WHERE appartient_media._peopleId = peoples.peopleId AND peoples.peopleId = " . $filter['director'] . ")";
+      }
+      if ($filter['actor']) {
+         $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, peoples WHERE appartient_media._peopleId = peoples.peopleId AND peoples.peopleId = " . $filter['actor'] . ")";
+      }
+      $result = $this->getConn()->prepare($sql);
+      $result->execute();
+      $medias = $result->fetchAll(PDO::FETCH_ASSOC);
+      return $medias;
+   }
 }

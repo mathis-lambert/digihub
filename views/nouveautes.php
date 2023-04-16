@@ -14,7 +14,13 @@ require_once './assets/includes/head.php';
 
     <h1 class="container">Nouveautés</h1>
     <h2 class="container">Films</h2>
-    <div class="gallery container">
+
+
+    <?php
+    $filter_aim_at = "Film";
+    include_once './assets/includes/filterBar.php';
+    ?>
+    <div class="gallery container" id="film_container">
         <?php
         $news = $this->model->getNewMedias("Film");
         foreach ($news as $new) {
