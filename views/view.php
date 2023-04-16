@@ -77,7 +77,7 @@ require_once './assets/includes/head.php';
                     if ($actor->peoplePicture != null) {
                         echo '<img src="https://image.tmdb.org/t/p/w500' . $actor->peoplePicture . '" alt="actor" width="100px">';
                     } else {
-                        echo '<img src="./assets/img/icons/err.svg" alt="actor" width="100px">';
+                        echo '<img src="./assets/img/icons/user.jpg" alt="actor" width="100px">';
                     }
                     echo '<br>';
                     echo $actor->peopleFullname;
