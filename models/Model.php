@@ -1,8 +1,8 @@
 <?php
-include_once './models/Media.php';
-include_once './models/People.php';
-include_once './models/Db.php';
-include_once './models/User.php';
+include_once dirname(__FILE__) . '/Media.php';
+include_once dirname(__FILE__) . '/People.php';
+include_once dirname(__FILE__) . '/Db.php';
+include_once dirname(__FILE__) . '/User.php';
 
 
 class Model
@@ -136,23 +136,25 @@ class Model
       return $type['typeName'];
    }
 
-   public function getFilmWithFilter($filter)
+   public function getMediaWithFilter($type, $filter)
    {
-      $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = 'Film'";
-      if ($filter['year']) {
+      $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = :type";
+      if (isset($filter['year'])) {
          $sql .= " AND medias.mediaYear = " . $filter['year'];
       }
-      if ($filter['genre']) {
+      if (isset($filter['genre'])) {
          $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, appartient_genre WHERE appartient_media._mediaId = appartient_genre.appartientMediaId AND appartient_genre.appartientGenreId = " . $filter['genre'] . ")";
       }
-      if ($filter['director']) {
+      if (isset($filter['director'])) {
          $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, peoples WHERE appartient_media._peopleId = peoples.peopleId AND peoples.peopleId = " . $filter['director'] . ")";
       }
-      if ($filter['actor']) {
+      if (isset($filter['actor'])) {
          $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, peoples WHERE appartient_media._peopleId = peoples.peopleId AND peoples.peopleId = " . $filter['actor'] . ")";
       }
       $result = $this->getConn()->prepare($sql);
-      $result->execute();
+      $result->execute([
+         'type' => $type
+      ]);
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
       return $medias;
    }

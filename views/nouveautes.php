@@ -21,16 +21,6 @@ require_once './assets/includes/head.php';
     include_once './assets/includes/filterBar.php';
     ?>
     <div class="gallery container" id="film_container">
-        <?php
-        $news = $this->model->getNewMedias("Film");
-        foreach ($news as $new) {
-            echo '<div class="gallery__item">';
-            echo '<a href="./?view&id=' . $new['mediaId'] . '">';
-            echo '<img src="https://image.tmdb.org/t/p/w500' . $new['mediaCoverImage'] . '" alt="' . $new['mediaName'] . '">';
-            echo '</a>';
-            echo '</div>';
-        }
-        ?>
 
     </div>
 
