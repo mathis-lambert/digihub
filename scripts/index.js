@@ -32,6 +32,13 @@ searchbarBackground.addEventListener("click", () => {
   searchbar.classList.remove("active");
 });
 
+// if echap pressed  => remove active class
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Escape") {
+    searchbar.classList.remove("active");
+  }
+});
+
 let searchTimeout;
 let currentSearch = "";
 

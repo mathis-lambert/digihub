@@ -21,7 +21,6 @@ require_once './assets/includes/head.php';
     include_once './assets/includes/filterBar.php';
     ?>
     <div class="gallery container" id="film_container">
-
     </div>
 
     <?php

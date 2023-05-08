@@ -24,7 +24,7 @@ function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?
                 if (is_null($value[$criticalColumn[$i]])) {
                     $value[$criticalColumn[$i]] = "";
                 }
-                if (stripos($value[$criticalColumn[$i]], $keyword, 0) !== false) {
+                if (is_string($value[$criticalColumn[$i]]) && stripos($value[$criticalColumn[$i]], $keyword, 0) !== false) {
                     $score += round($multiplier / count($criticalColumn)) / count($keywords);
                 }
             }
@@ -34,7 +34,7 @@ function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?
                 if (is_null($value[$majorColumn[$i]])) {
                     $value[$majorColumn[$i]] = "";
                 }
-                if (stripos($value[$majorColumn[$i]], $keyword, 0) !== false) {
+                if (is_string($value[$majorColumn[$i]]) && stripos($value[$majorColumn[$i]], $keyword, 0) !== false) {
                     $score += round($multiplier / count($majorColumn)) / count($keywords);
                 }
             }
@@ -44,7 +44,7 @@ function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?
                 if (is_null($value[$minorColumn[$i]])) {
                     $value[$minorColumn[$i]] = "";
                 }
-                if (stripos($value[$minorColumn[$i]], $keyword, 0) !== false) {
+                if (is_string($value[$minorColumn[$i]]) && stripos($value[$minorColumn[$i]], $keyword, 0) !== false) {
                     $score += round($multiplier / count($minorColumn)) / count($keywords);
                 }
             }

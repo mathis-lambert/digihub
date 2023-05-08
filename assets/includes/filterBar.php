@@ -1,34 +1,69 @@
 <?php
 $timeFilter = "publishingDate";
+## Default config of filters
 $filterArray = [
-    "publishingDate" => false,
-    "year" => false,
-    "name" => false,
-    "genre" => false,
-    "type" => false,
-    "director" => false,
-    "actor" => false
+    "publishingDate" => "DESC",
+    "year" => "",
+    "genre" => "all",
 ];
 
 ?>
 
 <div class="filter_bar" id="filterBar" data-aimat="<?php echo $filter_aim_at; ?>">
-    <span>Filtres</span>
-    <span id="aimat"></span>
-
+    <h3>Filtres</h3>
     <div class="filter_bar__filter">
-        <span class="filter_bar__filter__title">Date de publication</span>
         <div class="filter_bar__filter__content">
-            <input type="radio" name="publishingDate" id="publishingDate" value="ASC" <?php if ($filterArray['publishingDate'] == "ASC") {
-                                                                                            echo "checked";
-                                                                                        } ?>>
-            <label for="publishingDate">Croissant</label>
-            <input type="radio" name="publishingDate" id="publishingDate" value="DESC" <?php if ($filterArray['publishingDate'] == "DESC") {
-                                                                                            echo "checked";
-                                                                                        } ?>>
-            <label for="publishingDate">Décroissant</label>
+            <fieldset id="publishing_date_filter">
+
+                <legend>Ordre de publication</legend>
+
+                <div class="radio">
+                    <input type="radio" class="filter-input" name="publishingDate" id="desc" value="DESC" <?php if ($filterArray['publishingDate'] == "DESC") {
+                                                                                                                echo "checked";
+                                                                                                            } ?>>
+                    <label for="desc">Décroissant</label>
+                </div>
+
+                <div class="radio">
+                    <input type="radio" class="filter-input" name="publishingDate" id="asc" value="ASC" <?php if ($filterArray['publishingDate'] == "ASC") {
+                                                                                                            echo "checked";
+                                                                                                        } ?>>
+                    <label for="asc">Croissant</label>
+                </div>
+            </fieldset>
+
+            <fieldset id="year_filter">
+                <legend>Année</legend>
+
+                <input type="number" min="1900" max="2099" step="1" name="year" id="year" class="filter-input" value="<?php echo $filterArray['year'];  ?>" placeholder="2023">
+            </fieldset>
+
+            <fieldset id="genre_filter">
+                <legend>Genre</legend>
+
+
+                <select name="genre" id="genre" class="filter-input">
+                    <option value="all" <?php
+                                        if ($filterArray['genre'] == "all") {
+                                            echo "selected";
+                                        }
+                                        ?>>Tous</option>
+                    <?php
+                    $genres = $this->model->getGenres();
+
+                    foreach ($genres as $genre) {
+                        echo "<option value='" . $genre['genreId'] . "' ";
+                        if ($filterArray['genre'] == $genre['genreId']) {
+                            echo "selected";
+                        }
+                        echo ">" . $genre['genreName'] . "</option>";
+                    }
+                    ?>
+                </select>
+            </fieldset>
         </div>
-
     </div>
+</div>
 
-    <script src="./scripts/filterBar.js"></script>
+
+<script src="./scripts/filterBar.js"></script>

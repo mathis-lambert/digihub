@@ -102,18 +102,27 @@ class Model
 
    public function getOwnSuggestion()
    {
+      // We need to get the 3 last media added to the database
+      // To do so, we build a query with a limit of 3
       $sql = "SELECT * FROM medias, genres, types, appartient_genre WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_genre.appartientMediaId AND appartient_genre.appartientGenreId = genres.genreId ORDER BY RAND() LIMIT 3";
+      // We execute the query
       $result = $this->getConn()->prepare($sql);
       $result->execute();
+      // We fetch all the results
       $results = $result->fetchAll(PDO::FETCH_ASSOC);
+      // If we have results
       if ($results) {
+         // We create a new array to store our medias
          $medias = [];
+         // We loop through the results
          foreach ($results as $media) {
-            //$media = new Media($media['mediaId'], $media['mediaName'], $media['mediaYear'], $media['mediaDescription'], $media['mediaCoverImage'], $media['mediaBackgroundImage'],   $media['mediaPublishingDate'], [], [], $media['genre'], $media['typeName']);
+            // We create a new media object
             $medias[] = $media;
          }
+         // We return the array of medias
          return $medias;
       }
+      // If we don't have any result, we return null
       return null;
    }
 
@@ -127,35 +136,50 @@ class Model
       return new User($user['userId'], $user['userFirstname'], $user['userLastname'], $user['userBirthdate'], $user['userMail'], $user['userPassword'], $user['userCreationDate'], $user['userFavoriteMediaType'], $user['userFavoriteBookTag'], $user['userFavoriteMovieTag']);
    }
 
-   public function getMediaTypeNameById($mediaTypeId)
+   public function getMediaTypeNameById($mediaTypeId) // getMediaTypeNameById() method
    {
-      $sql = "SELECT * FROM types WHERE typeID = $mediaTypeId";
-      $result = $this->getConn()->prepare($sql);
-      $result->execute();
-      $type = $result->fetch(PDO::FETCH_ASSOC);
-      return $type['typeName'];
+      $sql = "SELECT * FROM types WHERE typeID = $mediaTypeId"; // query to get the type name from the types table
+      $result = $this->getConn()->prepare($sql); // prepare the query
+      $result->execute(); // execute the query
+      $type = $result->fetch(PDO::FETCH_ASSOC); // fetch the result set
+      return $type['typeName']; // return the type name
    }
 
    public function getMediaWithFilter($type, $filter)
    {
       $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeID AND types.typeName = :type";
+
+      // If the year filter is set, add it to the SQL query
       if (isset($filter['year'])) {
          $sql .= " AND medias.mediaYear = " . $filter['year'];
       }
-      if (isset($filter['genre'])) {
+
+      // If the genre filter is set and is not "all", add it to the SQL query
+      if (isset($filter['genre']) && $filter['genre'] != 'all') {
          $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, appartient_genre WHERE appartient_media._mediaId = appartient_genre.appartientMediaId AND appartient_genre.appartientGenreId = " . $filter['genre'] . ")";
       }
-      if (isset($filter['director'])) {
-         $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, peoples WHERE appartient_media._peopleId = peoples.peopleId AND peoples.peopleId = " . $filter['director'] . ")";
+
+      // If the publishing date filter is set, add it to the SQL query
+      if (isset($filter['publishing_date'])) {
+         $sql .= " ORDER BY medias.mediaPublishingDate " . $filter['publishing_date'];
       }
-      if (isset($filter['actor'])) {
-         $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, peoples WHERE appartient_media._peopleId = peoples.peopleId AND peoples.peopleId = " . $filter['actor'] . ")";
-      }
+
+      // Limit the results to 50
+      $sql .= " LIMIT 50";
+
+      // Execute the query
       $result = $this->getConn()->prepare($sql);
       $result->execute([
          'type' => $type
       ]);
+
+      // Retrieve the results
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
+
+      // Return the results
+      if (empty($medias)) {
+         return $sql;
+      }
       return $medias;
    }
 }
