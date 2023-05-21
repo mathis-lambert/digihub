@@ -13,8 +13,12 @@ $birthdate = $register->birthdate;
 $email = $register->email;
 $password = $register->password;
 $confirm_password = $register->confirm_password;
+$userCreationDate = date("Y-m-d H:i:s");
+$userFavoriteMediaType = 1;
+$userFavoriteBookTag = "all";
+$userFavoriteMovieTag = "all";
 
-if (!empty($firstname) && !empty($lastname) && !empty($birthdate) && !empty($email) && !empty($password) && !empty($confirm_password)) {
+if (!empty($firstname) && !empty($lastname) && !empty($birthdate) && !empty($email) && !empty($password) && !empty($confirm_password) && !empty($userCreationDate) && !empty($userFavoriteMediaType) && !empty($userFavoriteBookTag) && !empty($userFavoriteMovieTag)) {
    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
       if (preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $password)) {
          if ($password === $confirm_password) {
@@ -24,7 +28,7 @@ if (!empty($firstname) && !empty($lastname) && !empty($birthdate) && !empty($ema
                // hash the password
                $password = password_hash($password, PASSWORD_DEFAULT);
                // insert the user in the database
-               User::create($firstname, $lastname, $birthdate, $email, $password);
+               User::create($firstname, $lastname, $birthdate, $email, $password, $userCreationDate, $userFavoriteMediaType, $userFavoriteBookTag, $userFavoriteMovieTag);
                // start the session and store the userFirstname in it
                session_start();
                $_SESSION['user'] = $firstname;
