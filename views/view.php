@@ -20,7 +20,17 @@ require_once './assets/includes/head.php';
     $mediaCover = $media->affiche;
     $mediaBgImage = $media->background;
     $mediaTrailer = $media->trailer;
+
+    if (isset($_SESSION['user'])) {
+        $favorite = Favorites::find($_SESSION['user']->id, $media->id);
+        if (is_null($favorite)) {
+            $favorite = new Favorites(null, $media->id, $_SESSION['user']->id);
+        }
+    } else {
+        $favorite = null;
+    }
     ?>
+
     <div class="media_container">
         <div class="background">
             <img src="https://image.tmdb.org/t/p/original<?= $mediaBgImage; ?>" alt="background">
@@ -43,6 +53,17 @@ require_once './assets/includes/head.php';
                                                                                                 }
                                                                                                 ?></p>
                         <p data-aos="fade-right" data-aos-duration="750" data-aos-delay="250"><?= $mediaYear; ?></p>
+                        <div data-aos="fade-right" data-aos-duration="750" data-aos-delay="250">
+                            <?php
+                            if (isset($_SESSION['user'])) {
+                                if (is_null($favorite->getFavoriteId())) {
+                                    echo '<a href="./?addFavorite&id=' . $media->id . '">Ajouter aux favoris</a>';
+                                } else {
+                                    echo '<a href="./?deleteFavorite&id=' . $media->id . '">Supprimer des favoris</a>';
+                                }
+                            }
+                            ?>
+                        </div>
                     </div>
                     <div class="cover" data-aos="fade-right" data-aos-duration="750" data-aos-delay="0">
                         <img src="https://image.tmdb.org/t/p/w500<?= $mediaCover; ?>" alt="cover">
