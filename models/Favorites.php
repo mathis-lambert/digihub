@@ -40,4 +40,34 @@ class Favorites
 
         return $list;
     }
+
+    public static function find($favoriteUserId, $favoriteMediaId)
+    {
+        $db = Db::getInstance();
+        $favoriteUserId = intval($favoriteUserId);
+        $favoriteMediaId = intval($favoriteMediaId);
+        $req = $db->prepare('SELECT * FROM favorites WHERE favoriteUserId = :favoriteUserId AND favoriteMediaId = :favoriteMediaId');
+        $req->execute(array('favoriteUserId' => $favoriteUserId, 'favoriteMediaId' => $favoriteMediaId));
+        $favorite = $req->fetch();
+
+        if ($favorite) {
+            return new Favorites($favorite['favoriteid'], $favorite['favoriteMediaId'], $favorite['favoriteUserId']);
+        } else {
+            return null;
+        }
+    }
+
+    public static function add($favoriteMediaId, $favoriteUserId)
+    {
+        $db = Db::getInstance();
+        $req = $db->query('INSERT INTO favorites (favoriteMediaId, favoriteUserId) VALUES (:favoriteMediaId, :favoriteUserId)');
+        $req->execute(array('favoriteMediaId' => $favoriteMediaId, 'favoriteUserId' => $favoriteUserId));
+    }
+
+    public static function delete($favoriteMediaId, $favoriteUserId)
+    {
+        $db = Db::getInstance();
+        $req = $db->query('DELETE FROM favorites WHERE favoriteMediaId = :favoriteMediaId AND favoriteUserId = :favoriteUserId');
+        $req->execute(array('favoriteMediaId' => $favoriteMediaId, 'favoriteUserId' => $favoriteUserId));
+    }
 }
