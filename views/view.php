@@ -6,6 +6,7 @@ require_once './assets/includes/head.php';
 ?>
 
 <body>
+    <script src="./controllers/js/favorites.js"></script>
     <?php
     require_once './assets/includes/searchbar.php';
     require_once './assets/includes/header.php';
@@ -20,15 +21,6 @@ require_once './assets/includes/head.php';
     $mediaCover = $media->affiche;
     $mediaBgImage = $media->background;
     $mediaTrailer = $media->trailer;
-
-    if (isset($_SESSION['user'])) {
-        $favorite = Favorites::find($_SESSION['user']->id, $media->id);
-        if (is_null($favorite)) {
-            $favorite = new Favorites(null, $media->id, $_SESSION['user']->id);
-        }
-    } else {
-        $favorite = null;
-    }
     ?>
 
     <div class="media_container">
@@ -56,11 +48,19 @@ require_once './assets/includes/head.php';
                         <div data-aos="fade-right" data-aos-duration="750" data-aos-delay="250">
                             <?php
                             if (isset($_SESSION['user'])) {
-                                if (is_null($favorite->getFavoriteId())) {
-                                    echo '<a href="./?addFavorite&id=' . $media->id . '">Ajouter aux favoris</a>';
-                                } else {
-                                    echo '<a href="./?deleteFavorite&id=' . $media->id . '">Supprimer des favoris</a>';
-                                }
+                                $userInfo = User::find($_SESSION['userId']);
+                                $favorite = Favorites::find($media->id, $userInfo->userId);
+                            ?>
+                                <button onclick="toggleFavorite(this, <?= $media->id ?>,<?= $userInfo->userId ?>)">
+                                    <?php
+                                    if (is_null($favorite)) {
+                                        echo 'Ajouter aux favoris';
+                                    } else {
+                                        echo 'Retirer des favoris';
+                                    }
+                                    ?>
+                                </button>
+                            <?php
                             }
                             ?>
                         </div>

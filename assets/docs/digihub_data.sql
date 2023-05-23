@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 08 mai 2023 à 20:53
+-- Généré le : mar. 23 mai 2023 à 20:39
 -- Version du serveur : 8.0.27
 -- Version de PHP : 8.2.4
 
@@ -17127,18 +17127,28 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `favoritesmediaslist`
+-- Structure de la table `favorites`
 --
 
-DROP TABLE IF EXISTS `favoritesmediaslist`;
-CREATE TABLE IF NOT EXISTS `favoritesmediaslist` (
+DROP TABLE IF EXISTS `favorites`;
+CREATE TABLE IF NOT EXISTS `favorites` (
   `favoriteId` int NOT NULL AUTO_INCREMENT,
   `favoriteMediaId` int NOT NULL,
   `favoriteUserId` int NOT NULL,
   PRIMARY KEY (`favoriteId`),
   KEY `favoriteMediaId` (`favoriteMediaId`),
   KEY `favoriteUserId` (`favoriteUserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=750 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `favorites`
+--
+
+INSERT INTO `favorites` (`favoriteId`, `favoriteMediaId`, `favoriteUserId`) VALUES
+(746, 603692, 1),
+(747, 2048, 1),
+(748, 588228, 1),
+(749, 455476, 1);
 
 -- --------------------------------------------------------
 
@@ -28549,11 +28559,11 @@ ALTER TABLE `comments`
   ADD CONSTRAINT `userId` FOREIGN KEY (`commentUserid`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `favoritesmediaslist`
+-- Contraintes pour la table `favorites`
 --
-ALTER TABLE `favoritesmediaslist`
-  ADD CONSTRAINT `favoritesmediaslist_ibfk_1` FOREIGN KEY (`favoriteMediaId`) REFERENCES `medias` (`mediaId`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `favoritesmediaslist_ibfk_2` FOREIGN KEY (`favoriteUserId`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
+ALTER TABLE `favorites`
+  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`favoriteMediaId`) REFERENCES `medias` (`mediaId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `favorites_ibfk_2` FOREIGN KEY (`favoriteUserId`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `medias`

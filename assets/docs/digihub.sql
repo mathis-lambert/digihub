@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 28 mars 2023 à 21:04
+-- Généré le : mar. 23 mai 2023 à 20:41
 -- Version du serveur : 8.0.27
 -- Version de PHP : 8.2.4
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `appartient_genre` (
   PRIMARY KEY (`appartenanceId`),
   KEY `genreId` (`appartientGenreId`),
   KEY `appartientMediaId` (`appartientMediaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=273 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `appartient_media` (
   KEY `_mediaId` (`_mediaId`),
   KEY `_peopleId` (`_peopleId`),
   KEY `_departmentId` (`_departmentName`)
-) ENGINE=InnoDB AUTO_INCREMENT=3042 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -79,11 +79,11 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `favoritesmediaslist`
+-- Structure de la table `favorites`
 --
 
-DROP TABLE IF EXISTS `favoritesmediaslist`;
-CREATE TABLE IF NOT EXISTS `favoritesmediaslist` (
+DROP TABLE IF EXISTS `favorites`;
+CREATE TABLE IF NOT EXISTS `favorites` (
   `favoriteId` int NOT NULL AUTO_INCREMENT,
   `favoriteMediaId` int NOT NULL,
   `favoriteUserId` int NOT NULL,
@@ -104,31 +104,6 @@ CREATE TABLE IF NOT EXISTS `genres` (
   `genreName` varchar(60) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`genreId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `genres`
---
-
-INSERT INTO `genres` (`genreId`, `genreName`) VALUES
-(12, 'Aventure'),
-(14, 'Fantastique'),
-(16, 'Animation'),
-(18, 'Drame'),
-(27, 'Horreur'),
-(28, 'Action'),
-(35, 'Comédie'),
-(36, 'Histoire'),
-(37, 'Western'),
-(53, 'Thriller'),
-(80, 'Crime'),
-(99, 'Documentaire'),
-(878, 'Science-Fiction'),
-(9648, 'Mystère'),
-(10402, 'Musique'),
-(10749, 'Romance'),
-(10751, 'Familial'),
-(10752, 'Guerre'),
-(10770, 'Téléfilm');
 
 -- --------------------------------------------------------
 
@@ -167,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `medias` (
   `mediaTags` varchar(228) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '[]',
   PRIMARY KEY (`mediaId`),
   KEY `mediaType` (`mediaTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1098240 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -188,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `peoples` (
   `peopleBirthplace` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `peopleKnownForDepartment` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`peopleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3980559 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -203,17 +178,7 @@ CREATE TABLE IF NOT EXISTS `types` (
   `typeStatus` varchar(64) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'available',
   `typeIcon` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`typeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=491 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `types`
---
-
-INSERT INTO `types` (`typeId`, `typeName`, `typeStatus`, `typeIcon`) VALUES
-(1, 'default', 'available', 'default'),
-(2, 'Film', 'available', 'movie'),
-(3, 'Livre', 'available', 'book'),
-(4, 'Bande Dessinée ', 'available', 'book');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -237,14 +202,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `userFavoriteMovieTag` varchar(64) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '[]',
   PRIMARY KEY (`userId`),
   KEY `favMediaType` (`userFavoriteMediaType`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `users`
---
-
-INSERT INTO `users` (`userId`, `userFirstname`, `userLastname`, `userBirthdate`, `userMail`, `userRole`, `userStatus`, `userPassword`, `userCreationDate`, `userFavoriteMediaType`, `userFavoriteBookTag`, `userFavoriteMovieTag`) VALUES
-(1, 'Mathis', 'Lambert', '2003-04-29 00:00:00', 'mathislambert.dev@gmail.com', 0, 'ok', '$2y$10$uXxjgn0YXArZKx7YqbPGWuE32NsYevxCXsi/q7i./3XFYwjpqvvJy', '2023-03-20 12:28:35', 1, '[]', '[]');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Contraintes pour les tables déchargées
@@ -272,11 +230,11 @@ ALTER TABLE `comments`
   ADD CONSTRAINT `userId` FOREIGN KEY (`commentUserid`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `favoritesmediaslist`
+-- Contraintes pour la table `favorites`
 --
-ALTER TABLE `favoritesmediaslist`
-  ADD CONSTRAINT `favoritesmediaslist_ibfk_1` FOREIGN KEY (`favoriteMediaId`) REFERENCES `medias` (`mediaId`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `favoritesmediaslist_ibfk_2` FOREIGN KEY (`favoriteUserId`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
+ALTER TABLE `favorites`
+  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`favoriteMediaId`) REFERENCES `medias` (`mediaId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `favorites_ibfk_2` FOREIGN KEY (`favoriteUserId`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `medias`

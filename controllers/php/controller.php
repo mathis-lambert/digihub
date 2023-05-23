@@ -76,15 +76,18 @@ class Controller
                   header('Location: ./?404');
                }
                break;
-            case 'addFavorite':
-               include('views/addFavorite.php');
-               break;
-            case 'deleteFavorite':
-               include('views/deleteFavorite.php');
+            case 'favorites':
+               $currentPage = 'Favoris';
+               include('views/favorites.php');
                break;
             case '404':
                $currentPage = '404';
                include 'views/404.php';
+               break;
+            case 'logout':
+               session_unset();
+               session_destroy();
+               header('Location: ./');
                break;
             default:
                include 'views/home.php';

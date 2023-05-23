@@ -24,6 +24,7 @@ if (!empty($email) && !empty($password)) {
                // start the session and store the userFirstname in it
                session_start();
                $_SESSION['user'] = $result['userFirstname'];
+               $_SESSION['userId'] = $result['userId'];
             } else {
                $body = array(
                   "error" => "Le mot de passe est incorrect"

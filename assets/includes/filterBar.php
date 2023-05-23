@@ -5,11 +5,13 @@ $filterArray = [
     "publishingDate" => "DESC",
     "year" => "",
     "genre" => "all",
+    "favorite" => $favorite ?? false,
+    "userId" => $userId ?? null
 ];
 
 ?>
 
-<div class="filter_bar" id="filterBar" data-aimat="<?php echo $filter_aim_at; ?>">
+<div class="filter_bar" id="filterBar" data-aimat="<?= $filter_aim_at; ?>" data-favorite="<?= boolval($filterArray['favorite']) ? "true" : "false"; ?>" data-userid="<?= $filterArray['userId']; ?>">
     <h3>Filtres</h3>
     <div class="filter_bar__filter">
         <div class="filter_bar__filter__content">
@@ -35,7 +37,7 @@ $filterArray = [
             <fieldset id="year_filter">
                 <legend>Année</legend>
 
-                <input type="number" min="1900" max="2099" step="1" name="year" id="year" class="filter-input" value="<?php echo $filterArray['year'];  ?>" placeholder="2023">
+                <input type="number" min="1900" max="2099" step="1" name="year" id="year" class="filter-input" value="<?= $filterArray['year'];  ?>" placeholder="2023">
             </fieldset>
 
             <fieldset id="genre_filter">

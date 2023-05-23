@@ -45,6 +45,11 @@ class Filters {
       filters.genre = genreValue;
     }
 
+    filters.favorite = filterBar.dataset.favorite;
+    filters.userid = filterBar.dataset.userid;
+
+    console.log(filters);
+
     return filters;
   }
 

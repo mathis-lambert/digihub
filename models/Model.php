@@ -160,6 +160,10 @@ class Model
          $sql .= " AND medias.mediaId IN (SELECT appartient_media._mediaId FROM appartient_media, appartient_genre WHERE appartient_media._mediaId = appartient_genre.appartientMediaId AND appartient_genre.appartientGenreId = " . $filter['genre'] . ")";
       }
 
+      if (isset($filter['favorite']) && $filter['favorite'] == 'true') {
+         $sql .= " AND medias.mediaId IN (SELECT favoriteMediaId FROM favorites WHERE favoriteUserId = " . $filter["userid"] . ")";
+      }
+
       // If the publishing date filter is set, add it to the SQL query
       if (isset($filter['publishing_date'])) {
          $sql .= " ORDER BY medias.mediaPublishingDate " . $filter['publishing_date'];
