@@ -3,6 +3,7 @@ include_once dirname(__FILE__) . '/Media.php';
 include_once dirname(__FILE__) . '/People.php';
 include_once dirname(__FILE__) . '/Db.php';
 include_once dirname(__FILE__) . '/User.php';
+include_once dirname(__FILE__) . '/Favorites.php';
 
 
 class Model
@@ -181,5 +182,14 @@ class Model
          return $sql;
       }
       return $medias;
+   }
+
+   public function getMediaNameByFavoriteId($favoriteId)
+   {
+      $sql = "SELECT * FROM medias, favorites WHERE medias.mediaId = favorites.favoriteMediaId AND favorites.favoriteId = $favoriteId";
+      $result = $this->getConn()->prepare($sql);
+      $result->execute();
+      $media = $result->fetch(PDO::FETCH_ASSOC);
+      return $media['mediaName'];
    }
 }
