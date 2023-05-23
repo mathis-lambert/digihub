@@ -31,14 +31,11 @@ require_once './assets/includes/head.php';
             <p><b>ID :</b> <?php echo $user->userId; ?></p>
             <p><b>Nom :</b> <?php echo $user->userLastname; ?></p>
             <p><b>Prénom :</b> <?php echo $user->userFirstname; ?></p>
-            <!-- format date into D/M/Y -->
             <p><b>Date de naissance :</b> <?php echo date('d/m/Y', strtotime($user->userBirthdate)); ?></p>
             <p><b>Email :</b> <?php echo $user->userMail; ?></p>
             <p><b>Membre depuis :</b> <?php echo date('d/m/Y', strtotime($user->userCreationDate)); ?></p>
-            <?php $type = $this->model->getMediaTypeNameById($user->userFavoriteMediaType) ?>
-            <p><b>Media favori :</b> <?php echo $type ?></p>
-            <p><b>Genre de livre favori :</b> <?php echo $user->userFavoriteBookTag; ?></p>
-            <p><b>Genre de film favori :</b> <?php echo $user->userFavoriteMovieTag; ?></p>
+            <br />
+            <p><b>Vos favoris :</b><a style="display: inline; margin-left: 1rem;" class="btn" href="?favorites">Voir</a></p>
          </div>
       </div>
    </div>
