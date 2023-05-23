@@ -41,6 +41,7 @@ require_once './assets/includes/head.php';
    </div>
 
    <?php require_once './assets/includes/footer.php'; ?>
+   <script src="../controllers/js/favorites.php"></script>
 </body>
 
 </html>
