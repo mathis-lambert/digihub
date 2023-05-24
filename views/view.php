@@ -7,6 +7,7 @@ require_once './assets/includes/head.php';
 
 <body>
     <script src="./controllers/js/favorites.js"></script>
+    <script defer src="./controllers/js/comments.js"></script>
     <?php
     require_once './assets/includes/searchbar.php';
     require_once './assets/includes/header.php';
@@ -110,12 +111,53 @@ require_once './assets/includes/head.php';
             </div>
         </div>
 
+        <div id="comments">
+            <h2>Commentaires</h2>
+            <div class="comments_container" style="background-color:white;padding:1rem;">
+                <div class="comments">
+                    <?php
+                    $userInfo = User::find($_SESSION['userId']);
+                    $comments = Comments::all($media->id);
+                    foreach ($comments as $comment) {
+                        $user = User::find($comment->commentUserId);
+                        echo '<div class="comment">';
+                        echo '<div class="comment_header">';
+                        echo '<div class="comment_user" style="display:flex;align-items:center">';
+                        echo '<img src="./assets/img/icons/user.jpg" alt="user" width="50px">';
+                        echo '<p>' . $userInfo->userFirstname . ' </p>';
+                        echo '<p style="margin-left:.25rem"> (' . $comment->commentRating . ' étoiles) </p>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<div class="comment_body">';
+                        echo '<h3>' . $comment->commentTitle . '</h3>';
+                        echo '<p>' . $comment->commentText . '</p>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="comment_input" style="display:flex;flex-direction:column;margin:.5rem;gap:.5rem">
+                <input type="hidden" name="commentMediaId" id="commentMediaId" value="<?= $media->id ?>">
+                <input type="hidden" name="commentUserId" id="commentUserId" value="<?= $userInfo->userId ?>">
+                <div class="row" style="display:flex;gap:.5rep">
+                    <input id="commentTitle" style="padding:.5rem;width:50%" type="text" name="commentTitle" placeholder="Titre">
+                    <select style="padding:.5rem" name="commentRating" id="commentRating">
+                        <option value="1">1 étoile</option>
+                        <option value="2">2 étoiles</option>
+                        <option value="3">3 étoiles</option>
+                        <option value="4">4 étoiles</option>
+                        <option value="5">5 étoiles</option>
+                    </select>
+                </div>
+                <textarea style="padding:.5rem;height:6rem" name="commentText" id="commentText" placeholder="Commentaire"></textarea>
+                <button id="add_comment">Ajouter le commentaire</button>
+            </div>
+        </div>
 
-    </div>
 
 
-
-    <?php require_once './assets/includes/footer.php'; ?>
+        <?php require_once './assets/includes/footer.php'; ?>
 </body>
 
 </html>

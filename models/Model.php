@@ -4,6 +4,7 @@ include_once dirname(__FILE__) . '/People.php';
 include_once dirname(__FILE__) . '/Db.php';
 include_once dirname(__FILE__) . '/User.php';
 include_once dirname(__FILE__) . '/Favorites.php';
+include_once dirname(__FILE__) . '/Comments.php';
 
 
 class Model
@@ -195,5 +196,14 @@ class Model
       $result->execute();
       $media = $result->fetch(PDO::FETCH_ASSOC);
       return $media['mediaName'];
+   }
+
+   public function getCommentsByMediaId($commentMediaId)
+   {
+      $sql = "SELECT * FROM comments, medias WHERE comments.commentMediaId = medias.mediaId AND comments.commentMediaId = $commentMediaId";
+      $result = $this->getConn()->prepare($sql);
+      $result->execute();
+      $comments = $result->fetchAll(PDO::FETCH_ASSOC);
+      return $comments;
    }
 }
