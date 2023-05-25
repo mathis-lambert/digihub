@@ -117,7 +117,6 @@ require_once './assets/includes/head.php';
                 <div class="comments">
                     <?php
                     $userInfo = User::find($_SESSION['userId']);
-                    $comments = Comments::all($media->id);
                     foreach ($comments as $comment) {
                         $user = User::find($comment->commentUserId);
                         echo '<div class="comment">';

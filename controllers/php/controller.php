@@ -48,6 +48,7 @@ class Controller
                $currentPage = 'Vue média';
                $id = $_GET['id'];
                $media = $this->model->getMedia($id);
+               $comments = $this->model->getCommentsByMediaId($id);
                if (!is_null($media)) {
                   include 'views/view.php';
                } else {
