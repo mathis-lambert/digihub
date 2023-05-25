@@ -1,7 +1,7 @@
 <?php
 require_once '../../models/Db.php';
 
-function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?array $majorColumn = [], ?array $minorColumn = [], ?int $maxResult = 50)
+function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?array $majorColumn = [], ?array $minorColumn = [], ?int $maxResult = 3)
 {
     /* Pour chaque mots, je veux chercher une occurence dans une des colonnes $importantColumns & $minorColumns
 * un taux de pertinence sera calculé en fonction du nombre de mots trouvés dans la colonne
@@ -58,12 +58,14 @@ function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?
             unset($result[$scoreName . "s"][$key]); //remove useless data
         }
     }
-    if (count($result[$scoreName . "s"]) > $maxResult) {
-        $result[$scoreName . "s"] = array_slice($result[$scoreName . "s"], 0, $maxResult);
-    }
+    // sort by pertinence
     usort($result[$scoreName . "s"], function ($a, $b) {
         return $b['_score'] <=> $a['_score'];
     });
+
+    if (count($result[$scoreName . "s"]) > $maxResult) {
+        $result[$scoreName . "s"] = array_slice($result[$scoreName . "s"], 0, $maxResult);
+    }
     return $result;
 }
 
@@ -96,6 +98,8 @@ if ($method === "searching") {
     $genres = array_map('strval', $genres);
     $types = array_map('strval', $types);
     $peoples = array_map('strval', $peoples);
+
+
 
     /*     print_r($peoples);
     print_r($genres);
@@ -132,12 +136,21 @@ if ($method === "searching") {
     $peoplesLastname = array_unique($peoplesLastname);
     $peoplesFirstname = array_unique($peoplesFirstname);
 
+    $parameters = [
+        "keywords" => $keywords,
+        "genres" => $genres,
+        "types" => $types,
+        "peoples" => $peoples,
+        "peoplesFirstname" => $peoplesFirstname,
+        "peoplesLastname" => $peoplesLastname
+    ];
+
     // bools to check if the user has entered a type or a genre
-    $queryBool = $keywords[0] === "";
-    $typesBool = $types[0] === "";
-    $genresBool = $genres[0] === "";
-    $peoplesFirstnameBool = $peoplesFirstname[0] === "";
-    $peoplesLastnameBool = $peoplesLastname[0] === "";
+    $queryBool = $parameters['keywords'][0] === "";
+    $typesBool = $parameters['types'][0] === "";
+    $genresBool = $parameters['genres'][0] === "";
+    $peoplesFirstnameBool = $parameters['peoplesFirstname'][0] === "";
+    $peoplesLastnameBool = $parameters['peoplesLastname'][0] === "";
 
     // columns to search in and their importance
     $criticalColumns = ['mediaName'];
@@ -148,30 +161,61 @@ if ($method === "searching") {
     $mediasArr = [];
 
     // init sql queries for types and genres
+    $queriesOptions = [
+        "keywords" => " AND concat_ws(' ', medias.mediaName, medias.mediaTags, medias.mediaDescription, types.typeName, medias.mediaYear, genres.genreName, peoples.peopleFirstname, peoples.peopleLastname, appartient_media._departmentName, appartient_media.characterName) LIKE ? ",
+        "types" => " AND types.typeName IN ('" . implode("', '", $types) . "')",
+        "genres" => " AND genres.genreName IN ('" . implode("', '", $genres) . "')",
+        "peoplesLastname" => " AND peoples.peopleLastname IN ('" . implode("', '", $peoplesLastname) . "')",
+        "peoplesFirstname" => " AND peoples.peopleFirstname IN ('" . implode("', '", $peoplesFirstname) . "')",
+        "peoples" => " AND concat_ws(' ', peoples.peopleFirstname, peoples.peopleLastname, peoples.peopleFullname) IN ('" . implode("', '", $peoples) . "')"
+    ];
+
     $querySql = "AND concat_ws(' ', medias.mediaName, medias.mediaTags, medias.mediaDescription, types.typeName, medias.mediaYear, genres.genreName, peoples.peopleFirstname, peoples.peopleLastname, appartient_media._departmentName, appartient_media.characterName) LIKE ? ";
     $sqlTypes = " AND types.typeName IN ('" . implode("', '", $types) . "')";
     $sqlGenres = " AND genres.genreName IN ('" . implode("', '", $genres) . "')";
     $sqlPeopleLastname = " AND peoples.peopleLastname IN ('" . implode("', '", $peoplesLastname) . "')";
     $sqlPeopleFirstname = " AND peoples.peopleFirstname IN ('" . implode("', '", $peoplesFirstname) . "')";
 
-    foreach ($keywords as $word) {
-        $word = strtolower($word);
-        $sql = "SELECT * FROM medias, genres, types, peoples, appartient_genre, appartient_media WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_media._mediaId  AND appartient_media._peopleId = peoples.peopleId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaStatus = 'available'" . ($typesBool ? "" : $sqlTypes) . ($genresBool ? "" : $sqlGenres) . ($queryBool ? "" : $querySql) . ($peoplesLastnameBool ? "" : $sqlPeopleLastname) . ($peoplesFirstnameBool ? "" : $sqlPeopleFirstname) . ' GROUP BY medias.mediaId';
-        $medias = Db::getInstance()->prepare($sql);
-        if (!$queryBool) {
-            $medias->execute([sprintf('%%%s%%', $word)]);
-        } else {
-            $medias->execute();
-        }
-        $medias = $medias->fetchAll(PDO::FETCH_ASSOC);
-        if ($medias) {
-            foreach ($medias as $media) {
-                if (!in_array($media, $mediasArr)) {
-                    $mediasArr[] = $media;
+    foreach ($parameters as $key => $parameter) {
+        // echo $key . " : " . implode(", ", $parameter) . "<br>";
+        foreach ($parameter as $word) {
+            if ($word === "") {
+                continue;
+            }
+            $queryBool = $word === "";
+            $typesBool = in_array($word, $types);
+            $genresBool = in_array($word, $genres);
+            $peoplesFirstnameBool = in_array($word, $peoplesFirstname);
+            $peoplesLastnameBool = in_array($word, $peoplesLastname);
+
+            // print_r('<br> testing word ' . $word . "<br> and query" . $queriesOptions[$key] . "<br>");
+            $word = strtolower($word);
+
+            $sql = "SELECT * FROM medias, genres, types, peoples, appartient_genre, appartient_media WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_media._mediaId  AND appartient_media._peopleId = peoples.peopleId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaStatus = 'available'" . $queriesOptions[$key] . " group by medias.mediaId";
+            $medias = Db::getInstance()->prepare($sql);
+            // print_r($sql);
+            if ($key === "keywords") {
+                $medias->execute(['%' . $word . '%']);
+            } else {
+                $medias->execute();
+            }
+            $medias = $medias->fetchAll(PDO::FETCH_ASSOC);
+            if ($medias) {
+                foreach ($medias as $media) {
+                    if (!in_array($media, $mediasArr)) {
+                        $mediasArr[] = $media;
+                    }
                 }
             }
+
+            // flush arrays
+            $peoplesFirstname = [];
+            $peoplesLastname = [];
+            $types = [];
+            $genres = [];
         }
     }
+
     $resultMedia = getScore("media", $keywords, $mediasArr, $criticalColumns, $importantColumns, $minorColumns);
     $criticalColumns = ['peopleFirstname'];
     $importantColumns = ['peopleLastname', "peopleFullname"];
@@ -192,10 +236,14 @@ if ($method === "searching") {
                 }
             }
         }
+
         $resultPeople = getScore("people", $peoples, $peoplesArray, $criticalColumns, $importantColumns, $minorColumns);
     } else {
         $resultPeople = ["peoples" => []];
     }
+
+    // var_dump($resultMedia);
+    // var_dump($resultPeople);
     $result = array_merge($resultMedia, $resultPeople);
     echo json_encode($result);
 

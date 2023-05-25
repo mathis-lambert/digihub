@@ -57,7 +57,7 @@ $people = array_intersect($wordsArray, $mediaPeoples); // keep only the people t
 $keywords = array_diff($wordsArray, $type, $genre, $people); // keep only the keywords that are in the search query
 
 // Create the URL
-$url = "search.php?method=searching&q=" . implode(" ", $keywords) . "&types=" . implode(" ", $type) . "&genres=" . implode(" ", $genre) . "&peoples=" . implode(" ", $people);
+$url = "search.php?method=searching&q=" . implode(" ", $wordsArray) . "&types=" . implode(" ", $type) . "&genres=" . implode(" ", $genre) . "&peoples=" . implode(" ", $people);
 
 $json = json_encode([
     "url" => $url
