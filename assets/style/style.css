@@ -188,6 +188,33 @@ body {
     left: 0;
   } */
 }
+.suggestions #_next,
+.suggestions #_prev {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  padding: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  font-weight: 800;
+  aspect-ratio: 1;
+  line-height: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+}
+.suggestions #_next:hover,
+.suggestions #_prev:hover {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+.suggestions #_next {
+  right: 1rem;
+}
+.suggestions #_prev {
+  left: 1rem;
+}
 .suggestions_container {
   transform: translateX(0px);
   position: absolute;

@@ -19,6 +19,36 @@
     left: 0;
   } */
 
+  #_next,
+  #_prev {
+    position: absolute;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    padding: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    font-weight: 800;
+    aspect-ratio: 1;
+    line-height: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+    }
+  }
+
+  #_next {
+    right: 1rem;
+  }
+
+  #_prev {
+    left: 1rem;
+  }
+
   &_container {
     transform: translateX(0px);
     position: absolute;

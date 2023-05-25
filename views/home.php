@@ -14,6 +14,8 @@ require_once './assets/includes/head.php';
    ?>
    <h1 class="container">Notre suggestion</h1>
    <div class="suggestions">
+      <button id="_next" class="next">&gt;</button>
+      <button id="_prev" class="prev">&lt;</button>
       <div class="suggestions_container">
          <?php
          $medias = $this->model->getOwnSuggestion();
@@ -45,6 +47,9 @@ require_once './assets/includes/head.php';
       let activated = true;
       let scrollToPoint = 0;
 
+      const next = document.querySelector('#_next');
+      const prev = document.querySelector('#_prev');
+
       suggestions.addEventListener('scroll', () => {
          console.log(suggestions.scrollLeft);
       });
@@ -55,15 +60,35 @@ require_once './assets/includes/head.php';
       }
 
       (() => {
-         scrollSuggestions(0);
-         counter++;
+         counter = Math.floor(Math.random() * (content.length - 1));
+         scrollSuggestions(counter);
       })();
+
+      next.addEventListener('click', () => {
+         if (counter >= content.length - 1) {
+            counter = 0;
+         } else {
+            counter++;
+         }
+         scrollSuggestions(counter);
+      });
+
+      prev.addEventListener('click', () => {
+         if (counter <= 0) {
+            counter = content.length - 1;
+         } else {
+            counter--;
+         }
+         console.log(counter);
+         scrollSuggestions(counter);
+      });
 
       setInterval(() => {
          if (!activated) return;
          if (counter > content.length - 1) {
             counter = 0;
          }
+         console.log(counter);
          scrollSuggestions(counter);
          counter++;
       }, 5000);
