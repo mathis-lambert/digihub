@@ -1,7 +1,7 @@
 <?php
 require_once '../../models/Db.php';
 
-function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?array $majorColumn = [], ?array $minorColumn = [], ?int $maxResult = 3)
+function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?array $majorColumn = [], ?array $minorColumn = [], ?int $maxResult = 10)
 {
     /* Pour chaque mots, je veux chercher une occurence dans une des colonnes $importantColumns & $minorColumns
 * un taux de pertinence sera calculé en fonction du nombre de mots trouvés dans la colonne
@@ -191,7 +191,7 @@ if ($method === "searching") {
             // print_r('<br> testing word ' . $word . "<br> and query" . $queriesOptions[$key] . "<br>");
             $word = strtolower($word);
 
-            $sql = "SELECT * FROM medias, genres, types, peoples, appartient_genre, appartient_media WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_media._mediaId  AND appartient_media._peopleId = peoples.peopleId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaStatus = 'available'" . $queriesOptions[$key] . " group by medias.mediaId";
+            $sql = "SELECT * FROM medias, genres, types, peoples, appartient_genre, appartient_media WHERE medias.mediaTypeId = types.typeID AND medias.mediaId = appartient_media._mediaId  AND appartient_media._peopleId = peoples.peopleId AND medias.mediaId = appartient_genre.appartientMediaId AND genres.genreId = appartient_genre.appartientGenreId AND medias.mediaStatus = 'available'" . $queriesOptions[$key] . " GROUP BY medias.mediaId";
             $medias = Db::getInstance()->prepare($sql);
             // print_r($sql);
             if ($key === "keywords") {
@@ -202,8 +202,9 @@ if ($method === "searching") {
             $medias = $medias->fetchAll(PDO::FETCH_ASSOC);
             if ($medias) {
                 foreach ($medias as $media) {
-                    if (!in_array($media, $mediasArr)) {
-                        $mediasArr[] = $media;
+                    # if mediaId is already in the array, we skip it
+                    if (!isset($mediasArr[$media['mediaId']])) {
+                        $mediasArr[$media['mediaId']] = $media;
                     }
                 }
             }
