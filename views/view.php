@@ -116,20 +116,19 @@ require_once './assets/includes/head.php';
             <div class="comments_container" style="background-color:white;padding:1rem;">
                 <div class="comments">
                     <?php
-                    $userInfo = User::find($_SESSION['userId']);
                     foreach ($comments as $comment) {
-                        $user = User::find($comment->commentUserId);
+                        $user = User::find($comment['commentUserId']);
                         echo '<div class="comment">';
                         echo '<div class="comment_header">';
                         echo '<div class="comment_user" style="display:flex;align-items:center">';
                         echo '<img src="./assets/img/icons/user.jpg" alt="user" width="50px">';
-                        echo '<p>' . $userInfo->userFirstname . ' </p>';
-                        echo '<p style="margin-left:.25rem"> (' . $comment->commentRating . ' étoiles) </p>';
+                        echo '<p>' . $user->userFirstname . ' </p>';
+                        echo '<p style="margin-left:.25rem"> (' . $comment['commentRating'] . ' étoiles) </p>';
                         echo '</div>';
                         echo '</div>';
                         echo '<div class="comment_body">';
-                        echo '<h3>' . $comment->commentTitle . '</h3>';
-                        echo '<p>' . $comment->commentText . '</p>';
+                        echo '<h3>' . $comment["commentTitle"] . '</h3>';
+                        echo '<p>' . $comment["commentText"] . '</p>';
                         echo '</div>';
                         echo '</div>';
                     }

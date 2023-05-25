@@ -47,7 +47,6 @@ class User
       $req = $db->prepare('SELECT * FROM users WHERE userId = :userId');
       $req->execute(array('userId' => $userId));
       $user = $req->fetch();
-
       return new User($user['userId'], $user['userFirstname'], $user['userLastname'], $user['userBirthdate'], $user['userMail'], $user['userPassword'], $user['userCreationDate'], $user['userFavoriteMediaType'], $user['userFavoriteBookTag'], $user['userFavoriteMovieTag']);
    }
 
