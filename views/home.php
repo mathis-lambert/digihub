@@ -12,31 +12,42 @@ require_once './assets/includes/head.php';
    require_once './assets/includes/searchbar.php';
    require_once './assets/includes/header.php';
    ?>
-   <h1 class="container">Notre suggestion</h1>
-   <div class="suggestions">
-      <button id="_next" class="next">&gt;</button>
-      <button id="_prev" class="prev">&lt;</button>
-      <div class="suggestions_container">
-         <?php
-         $medias = $this->model->getOwnSuggestion();
+   <div class="container">
+      <h1>Notre suggestion</h1>
+      <div class="suggestions">
+         <button id="_next" class="next">&gt;</button>
+         <button id="_prev" class="prev">&lt;</button>
+         <div class="suggestions_container">
+            <?php
+            $medias = $this->model->getOwnSuggestion();
 
-         foreach ($medias as $media) {
-         ?>
-            <div class="suggestions_content">
-               <div class="suggestions_img">
-                  <img src="https://image.tmdb.org/t/p/original<?= $media['mediaBackgroundImage'] ?>" alt="cover">
-                  <div class="overlay"></div>
+            foreach ($medias as $media) {
+            ?>
+               <div class="suggestions_content">
+                  <div class="suggestions_img">
+                     <img src="https://image.tmdb.org/t/p/original<?= $media['mediaBackgroundImage'] ?>" alt="cover">
+                     <div class="overlay"></div>
+                  </div>
+                  <div class="suggestions_text">
+                     <h2><?= $media['mediaName'] ?></h2>
+                     <p><?= $media['typeName'] ?></p>
+                     <a class="btn" href="./?view&id=<?= $media['mediaId'] ?>">Voir plus</a>
+                  </div>
                </div>
-               <div class="suggestions_text">
-                  <h2><?= $media['mediaName'] ?></h2>
-                  <p><?= $media['typeName'] ?></p>
-                  <a class="btn" href="./?view&id=<?= $media['mediaId'] ?>">Voir plus</a>
-               </div>
-            </div>
-         <?php
-         }
-         ?>
+            <?php
+            }
+            ?>
+         </div>
       </div>
+      <h1>Vous aimerez peut-être</h1>
+
+      <h1>Les plus populaires</h1>
+
+      <h1>Les mieux notés</h1>
+
+      <h1>Les plus récents</h1>
+
+
    </div>
 
    <script>

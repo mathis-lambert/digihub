@@ -16,6 +16,9 @@ function getScore($scoreName, $keywords, $arrToGetScore, $criticalColumn = [], ?
         $score = 0;
         $coeff = 0;
         foreach ($keywords as $keyword) {
+
+            if ($keyword == "") continue; // skip empty keywords (happens when user types " "
+
             $keyword = strtolower($keyword);
             $calculatedCoeff = 70;
             for ($i = 0; $i < count($criticalColumn); $i++) {

@@ -44,12 +44,11 @@ $musicColor: hsl(120, 100%, 86%);
     justify-content: center;
 
     svg {
-      stroke: #000;
+      stroke: #ffffff;
       transition: all 0.3s ease-in-out;
     }
 
     &:hover {
-      background-color: $color-primary;
       svg {
         stroke: #fff;
       }
@@ -91,6 +90,9 @@ $musicColor: hsl(120, 100%, 86%);
     left: 0;
     z-index: -1;
     width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 
     opacity: 0;
     transition: all 0.3s ease-in-out;
@@ -101,6 +103,7 @@ $musicColor: hsl(120, 100%, 86%);
     background-color: $color-secondary;
     padding-top: 1rem;
     border-radius: 0 0 9px 9px;
+    width: 100%;
 
     flex-direction: column;
 

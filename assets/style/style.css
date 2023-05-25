@@ -65,11 +65,8 @@ body {
   justify-content: center;
 }
 .searchbar__back svg {
-  stroke: #000;
+  stroke: #ffffff;
   transition: all 0.3s ease-in-out;
-}
-.searchbar__back:hover {
-  background-color: #050e1d;
 }
 .searchbar__back:hover svg {
   stroke: #fff;
@@ -104,6 +101,9 @@ body {
   left: 0;
   z-index: -1;
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   opacity: 0;
   transition: all 0.3s ease-in-out;
 }
@@ -112,6 +112,7 @@ body {
   background-color: #f2f2f2;
   padding-top: 1rem;
   border-radius: 0 0 9px 9px;
+  width: 100%;
   flex-direction: column;
 }
 .searchbar__results__result {
