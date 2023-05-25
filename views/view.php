@@ -152,10 +152,10 @@ require_once './assets/includes/head.php';
                 <button id="add_comment">Ajouter le commentaire</button>
             </div>
         </div>
+    </div>
 
 
-
-        <?php require_once './assets/includes/footer.php'; ?>
+    <?php require_once './assets/includes/footer.php'; ?>
 </body>
 
 </html>

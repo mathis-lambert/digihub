@@ -320,7 +320,7 @@ a {
   transition: all 0.3s ease-in-out;
 }
 a:not(.no-scale):hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
   color: grey;
 }
 
@@ -737,6 +737,10 @@ header .search-button:hover svg {
     height: auto;
   }
 }
+.search-result-container {
+  min-height: 100vh;
+}
+
 .search-result {
   display: flex;
   max-width: 100%;
@@ -910,4 +914,29 @@ header .search-button:hover svg {
 
 .infos {
   line-height: 1.75rem;
+}
+
+footer {
+  background-color: #050e1d;
+  border-top: 1px solid rgb(14, 41, 58);
+  width: 100%;
+}
+footer .footer {
+  padding: 0;
+}
+footer .footer .header,
+footer .footer .main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+footer .footer .header h2,
+footer .footer .main h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
 }/*# sourceMappingURL=style.css.map */

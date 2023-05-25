@@ -13,11 +13,14 @@ $words = $_GET['q'];
     require_once './assets/includes/header.php';
     ?>
 
-    <h1 class="container">Résultats de la recherche pour : <?= $words ?></h1>
-    <h2 class="container">Essayez avec :</h2>
-    <div class="try_with"></div>
-    <div class="container search-result">
-
+    <div class="container">
+        <h1 class="">Résultats de la recherche pour : <?= $words ?></h1>
+        <h2 class="">Essayez avec :</h2>
+        <div class="try_with"></div>
+        <div class="search-result-container">
+            <div class="search-result">
+            </div>
+        </div>
     </div>
     <script src="./scripts/search_result.js"></script>
 
@@ -43,7 +46,7 @@ $words = $_GET['q'];
                     let errors = response.flaggedTokens;
                     errors.forEach((error) => {
                         const tryWith = document.querySelector('.try_with');
-                        tryWith.innerHTML += `${error.suggestions[0].suggestion} `;
+                        tryWith.innerHTML += `<a href="./?results&q=${error.suggestions[0].suggestion}" class="btn btn-primary">${error.suggestions[0].suggestion} `;
                     });
 
                 })
