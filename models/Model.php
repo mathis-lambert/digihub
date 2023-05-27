@@ -1,5 +1,4 @@
 <?php
-include_once dirname(__FILE__) . '/Dotenv.php';
 include_once dirname(__FILE__) . '/Media.php';
 include_once dirname(__FILE__) . '/People.php';
 include_once dirname(__FILE__) . '/Db.php';

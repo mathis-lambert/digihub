@@ -1,6 +1,7 @@
 <?php
+include_once dirname(__DIR__) . '/models/Dotenv.php';
 
-(new \App\Models\DotEnvEnvironment())->load(__DIR__ . '/../');
+(new \App\Models\DotEnvEnvironment())->load(__DIR__ . '/..');
 
 class Db
 {
