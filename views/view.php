@@ -90,6 +90,8 @@ require_once './assets/includes/head.php';
 
         <div class="cast">
             <h2>Cast</h2>
+            <br>
+            <button class="btn" onclick="toggleCast(this)">Afficher tout</button>
             <div class="gallery cast_container">
                 <?php
                 $mediaActors = json_decode($media->actors);
@@ -153,6 +155,21 @@ require_once './assets/includes/head.php';
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleCast(e) {
+            let cast = document.querySelector('.cast_container');
+            if (!cast.classList.contains('cast_container_full')) {
+                cast.style.height = 'auto';
+                cast.classList.add('cast_container_full');
+                e.innerHTML = 'Réduire';
+            } else {
+                cast.style.height = '225px';
+                e.innerHTML = 'Afficher tout';
+                cast.classList.remove('cast_container_full');
+            }
+        }
+    </script>
 
 
     <?php require_once './assets/includes/footer.php'; ?>

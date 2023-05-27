@@ -307,6 +307,38 @@ h6 {
   margin-inline: auto;
   padding: 1rem;
   padding-top: 100px;
+  min-height: 100vh;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.font_xs {
+  font-size: 0.8rem;
+}
+
+.overlay_landing {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 200% 50%, transparent, #050e1d);
+  z-index: -1;
+}
+
+.not-connected_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.not-connected_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+.not-connected_content * {
+  color: white;
 }
 
 a {
@@ -339,6 +371,23 @@ button:hover,
 .btn:hover {
   background-color: transparent;
   color: #050e1d;
+}
+button.no-style,
+.btn.no-style {
+  background-color: transparent;
+  color: #050e1d;
+  border: none;
+  padding: 0;
+}
+button.no-style.white,
+.btn.no-style.white {
+  color: white;
+}
+button.no-style:hover,
+.btn.no-style:hover {
+  background-color: transparent;
+  color: #050e1d;
+  text-decoration: underline;
 }
 
 .d-flex {
@@ -408,7 +457,7 @@ header .widgets .burger {
 }
 header .widgets .burger_line {
   width: 2rem;
-  height: 0.25rem;
+  height: 0.2rem;
   background-color: #fff;
   border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
@@ -725,8 +774,8 @@ header .search-button:hover svg {
 
 @media screen and (max-width: 400px) {
   .media_container .background img {
-    -o-object-position: 60% 10%;
-       object-position: 60% 10%;
+    -o-object-position: 70% 10%;
+       object-position: 70% 10%;
   }
   .media_container .landing .left .infos {
     height: -moz-fit-content;
@@ -778,16 +827,17 @@ header .search-button:hover svg {
 }
 .filter_bar__filter__content {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 .filter_bar__filter__content fieldset {
-  padding: 0.2rem;
+  padding: 0.1rem;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
 }
 .filter_bar__filter__content fieldset legend {
-  padding: 0.5rem;
+  padding: 0 0.5rem;
   font-weight: bold;
 }
 .filter_bar__filter__content fieldset input,
@@ -805,11 +855,10 @@ header .search-button:hover svg {
 
 .gallery {
   padding-top: 0 !important;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
 }
 .gallery .gallery__item {
-  flex: 1 1 150px;
   max-width: 200px;
 }
 .gallery .gallery__item img {
@@ -821,6 +870,11 @@ header .search-button:hover svg {
      object-fit: cover;
 }
 
+@media screen and (min-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
 .card {
   background-color: #fff;
   border-radius: 10px;
@@ -922,21 +976,22 @@ footer {
   border-top: 1px solid rgb(14, 41, 58);
   width: 100%;
 }
-footer .footer {
-  padding: 0;
+footer .footer-container {
+  margin-inline: auto;
+  padding: 0.5rem;
 }
-footer .footer .header,
-footer .footer .main {
+footer .footer-container .header,
+footer .footer-container .main {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem;
   color: white;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
-footer .footer .header h2,
-footer .footer .main h2 {
+footer .footer-container .header h2,
+footer .footer-container .main h2 {
   font-size: 1.5rem;
   font-weight: 700;
   color: white;

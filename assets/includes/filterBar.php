@@ -12,7 +12,6 @@ $filterArray = [
 ?>
 
 <div class="filter_bar" id="filterBar" data-aimat="<?= $filter_aim_at; ?>" data-favorite="<?= boolval($filterArray['favorite']) ? "true" : "false"; ?>" data-userid="<?= $filterArray['userId']; ?>">
-    <h3>Filtres</h3>
     <div class="filter_bar__filter">
         <div class="filter_bar__filter__content">
             <fieldset id="publishing_date_filter">

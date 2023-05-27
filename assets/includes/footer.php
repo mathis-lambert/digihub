@@ -1,5 +1,5 @@
 <footer>
-    <div class="footer container">
+    <div class="footer-container">
         <div class="header">
             <h2>Digihub</h2>
             <b>La médiathèque au service du numérique</b>
