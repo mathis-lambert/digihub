@@ -46,11 +46,57 @@ require_once './assets/includes/head.php';
       <h1>Les plus populaires</h1>
 
       <h1>Les mieux notés</h1>
+      <div class="medias">
+      <?php
+      $mediasRating = $this->model->getTopRatingMedias();
+
+      foreach ($mediasRating as $mediaRating) {
+      ?>
+         <div class="media">
+            <div>
+               <img height="200" src="https://image.tmdb.org/t/p/original<?= $mediaRating['mediaCoverImage'] ?>" alt="cover">
+               <a class="btn center" href="./?view&id=<?= $mediaRating['mediaId'] ?>">Voir plus</a>
+            </div>
+         </div>
+      <?php
+      }
+      ?>
+      </div>
 
       <h1>Les plus récents</h1>
+      <div class="medias">
+      <?php
+      $mediasDate = $this->model->getMediaByDateSortie();
+
+      foreach ($mediasDate as $mediaDate) {
+      ?>
+         <div class="media">
+            <div>
+               <img height="200" src="https://image.tmdb.org/t/p/original<?= $mediaDate['mediaCoverImage'] ?>" alt="cover">
+               <a class="btn center" href="./?view&id=<?= $mediaDate['mediaId'] ?>">Voir plus</a>
+            </div>
+         </div>
+      <?php
+      }
+      ?>
+      </div>
+      
 
    </div>
 
+   <style>
+            .medias {
+               display: flex;
+               justify-content: flex-start;
+               align-items: center;
+               flex-wrap: wrap;
+               gap: 1rem;
+            }
+            .center {
+               display: block;
+               margin: 0 auto;
+            }
+         </style>
 
    </div>
 
