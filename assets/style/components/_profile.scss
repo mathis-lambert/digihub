@@ -1,24 +1,36 @@
 .content {
-   width: 750px;
-   margin: 0 auto;
-   display: flex;
-   gap: 1rem;
-   background-color: #fff;
-   border-radius: 10px;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   padding: 20px;
-   border: 1px solid #e6e6e6;
-   align-items: center;
+	width: 750px;
+	margin: 0 auto;
+	display: flex;
+	gap: 1rem;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	border: 1px solid #e6e6e6;
+	align-items: center;
 }
 .content > * {
-   flex: 1;
+	flex: 1;
 }
 .user {
-   width: 100%;
-   max-width: 300px;
-   border: 1px solid #e6e6e6;
-   border-radius: 5px;
+	width: 100%;
+	max-width: 300px;
+	border: 1px solid #e6e6e6;
+	border-radius: 5px;
 }
 .infos {
-   line-height: 1.75rem;
+	line-height: 1.75rem;
+}
+
+// when screen size is smaller than 780px
+@media (max-width: 780px) {
+	.content {
+		width: 100%;
+		flex-direction: column;
+		margin: 0;
+	}
+	.user {
+		margin-bottom: 1rem;
+	}
 }
