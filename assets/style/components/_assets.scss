@@ -15,6 +15,47 @@ h6 {
   margin-inline: auto;
   padding: 1rem;
   padding-top: 100px;
+  min-height: 100vh;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.font {
+  &_xs {
+    font-size: 0.8rem;
+  }
+}
+
+.overlay_landing {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at 200% 50%,
+    transparent,
+    $color-primary
+  );
+  z-index: -1;
+}
+
+.not-connected {
+  &_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  &_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    & * {
+      color: white;
+    }
+  }
 }
 
 a {
@@ -50,6 +91,23 @@ button,
   &:hover {
     background-color: transparent;
     color: $color-primary;
+  }
+
+  &.no-style {
+    background-color: transparent;
+    color: $color-primary;
+    border: none;
+    padding: 0;
+
+    &.white {
+      color: white;
+    }
+
+    &:hover {
+      background-color: transparent;
+      color: $color-primary;
+      text-decoration: underline;
+    }
   }
 }
 

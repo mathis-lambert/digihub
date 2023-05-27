@@ -34,10 +34,19 @@ require_once './assets/includes/head.php';
             <p><b>Date de naissance :</b> <?php echo date('d/m/Y', strtotime($user->userBirthdate)); ?></p>
             <p><b>Email :</b> <?php echo $user->userMail; ?></p>
             <p><b>Membre depuis :</b> <?php echo date('d/m/Y', strtotime($user->userCreationDate)); ?></p>
-            <br />
-            <p><b>Vos favoris :</b><a style="display: inline; margin-left: 1rem;" class="btn" href="?favorites">Voir</a></p>
+
          </div>
       </div>
+      <h2>Vos Favoris</h2>
+      <?php
+      $filter_aim_at = "Film";
+      $favorite = true;
+      $userId = $_SESSION['userId'];
+      include_once './assets/includes/filterBar.php';
+      ?>
+      <div class="gallery" id="film_container">
+      </div>
+
    </div>
 
    <?php require_once './assets/includes/footer.php'; ?>

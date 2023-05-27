@@ -2,8 +2,9 @@ footer {
   background-color: $color-primary;
   border-top: 1px solid $color-tertiary;
   width: 100%;
-  .footer {
-    padding: 0;
+  .footer-container {
+    margin-inline: auto;
+    padding: 0.5rem;
     .header,
     .main {
       display: flex;
@@ -11,7 +12,7 @@ footer {
       align-items: center;
       padding: 2rem;
       color: white;
-      font-size: 1.2rem;
+      font-size: 0.8rem;
       font-weight: 600;
 
       h2 {
