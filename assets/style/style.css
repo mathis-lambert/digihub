@@ -309,6 +309,9 @@ h6 {
   padding-top: 100px;
   min-height: 100vh;
 }
+.container.no-height {
+  min-height: auto;
+}
 
 .inline {
   display: inline-block;

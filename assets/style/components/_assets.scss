@@ -16,6 +16,10 @@ h6 {
   padding: 1rem;
   padding-top: 100px;
   min-height: 100vh;
+
+  &.no-height {
+    min-height: auto;
+  }
 }
 
 .inline {

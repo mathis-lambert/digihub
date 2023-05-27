@@ -1,20 +1,28 @@
 <?php
 
+(new \App\Models\DotEnvEnvironment())->load('.');
+
 class Db
 {
+
     private static $instance = null;
     private $conn;
 
     // Database credentials
-    const DB_HOST = 'localhost';
-    const DB_NAME = 'digihub';
-    const DB_USERNAME = 'root';
-    const DB_PASSWORD = '';
+    protected $host = null;
+    protected $name = null;
+    protected $username = null;
+    protected $password = null;
 
     private function __construct()
     {
+        $this->host = $_ENV['DB_HOST'];
+        $this->name = $_ENV['DB_NAME'];
+        $this->username = $_ENV['DB_USERNAME'];
+        $this->password = $_ENV['DB_PASSWORD'];
+
         try {
-            $this->conn = new PDO('mysql:host=' . self::DB_HOST . ';dbname=' . self::DB_NAME, self::DB_USERNAME, self::DB_PASSWORD);
+            $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->name, $this->username,  $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->exec('SET NAMES "utf8"');
         } catch (PDOException $e) {
