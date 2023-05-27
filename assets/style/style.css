@@ -917,6 +917,16 @@ header .search-button:hover svg {
   line-height: 1.75rem;
 }
 
+@media (max-width: 780px) {
+  .content {
+    width: 100%;
+    flex-direction: column;
+    margin: 0;
+  }
+  .user {
+    margin-bottom: 1rem;
+  }
+}
 footer {
   background-color: #050e1d;
   border-top: 1px solid rgb(14, 41, 58);
