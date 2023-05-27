@@ -29,6 +29,10 @@ class Controller
                $currentPage = 'Inscription';
                include 'views/inscription.php';
                break;
+            case 'forgot_password':
+               $currentPage = 'Mot de passe oublié';
+               include 'views/forgot_password.php';
+               break;
             default:
                $currentPage = 'Veuillez vous connecter';
                include 'views/not_connected.php';
