@@ -1,6 +1,6 @@
 <?php
 
-(new \App\Models\DotEnvEnvironment())->load('.');
+(new \App\Models\DotEnvEnvironment())->load(__DIR__ . '/../');
 
 class Db
 {
