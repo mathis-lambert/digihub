@@ -81,10 +81,6 @@ class Controller
                $currentPage = 'Favoris';
                include('views/favorites.php');
                break;
-            case 'pwdrecover':
-               $currentPage = 'Mot de passe oublié';
-               include 'views/pwdrecover.php';
-               break;
             case '404':
                $currentPage = '404';
                include 'views/404.php';
