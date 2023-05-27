@@ -1,1 +1,4 @@
+# Disable Directory Browsing
+Options All -Indexes
+
 ErrorDocument 404 /
