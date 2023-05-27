@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : mar. 23 mai 2023 à 20:39
--- Version du serveur : 8.0.27
--- Version de PHP : 8.2.4
+-- Hôte : localhost
+-- Généré le : sam. 27 mai 2023 à 17:31
+-- Version du serveur : 10.4.27-MariaDB
+-- Version de PHP : 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,15 +27,11 @@ SET time_zone = "+00:00";
 -- Structure de la table `appartient_genre`
 --
 
-DROP TABLE IF EXISTS `appartient_genre`;
-CREATE TABLE IF NOT EXISTS `appartient_genre` (
-  `appartientGenreId` int NOT NULL,
-  `appartientMediaId` int NOT NULL,
-  `appartenanceId` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`appartenanceId`),
-  KEY `genreId` (`appartientGenreId`),
-  KEY `appartientMediaId` (`appartientMediaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1391 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `appartient_genre` (
+  `appartientGenreId` int(11) NOT NULL,
+  `appartientMediaId` int(11) NOT NULL,
+  `appartenanceId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `appartient_genre`
@@ -1439,18 +1435,13 @@ INSERT INTO `appartient_genre` (`appartientGenreId`, `appartientMediaId`, `appar
 -- Structure de la table `appartient_media`
 --
 
-DROP TABLE IF EXISTS `appartient_media`;
-CREATE TABLE IF NOT EXISTS `appartient_media` (
-  `appartientMediaId` int NOT NULL AUTO_INCREMENT,
-  `_mediaId` int NOT NULL,
-  `_peopleId` int NOT NULL,
-  `_departmentName` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `characterName` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  PRIMARY KEY (`appartientMediaId`),
-  KEY `_mediaId` (`_mediaId`),
-  KEY `_peopleId` (`_peopleId`),
-  KEY `_departmentId` (`_departmentName`)
-) ENGINE=InnoDB AUTO_INCREMENT=15632 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `appartient_media` (
+  `appartientMediaId` int(11) NOT NULL,
+  `_mediaId` int(11) NOT NULL,
+  `_peopleId` int(11) NOT NULL,
+  `_departmentName` varchar(80) DEFAULT NULL,
+  `characterName` varchar(80) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `appartient_media`
@@ -17110,19 +17101,26 @@ INSERT INTO `appartient_media` (`appartientMediaId`, `_mediaId`, `_peopleId`, `_
 -- Structure de la table `comments`
 --
 
-DROP TABLE IF EXISTS `comments`;
-CREATE TABLE IF NOT EXISTS `comments` (
-  `commentId` int NOT NULL,
-  `commentUserid` int NOT NULL,
-  `commentMediaId` int NOT NULL,
-  `commentTitle` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
-  `commentText` text COLLATE utf8mb4_general_ci NOT NULL,
-  `commentRating` int NOT NULL,
-  `commentStatus` varchar(32) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'ok',
-  `commentDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY `mediaId` (`commentMediaId`),
-  KEY `userId` (`commentUserid`)
+CREATE TABLE `comments` (
+  `commentId` int(11) NOT NULL,
+  `commentUserId` int(11) NOT NULL,
+  `commentMediaId` int(11) NOT NULL,
+  `commentTitle` varchar(256) NOT NULL,
+  `commentText` text NOT NULL,
+  `commentRating` int(11) NOT NULL,
+  `commentStatus` varchar(32) NOT NULL DEFAULT 'ok',
+  `commentDate` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `comments`
+--
+
+INSERT INTO `comments` (`commentId`, `commentUserId`, `commentMediaId`, `commentTitle`, `commentText`, `commentRating`, `commentStatus`, `commentDate`) VALUES
+(1, 1, 1077280, 'coucou', 'coucou', 1, 'ok', '2023-05-25 11:14:06'),
+(2, 1, 1077280, 'coucou', 'coucou', 1, 'ok', '2023-05-25 11:14:27'),
+(3, 1, 2048, 'Génial', 'Vraiment ce film est top !', 5, 'ok', '2023-05-25 11:19:01'),
+(4, 1, 4232, 'Yo', 'Yo\n', 1, 'ok', '2023-05-25 19:40:32');
 
 -- --------------------------------------------------------
 
@@ -17130,25 +17128,20 @@ CREATE TABLE IF NOT EXISTS `comments` (
 -- Structure de la table `favorites`
 --
 
-DROP TABLE IF EXISTS `favorites`;
-CREATE TABLE IF NOT EXISTS `favorites` (
-  `favoriteId` int NOT NULL AUTO_INCREMENT,
-  `favoriteMediaId` int NOT NULL,
-  `favoriteUserId` int NOT NULL,
-  PRIMARY KEY (`favoriteId`),
-  KEY `favoriteMediaId` (`favoriteMediaId`),
-  KEY `favoriteUserId` (`favoriteUserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=750 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `favorites` (
+  `favoriteId` int(11) NOT NULL,
+  `favoriteMediaId` int(11) NOT NULL,
+  `favoriteUserId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `favorites`
 --
 
 INSERT INTO `favorites` (`favoriteId`, `favoriteMediaId`, `favoriteUserId`) VALUES
-(746, 603692, 1),
-(747, 2048, 1),
-(748, 588228, 1),
-(749, 455476, 1);
+(756, 597, 1),
+(757, 32516, 1),
+(758, 61979, 1);
 
 -- --------------------------------------------------------
 
@@ -17156,11 +17149,9 @@ INSERT INTO `favorites` (`favoriteId`, `favoriteMediaId`, `favoriteUserId`) VALU
 -- Structure de la table `genres`
 --
 
-DROP TABLE IF EXISTS `genres`;
-CREATE TABLE IF NOT EXISTS `genres` (
-  `genreId` int NOT NULL,
-  `genreName` varchar(60) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`genreId`)
+CREATE TABLE `genres` (
+  `genreId` int(11) NOT NULL,
+  `genreName` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -17191,16 +17182,28 @@ INSERT INTO `genres` (`genreId`, `genreName`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `location`
+--
+
+CREATE TABLE `location` (
+  `location_id` int(11) NOT NULL,
+  `location_user_id` int(11) NOT NULL,
+  `location_media_id` int(11) NOT NULL,
+  `location_date_debut` datetime NOT NULL,
+  `location_date_retour` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `logs`
 --
 
-DROP TABLE IF EXISTS `logs`;
-CREATE TABLE IF NOT EXISTS `logs` (
-  `logId` int NOT NULL AUTO_INCREMENT,
-  `logMessage` text COLLATE utf8mb4_general_ci NOT NULL,
-  `logContext` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
-  `logDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`logId`)
+CREATE TABLE `logs` (
+  `logId` int(11) NOT NULL,
+  `logMessage` text NOT NULL,
+  `logContext` varchar(128) NOT NULL,
+  `logDate` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -17209,23 +17212,20 @@ CREATE TABLE IF NOT EXISTS `logs` (
 -- Structure de la table `medias`
 --
 
-DROP TABLE IF EXISTS `medias`;
-CREATE TABLE IF NOT EXISTS `medias` (
-  `mediaId` int NOT NULL AUTO_INCREMENT,
-  `mediaTypeId` int NOT NULL,
-  `mediaName` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
-  `mediaDescription` text COLLATE utf8mb4_general_ci,
-  `mediaAddedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `mediaPublishingDate` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mediaYear` int DEFAULT NULL,
-  `mediaStatus` varchar(128) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'available',
-  `mediaCoverImage` varchar(128) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mediaBackgroundImage` varchar(128) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mediaVideoLink` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `mediaTags` varchar(228) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '[]',
-  PRIMARY KEY (`mediaId`),
-  KEY `mediaType` (`mediaTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1114906 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `medias` (
+  `mediaId` int(11) NOT NULL,
+  `mediaTypeId` int(11) NOT NULL,
+  `mediaName` varchar(128) NOT NULL,
+  `mediaDescription` text DEFAULT NULL,
+  `mediaAddedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `mediaPublishingDate` varchar(30) DEFAULT NULL,
+  `mediaYear` int(11) DEFAULT NULL,
+  `mediaStatus` varchar(128) NOT NULL DEFAULT 'available',
+  `mediaCoverImage` varchar(128) DEFAULT NULL,
+  `mediaBackgroundImage` varchar(128) DEFAULT NULL,
+  `mediaVideoLink` varchar(100) DEFAULT NULL,
+  `mediaTags` varchar(228) NOT NULL DEFAULT '[]'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `medias`
@@ -17654,20 +17654,18 @@ INSERT INTO `medias` (`mediaId`, `mediaTypeId`, `mediaName`, `mediaDescription`,
 -- Structure de la table `peoples`
 --
 
-DROP TABLE IF EXISTS `peoples`;
-CREATE TABLE IF NOT EXISTS `peoples` (
-  `peopleId` int NOT NULL AUTO_INCREMENT,
-  `peopleFirstname` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `peopleLastname` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `peopleFullname` varchar(160) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `peopleBirthday` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `peopleDeathday` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `peopleBiography` text COLLATE utf8mb4_general_ci,
-  `peoplePicture` varchar(128) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `peopleBirthplace` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `peopleKnownForDepartment` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  PRIMARY KEY (`peopleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4050438 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `peoples` (
+  `peopleId` int(11) NOT NULL,
+  `peopleFirstname` varchar(80) DEFAULT NULL,
+  `peopleLastname` varchar(80) DEFAULT NULL,
+  `peopleFullname` varchar(160) DEFAULT NULL,
+  `peopleBirthday` varchar(10) DEFAULT NULL,
+  `peopleDeathday` varchar(10) DEFAULT NULL,
+  `peopleBiography` text DEFAULT NULL,
+  `peoplePicture` varchar(128) DEFAULT NULL,
+  `peopleBirthplace` varchar(500) DEFAULT NULL,
+  `peopleKnownForDepartment` varchar(80) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `peoples`
@@ -28483,14 +28481,12 @@ INSERT INTO `peoples` (`peopleId`, `peopleFirstname`, `peopleLastname`, `peopleF
 -- Structure de la table `types`
 --
 
-DROP TABLE IF EXISTS `types`;
-CREATE TABLE IF NOT EXISTS `types` (
-  `typeId` int NOT NULL AUTO_INCREMENT,
-  `typeName` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
-  `typeStatus` varchar(64) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'available',
-  `typeIcon` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`typeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=491 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `types` (
+  `typeId` int(11) NOT NULL,
+  `typeName` varchar(64) NOT NULL,
+  `typeStatus` varchar(64) NOT NULL DEFAULT 'available',
+  `typeIcon` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `types`
@@ -28508,23 +28504,20 @@ INSERT INTO `types` (`typeId`, `typeName`, `typeStatus`, `typeIcon`) VALUES
 -- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `userId` int NOT NULL AUTO_INCREMENT,
-  `userFirstname` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
-  `userLastname` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+CREATE TABLE `users` (
+  `userId` int(11) NOT NULL,
+  `userFirstname` varchar(64) NOT NULL,
+  `userLastname` varchar(64) NOT NULL,
   `userBirthdate` datetime NOT NULL,
-  `userMail` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
-  `userRole` int NOT NULL DEFAULT '0',
-  `userStatus` varchar(32) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'ok',
-  `userPassword` varchar(512) COLLATE utf8mb4_general_ci NOT NULL,
-  `userCreationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `userFavoriteMediaType` int DEFAULT '1',
-  `userFavoriteBookTag` varchar(64) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '[]',
-  `userFavoriteMovieTag` varchar(64) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '[]',
-  PRIMARY KEY (`userId`),
-  KEY `favMediaType` (`userFavoriteMediaType`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `userMail` varchar(128) NOT NULL,
+  `userRole` int(11) NOT NULL DEFAULT 0,
+  `userStatus` varchar(32) NOT NULL DEFAULT 'ok',
+  `userPassword` varchar(512) NOT NULL,
+  `userCreationDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `userFavoriteMediaType` int(11) DEFAULT 1,
+  `userFavoriteBookTag` varchar(64) NOT NULL DEFAULT '[]',
+  `userFavoriteMovieTag` varchar(64) NOT NULL DEFAULT '[]'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -28532,6 +28525,153 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`userId`, `userFirstname`, `userLastname`, `userBirthdate`, `userMail`, `userRole`, `userStatus`, `userPassword`, `userCreationDate`, `userFavoriteMediaType`, `userFavoriteBookTag`, `userFavoriteMovieTag`) VALUES
 (1, 'Mathis', 'Lambert', '2003-04-29 00:00:00', 'mathislambert.dev@gmail.com', 0, 'ok', '$2y$10$uXxjgn0YXArZKx7YqbPGWuE32NsYevxCXsi/q7i./3XFYwjpqvvJy', '2023-03-20 12:28:35', 1, '[]', '[]');
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `appartient_genre`
+--
+ALTER TABLE `appartient_genre`
+  ADD PRIMARY KEY (`appartenanceId`),
+  ADD KEY `genreId` (`appartientGenreId`),
+  ADD KEY `appartientMediaId` (`appartientMediaId`);
+
+--
+-- Index pour la table `appartient_media`
+--
+ALTER TABLE `appartient_media`
+  ADD PRIMARY KEY (`appartientMediaId`),
+  ADD KEY `_mediaId` (`_mediaId`),
+  ADD KEY `_peopleId` (`_peopleId`),
+  ADD KEY `_departmentId` (`_departmentName`);
+
+--
+-- Index pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`commentId`),
+  ADD KEY `mediaId` (`commentMediaId`),
+  ADD KEY `userId` (`commentUserId`);
+
+--
+-- Index pour la table `favorites`
+--
+ALTER TABLE `favorites`
+  ADD PRIMARY KEY (`favoriteId`),
+  ADD KEY `favoriteMediaId` (`favoriteMediaId`),
+  ADD KEY `favoriteUserId` (`favoriteUserId`);
+
+--
+-- Index pour la table `genres`
+--
+ALTER TABLE `genres`
+  ADD PRIMARY KEY (`genreId`);
+
+--
+-- Index pour la table `location`
+--
+ALTER TABLE `location`
+  ADD PRIMARY KEY (`location_id`),
+  ADD KEY `userId_FK` (`location_user_id`),
+  ADD KEY `mediaId_FK` (`location_media_id`);
+
+--
+-- Index pour la table `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`logId`);
+
+--
+-- Index pour la table `medias`
+--
+ALTER TABLE `medias`
+  ADD PRIMARY KEY (`mediaId`),
+  ADD KEY `mediaType` (`mediaTypeId`);
+
+--
+-- Index pour la table `peoples`
+--
+ALTER TABLE `peoples`
+  ADD PRIMARY KEY (`peopleId`);
+
+--
+-- Index pour la table `types`
+--
+ALTER TABLE `types`
+  ADD PRIMARY KEY (`typeId`);
+
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`userId`),
+  ADD KEY `favMediaType` (`userFavoriteMediaType`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `appartient_genre`
+--
+ALTER TABLE `appartient_genre`
+  MODIFY `appartenanceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1391;
+
+--
+-- AUTO_INCREMENT pour la table `appartient_media`
+--
+ALTER TABLE `appartient_media`
+  MODIFY `appartientMediaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15632;
+
+--
+-- AUTO_INCREMENT pour la table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `commentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `favorites`
+--
+ALTER TABLE `favorites`
+  MODIFY `favoriteId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=759;
+
+--
+-- AUTO_INCREMENT pour la table `location`
+--
+ALTER TABLE `location`
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `logId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `medias`
+--
+ALTER TABLE `medias`
+  MODIFY `mediaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1114906;
+
+--
+-- AUTO_INCREMENT pour la table `peoples`
+--
+ALTER TABLE `peoples`
+  MODIFY `peopleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4050438;
+
+--
+-- AUTO_INCREMENT pour la table `types`
+--
+ALTER TABLE `types`
+  MODIFY `typeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=491;
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
@@ -28548,8 +28688,8 @@ ALTER TABLE `appartient_genre`
 -- Contraintes pour la table `appartient_media`
 --
 ALTER TABLE `appartient_media`
-  ADD CONSTRAINT `appartient_media_ibfk_1` FOREIGN KEY (`_mediaId`) REFERENCES `medias` (`mediaId`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `appartient_media_ibfk_2` FOREIGN KEY (`_peopleId`) REFERENCES `peoples` (`peopleId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `appartient_media_ibfk_1` FOREIGN KEY (`_mediaId`) REFERENCES `medias` (`mediaId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `appartient_media_ibfk_2` FOREIGN KEY (`_peopleId`) REFERENCES `peoples` (`peopleId`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `comments`
@@ -28564,6 +28704,13 @@ ALTER TABLE `comments`
 ALTER TABLE `favorites`
   ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`favoriteMediaId`) REFERENCES `medias` (`mediaId`) ON UPDATE CASCADE,
   ADD CONSTRAINT `favorites_ibfk_2` FOREIGN KEY (`favoriteUserId`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `location`
+--
+ALTER TABLE `location`
+  ADD CONSTRAINT `mediaId_FK` FOREIGN KEY (`location_media_id`) REFERENCES `medias` (`mediaId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `userId_FK` FOREIGN KEY (`location_user_id`) REFERENCES `users` (`userId`) ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `medias`
