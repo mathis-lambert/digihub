@@ -20,7 +20,7 @@ require_once './assets/includes/head.php';
       <button id="_prev" class="prev">&lt;</button>
       <div class="suggestions_container">
          <?php
-         $medias = $this->model->getOwnSuggestion();
+         $medias = $this->model->getDailySuggestion();
 
          foreach ($medias as $media) {
          ?>
@@ -42,6 +42,29 @@ require_once './assets/includes/head.php';
    </div>
    <div class="container">
       <h1>Vous aimerez peut-être</h1>
+      <div class="card-carrousel">
+         <div class="card-carrousel_content">
+
+            <?php
+            $own_suggestions = $this->model->getOwnSuggestion($_SESSION['userId']);
+
+            foreach ($own_suggestions as $media) {
+            ?>
+               <a href="./?view&id=<?= $media['mediaId'] ?>" class="suggestions_card">
+                  <div class="suggestions_img">
+                     <img src="https://image.tmdb.org/t/p/original<?= $media['mediaBackgroundImage'] ?>" alt="cover">
+                     <div class="overlay"></div>
+                  </div>
+                  <div class="suggestions_text">
+                     <h2><?= $media['mediaName'] ?></h2>
+                  </div>
+               </a>
+            <?php
+            }
+
+            ?>
+         </div>
+      </div>
 
       <h1>Les plus populaires</h1>
 

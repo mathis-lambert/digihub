@@ -104,7 +104,7 @@ class Model
    {
    }
 
-   public function getOwnSuggestion()
+   public function getDailySuggestion()
    {
       // We need to get the 3 last media added to the database
       // To do so, we build a query with a limit of 3
@@ -129,6 +129,83 @@ class Model
       // If we don't have any result, we return null
       return null;
    }
+
+   public function getFavoriteTypes($user_id)
+   {
+      $sql = "SELECT DISTINCT types.typeID
+           FROM types
+           INNER JOIN medias ON medias.mediaTypeId = types.typeID
+           INNER JOIN appartient_media ON appartient_media._mediaId = medias.mediaId
+           INNER JOIN favorites ON favorites.favoriteMediaId = appartient_media._mediaId
+           WHERE favorites.favoriteUserId = :user_id";
+
+      $result = $this->getConn()->prepare($sql);
+      $result->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      $result->execute();
+      $favoriteTypes = $result->fetchAll(PDO::FETCH_COLUMN);
+
+      return $favoriteTypes;
+   }
+
+   public function getFavoriteGenres($user_id)
+   {
+      $sql = "SELECT DISTINCT genres.genreId
+           FROM genres
+           INNER JOIN appartient_genre ON appartient_genre.appartientGenreId = genres.genreId
+           INNER JOIN medias ON medias.mediaId = appartient_genre.appartientMediaId
+           INNER JOIN appartient_media ON appartient_media._mediaId = medias.mediaId
+           INNER JOIN favorites ON favorites.favoriteMediaId = appartient_media._mediaId
+           WHERE favorites.favoriteUserId = :user_id";
+
+      $result = $this->getConn()->prepare($sql);
+      $result->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+      $result->execute();
+      $favoriteGenres = $result->fetchAll(PDO::FETCH_COLUMN);
+
+      return $favoriteGenres;
+   }
+
+
+   public function getOwnSuggestion($user_id)
+   {
+
+      $favoriteTypes = $this->getFavoriteTypes($user_id);
+      $favoriteGenres = $this->getFavoriteGenres($user_id);
+
+      $favoriteTypesSQL = "";
+      $favoriteGenresSQL = "";
+
+      if (!empty($favoriteTypes)) {
+         $favoriteTypesSQL = "AND types.typeID IN (" . implode(',', $favoriteTypes) . ")";
+      }
+
+      if (!empty($favoriteGenres)) {
+         $favoriteGenresSQL = "AND genres.genreId IN (" . implode(',', $favoriteGenres) . ")";
+      }
+
+      $sql = "SELECT *
+           FROM medias, types, genres, appartient_genre
+           WHERE  medias.mediaTypeId = types.typeID
+           AND medias.mediaId = appartient_genre.appartientMediaId
+           AND appartient_genre.appartientGenreId = genres.genreId
+           " . $favoriteTypesSQL . $favoriteGenresSQL . "
+           ORDER BY RAND() LIMIT 3";
+
+      $result = $this->getConn()->prepare($sql);
+      $result->execute();
+      $results = $result->fetchAll(PDO::FETCH_ASSOC);
+
+      if ($results) {
+         $medias = [];
+         foreach ($results as $media) {
+            $medias[] = $media;
+         }
+         return $medias;
+      }
+
+      return null;
+   }
+
 
    public function getUserByName($userFirstname)
    {
