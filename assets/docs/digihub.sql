@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : sam. 27 mai 2023 à 17:31
+-- Généré le : lun. 29 mai 2023 à 00:00
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -17105,22 +17105,11 @@ CREATE TABLE `comments` (
   `commentId` int(11) NOT NULL,
   `commentUserId` int(11) NOT NULL,
   `commentMediaId` int(11) NOT NULL,
-  `commentTitle` varchar(256) NOT NULL,
   `commentText` text NOT NULL,
   `commentRating` int(11) NOT NULL,
   `commentStatus` varchar(32) NOT NULL DEFAULT 'ok',
   `commentDate` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `comments`
---
-
-INSERT INTO `comments` (`commentId`, `commentUserId`, `commentMediaId`, `commentTitle`, `commentText`, `commentRating`, `commentStatus`, `commentDate`) VALUES
-(1, 1, 1077280, 'coucou', 'coucou', 1, 'ok', '2023-05-25 11:14:06'),
-(2, 1, 1077280, 'coucou', 'coucou', 1, 'ok', '2023-05-25 11:14:27'),
-(3, 1, 2048, 'Génial', 'Vraiment ce film est top !', 5, 'ok', '2023-05-25 11:19:01'),
-(4, 1, 4232, 'Yo', 'Yo\n', 1, 'ok', '2023-05-25 19:40:32');
 
 -- --------------------------------------------------------
 
@@ -17139,9 +17128,8 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`favoriteId`, `favoriteMediaId`, `favoriteUserId`) VALUES
-(756, 597, 1),
-(757, 32516, 1),
-(758, 61979, 1);
+(763, 634649, 1),
+(764, 879538, 3);
 
 -- --------------------------------------------------------
 
@@ -17388,7 +17376,7 @@ INSERT INTO `medias` (`mediaId`, `mediaTypeId`, `mediaName`, `mediaDescription`,
 (560057, 2, 'Le Monstre des mers', 'À une époque où des bêtes terrifiantes parcouraient les mers, les chasseurs de monstres étaient des héros. Et aucun n\'était plus aimé que le grand Jacob Holland. Mais lorsque la jeune Maisie Brumble s\'embarque sur son navire légendaire, il se retrouve avec un allié inattendu. Ensemble, ils se lancent dans un voyage épique dans des eaux inexplorées et marquent l\'histoire.', '2023-05-08 19:24:48', '2022-06-24', 2022, 'available', '/wWehjjuY02MlyWM9GvLBsGl5mj.jpg', '/wUwizGzbTk5CTiKBnE4Pq1MONwD.jpg', 'FuNq5-uhCFQ', '[]'),
 (566525, 2, 'Shang-Chi et la Légende des Dix Anneaux', 'Shang-Chi va devoir affronter un passé qu’il pensait avoir laissé derrière lui lorsqu’il est pris dans la toile de la mystérieuse organisation des dix anneaux.', '2023-05-08 19:14:27', '2021-09-01', 2021, 'available', '/g54eUtuCTAOQaNlVpr7Kpr7sVoH.jpg', '/zxWAv1A34kdYslBi4ekMDtgIGUt.jpg', 'WffUxh-RZuA', '[]'),
 (568124, 2, 'Encanto, la fantastique famille Madrigal', 'Dans un mystérieux endroit niché au cœur des montagnes de Colombie, la fantastique famille Madrigal habite une maison enchantée dans une cité pleine de vie, un endroit merveilleux appelé Encanto. L’Encanto a doté chacun des enfants de la famille d’une faculté magique allant d’une force surhumaine au pouvoir de guérison. Seule Mirabel n’a reçu aucun don particulier. Mais lorsque la magie de l’Encanto se trouve menacée, la seule enfant ordinaire de cette famille extraordinaire va peut-être se révéler leur unique espoir…', '2023-05-08 19:09:53', '2021-10-13', 2021, 'available', '/75s7inwv1WHRuySyjA6p0oMaz9Z.jpg', '/3G1Q5xF40HkUBJXxt2DQgQzKTp5.jpg', 'bdH6itLQ9-0', '[]'),
-(569094, 2, 'Spider-Man : Across the Spider-Verse', 'Miles Morales revient dans un nouveau chapitre de la franchise oscarisée Spider-Man : New Generation, pour une aventure épique qui entraînera notre héros sympa originaire de Brooklyn, à travers le Multivers pour unir ses forces à celles de Gwen Stacy et une nouvelle équipe de Spider-héros pour faire face au méchant le plus puissant qu\'ils n\'aient jamais affronté.', '2023-05-08 19:22:56', '2023-05-31', 2023, 'available', '/zPoqAu4gxZRmcPzSLFJ9b0VciaL.jpg', '/jS4z8y70ESrZwmFJubqYuceFtnX.jpg', 'LPGy9utp-cw', '[]'),
+(569094, 2, 'Spider-Man : Across the Spider-Verse', 'Miles Morales revient dans un nouveau chapitre de la franchise oscarisée Spider-Man : New Generation, pour une aventure épique qui entraînera notre héros sympa originaire de Brooklyn, à travers le Multivers pour unir ses forces à celles de Gwen Stacy et une nouvelle équipe de Spider-héros pour faire face au méchant le plus puissant qu\'ils n\'aient jamais affronté.', '2023-05-08 19:22:56', '2023-05-31', 2023, 'disabled', '/zPoqAu4gxZRmcPzSLFJ9b0VciaL.jpg', '/jS4z8y70ESrZwmFJubqYuceFtnX.jpg', 'LPGy9utp-cw', '[]'),
 (573171, 2, 'Huevitos Congelados', 'Le coq Toto a un nouvel ennemi : un pirate qui envisage de le transformer en coq cryogéniquement congelé.', '2023-05-08 19:07:50', '2022-12-14', 2022, 'available', '/d7i9UXE7IfPx2uYtYKzgjs6zYzR.jpg', '/qdFrqXYH6PtyAVlegub7bpoSgro.jpg', NULL, '[]'),
 (575322, 2, 'Project Gemini', 'Dans un futur proche… Après des siècles d’errance environnementale, les jours de la Terre sont comptés. Avec elle, c’est l’espèce humaine qui est menacée d’extinction. Mais l’espoir renaît lorsqu’un jeune scientifique dévoile un procédé révolutionnaire de terraformation, qui ouvre la voie vers la colonisation de nouvelles planètes. Un groupe d’élite de tous bords et de toutes nationalités est constitué. Sa mission : prendre les commandes du fleuron de la flotte internationale, et partir en quête d’un nouveau foyer pour l’humanité. Naviguant vers l’inconnu, ces nouveaux explorateurs sont alors loin d’imaginer les immenses dangers qui les guettent.', '2023-05-08 19:09:05', '2022-01-06', 2022, 'available', '/aVLV38txajXhEy2qNEClPIsDbAH.jpg', '/etP5jwlwvkNhwe7jnI2AyA6ZKrR.jpg', 'LlNenWfkOAE', '[]'),
 (579974, 2, 'Roudram Ranam Rudhiram (RRR)', 'À l\'époque coloniale, en Inde, les anglais enlèvent une jeune fille d\'une communauté tribale. Mais ce qu\'ils ignorent, c\'est que cette tribu a un protecteur : Bheem. Peut-être que soleil ne se couche jamais sur l\'empire britannique. Mais la force est du coté des justes.', '2023-05-08 19:16:25', '2022-03-24', 2022, 'available', '/d0W61w08KPAxO63uuM0Xspxb27l.jpg', '/d3l7kgFJyLTTQSrR4ysCk5yeVyW.jpg', 'UrN4oyanERU', '[]'),
@@ -17468,7 +17456,7 @@ INSERT INTO `medias` (`mediaId`, `mediaTypeId`, `mediaName`, `mediaDescription`,
 (766507, 2, 'Prey', 'Lorsque le danger menace son camp, la féroce et très habile guerrière Comanche Naru se met en route pour protéger son peuple. Mais la proie qu\'elle traque s\'avère être un prédateur extraterrestre très évolué doté d\'un arsenal techniquement avancé.', '2023-05-08 19:04:34', '2022-08-02', 2022, 'available', '/69BH9YefDbStihTi0FJhTJxmtDo.jpg', '/7ZO9yoEU2fAHKhmJWfAc2QIPWJg.jpg', 'DcuPy47vOJ8', '[]'),
 (767401, 2, '1Up', 'Une gameuse, Vivian Lee, quitte l\'équipe eSports de son université plutôt que de subir le sexisme de ses homologues masculins. Avec sa bourse, elle décide de monter une équipe féminine qui peut rivaliser avec les garçons. Avec l\'aide d\'un entraîneur énigmatique - qui revient sur le devant de la scène après un scandale -, la jeune femme recrute une équipe improbable d\'outsiders.', '2023-05-08 19:18:18', '2022-07-15', 2022, 'available', '/kqhLjoz3FGywYXUNTCPItfDY2N8.jpg', '/iU02yC9tkeAo3WVpDgTSNyhFslI.jpg', NULL, '[]'),
 (772515, 2, 'Huesera', '', '2023-03-28 22:42:53', '2023-02-10', 2023, 'available', '/aVw74MES2R0kdSN8JhbJC8Xpne9.jpg', '/A2avUoNFstnBhAnHiogXQs4c9Bt.jpg', NULL, '[]'),
-(774752, 2, 'Les Gardiens de la Galaxie : Joyeuses Fêtes', 'Afin de rendre Noël inoubliable aux yeux de Quill, les Gardiens partent en mission sur Terre afin de lui trouver le cadeau parfait.', '2023-05-08 19:06:12', '2022-11-25', 2022, 'available', '/cF3E6CrCm3NUy5PDRBbGyXRChYb.jpg', '/nJbWAc8wakV3BncyF4643SyFWPr.jpg', 'M_JOl9QuZ4k', '[]'),
+(774752, 2, 'Les Gardiens de la Galaxie : Joyeuses Fêtes', 'Afin de rendre Noël inoubliable aux yeux de Quill, les Gardiens partent en mission sur Terre afin de lui trouver le cadeau parfait.', '2023-05-08 19:06:12', '2022-11-25', 2022, 'disabled', '/cF3E6CrCm3NUy5PDRBbGyXRChYb.jpg', '/nJbWAc8wakV3BncyF4643SyFWPr.jpg', 'M_JOl9QuZ4k', '[]'),
 (774825, 2, 'L\'Âge de glace : Les Aventures de Buck Wild', 'Avides d’indépendance et toujours en quête de sensations fortes, les frères opossums Crash et Eddie décident de chercher un habitat rien qu’à eux mais vont rapidement se retrouver piégés sous la glace, dans une immense grotte souterraine habitée par des dinosaures. Secourus par leur copain Buck Wild, une belette borgne excentrique, ils vont ensemble et avec l’aide de nouveaux amis se lancer dans une mission pour sauver le monde perdu de la domination des dinosaures.', '2023-05-08 19:17:04', '2022-01-28', 2022, 'available', '/d9i6luKlPIY5RBt4U6eNvgWdGt7.jpg', '/eG0oOQVsniPAuecPzDD1B1gnYWy.jpg', '9mjuwDAEngI', '[]'),
 (776835, 2, 'L\'Éléphante du magicien', 'Peter est à la recherche de sa sœur disparue depuis longtemps. Lorsqu\'il croise la route d\'une diseuse de bonne aventure sur la place du marché, une seule question lui vient à l\'esprit : sa sœur est-elle encore en vie ? En guise de réponse, la voyante invite Peter à suivre une mystérieuse éléphante. Le jeune garçon se lance alors dans un périple mémorable au cours duquel il devra accomplir trois tâches en apparence impossibles qui, par magie, vont bouleverser sa ville.', '2023-03-28 22:41:48', '2023-03-10', 2023, 'available', '/s6bQCXXRZUj4tIJkfMsE6njntzB.jpg', '/qai0MnVwPYCwOPSAnHIHyzBVqnd.jpg', 's-QC5ZQR2uY', '[]'),
 (779782, 2, 'L\'École du bien et du mal', 'Sophie et Agatha sont meilleures amies. Elles sont destinées à intégrer l\'école du bien pour la première avec Cendrillon et Blanche-Neige, et l\'école du mal pour la seconde. Cependant, à la suite d\'un sort, leur destinée respective va basculer et leur amitié sera mise à rude épreuve.', '2023-05-08 19:16:34', '2022-10-19', 2022, 'available', '/umi7z6ifZrAYYSDM0Hv1eIpF7lW.jpg', '/tSxbUnrnWlR5dQvUgqMI7sACmFD.jpg', '6zMg5E_F6mE', '[]'),
@@ -28524,7 +28512,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userId`, `userFirstname`, `userLastname`, `userBirthdate`, `userMail`, `userRole`, `userStatus`, `userPassword`, `userCreationDate`, `userFavoriteMediaType`, `userFavoriteBookTag`, `userFavoriteMovieTag`) VALUES
-(1, 'Mathis', 'Lambert', '2003-04-29 00:00:00', 'mathislambert.dev@gmail.com', 0, 'ok', '$2y$10$uXxjgn0YXArZKx7YqbPGWuE32NsYevxCXsi/q7i./3XFYwjpqvvJy', '2023-03-20 12:28:35', 1, '[]', '[]');
+(1, 'Mathis', 'Lambert', '2003-04-29 00:00:00', 'mathislambert.dev@gmail.com', 1, 'ok', '$2y$10$uXxjgn0YXArZKx7YqbPGWuE32NsYevxCXsi/q7i./3XFYwjpqvvJy', '2023-03-20 12:28:35', 1, '[]', '[]'),
+(3, 'admin', 'admin', '1917-01-01 00:00:00', 'admin@mail.com', 2, 'ok', '$2y$10$5c6Gs/JvWnSLgJVIQP.MSuUUuvUQ/5kyP1m052VTslhu5L1rxYxTC', '2023-05-28 19:29:34', 1, 'all', 'all');
 
 --
 -- Index pour les tables déchargées
@@ -28629,13 +28618,13 @@ ALTER TABLE `appartient_media`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `commentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT pour la table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `favoriteId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=759;
+  MODIFY `favoriteId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=765;
 
 --
 -- AUTO_INCREMENT pour la table `location`
@@ -28671,7 +28660,7 @@ ALTER TABLE `types`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Contraintes pour les tables déchargées
