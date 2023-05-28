@@ -5,18 +5,16 @@ class Comments
     public $commentId;
     public $commentUserId;
     public $commentMediaId;
-    public $commentTitle;
     public $commentText;
     public $commentRating;
     public $commentStatus;
     public $commentDate;
 
-    public function __construct($commentId, $commentUserId, $commentMediaId, $commentTitle, $commentText, $commentRating, $commentStatus, $commentDate)
+    public function __construct($commentId, $commentUserId, $commentMediaId, $commentText, $commentRating, $commentStatus, $commentDate)
     {
         $this->commentId = $commentId;
         $this->commentUserId = $commentUserId;
         $this->commentMediaId = $commentMediaId;
-        $this->commentTitle = $commentTitle;
         $this->commentText = $commentText;
         $this->commentRating = $commentRating;
         $this->commentStatus = $commentStatus;
@@ -40,7 +38,7 @@ class Comments
         $req = $db->query('SELECT * FROM comments');
 
         foreach ($req->fetchAll() as $comment) {
-            $list[] = new Comments($comment['commentid'], $comment['commentMediaId'], $comment['commentUserId'], $comment['commentTitle'], $comment['commentText'], $comment['commentRating'], $comment['commentStatus'], $comment['commentDate']);
+            $list[] = new Comments($comment['commentid'], $comment['commentMediaId'], $comment['commentUserId'], $comment['commentText'], $comment['commentRating'], $comment['commentStatus'], $comment['commentDate']);
         }
 
         return $list;
@@ -57,17 +55,17 @@ class Comments
 
 
         if ($comment) {
-            return new Comments($comment['commentId'], $comment['commentMediaId'], $comment['commentUserId'], $comment['commentTitle'], $comment['commentText'], $comment['commentRating'], $comment['commentStatus'], $comment['commentDate']);
+            return new Comments($comment['commentId'], $comment['commentMediaId'], $comment['commentUserId'], $comment['commentText'], $comment['commentRating'], $comment['commentStatus'], $comment['commentDate']);
         } else {
             return null;
         }
     }
 
-    public static function add($commentMediaId, $commentUserId, $commentTitle, $commentText, $commentRating, $commentStatus, $commentDate)
+    public static function add($commentMediaId, $commentUserId, $commentText, $commentRating, $commentStatus, $commentDate)
     {
         $db = Db::getInstance();
-        $req = $db->prepare('INSERT INTO comments (commentMediaId, commentUserId, commentTitle, commentText, commentRating, commentStatus, commentDate) VALUES (:commentMediaId, :commentUserId, :commentTitle, :commentText, :commentRating, :commentStatus, :commentDate)');
-        $req->execute(array('commentMediaId' => $commentMediaId, 'commentUserId' => $commentUserId, 'commentTitle' => $commentTitle, 'commentText' => $commentText, 'commentRating' => $commentRating, 'commentStatus' => $commentStatus, 'commentDate' => $commentDate));
+        $req = $db->prepare('INSERT INTO comments (commentMediaId, commentUserId, commentText, commentRating, commentStatus, commentDate) VALUES (:commentMediaId, :commentUserId, :commentTitle, :commentText, :commentRating, :commentStatus, :commentDate)');
+        $req->execute(array('commentMediaId' => $commentMediaId, 'commentUserId' => $commentUserId, 'commentText' => $commentText, 'commentRating' => $commentRating, 'commentStatus' => $commentStatus, 'commentDate' => $commentDate));
         $comment = Comments::find($commentMediaId, $commentUserId);
         return $comment;
     }

@@ -115,7 +115,7 @@ require_once './assets/includes/head.php';
 
         <div id="comments">
             <h2>Commentaires</h2>
-            <div class="comments_container" style="background-color:white;padding:1rem;">
+            <!-- <div class="comments_container" style="background-color:white;padding:1rem;">
                 <div class="comments">
                     <?php
                     foreach ($comments as $comment) {
@@ -129,29 +129,37 @@ require_once './assets/includes/head.php';
                         echo '</div>';
                         echo '</div>';
                         echo '<div class="comment_body">';
-                        echo '<h3>' . $comment["commentTitle"] . '</h3>';
                         echo '<p>' . $comment["commentText"] . '</p>';
                         echo '</div>';
                         echo '</div>';
                     }
                     ?>
                 </div>
+            </div> -->
+            <div class="comment_container">
+                <div class="comment" style="display:flex;gap:1rem;margin-top:1rem;background-color:#fff;padding:1rem;border-radius:10px;">
+                    <?php foreach($comments as $comment) { ?>
+                    <div class="profile_pic">
+                        <img src="./assets/img/icons/user.jpg" alt="user" width="50px" style="border-radius: 25px;">
+                    </div>
+                    <div class="comment_body" style="display:flex;flex-direction:column;">
+                        <div class="comment_info" style="display:flex;gap:1rem;">
+                            <p class="username" style="color:#555;"><?= $userInfo->userFirstname ?></p>
+                            <p class="comment_date" style="color:#888;"><?= $comment['commentDate'] ?></p>
+                        </div>
+                        <p class="comment_text" style="font-size: 18px;"><?= $comment['commentText'] ?></p>
+                    </div>
+                    <?php } ?>
+                </div>
             </div>
-            <div class="comment_input" style="display:flex;flex-direction:column;margin:.5rem;gap:.5rem">
+
+            <h2 style="margin-top: 2rem;">Ajouter un commentaire</h2>
+            <div class="comment_input" style="margin-top: 1rem;background-color: #fff;border-radius: 25px;display: flex;padding:.5rem;gap: 1rem;box-shadow: 0 0 10px rgba(0,0,0,.1);">
                 <input type="hidden" name="commentMediaId" id="commentMediaId" value="<?= $media->id ?>">
                 <input type="hidden" name="commentUserId" id="commentUserId" value="<?= $userInfo->userId ?>">
-                <div class="row" style="display:flex;gap:.5rep">
-                    <input id="commentTitle" style="padding:.5rem;width:50%" type="text" name="commentTitle" placeholder="Titre">
-                    <select style="padding:.5rem" name="commentRating" id="commentRating">
-                        <option value="1">1 étoile</option>
-                        <option value="2">2 étoiles</option>
-                        <option value="3">3 étoiles</option>
-                        <option value="4">4 étoiles</option>
-                        <option value="5">5 étoiles</option>
-                    </select>
-                </div>
-                <textarea style="padding:.5rem;height:6rem" name="commentText" id="commentText" placeholder="Commentaire"></textarea>
-                <button id="add_comment">Ajouter le commentaire</button>
+                <img src="./assets/img/icons/user.jpg" alt="user" width="50px" style="border-radius: 25px;margin-right:-10px;">
+                <input type="text" name="commentText" id="commentText" style="background-color: #f2f2f2;border-radius: 10px;outline: none;border: none;padding: 0 1rem;width: 100%;" placeholder="Ajouter un commentaire...">
+                <button id="add_comment" style="background:  #fff;color: #000;padding: 0 1rem">&gt;&gt;</button>
             </div>
         </div>
     </div>
