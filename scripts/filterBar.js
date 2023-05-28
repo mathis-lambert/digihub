@@ -50,6 +50,7 @@ class Filters {
     filters.userid = filterBar.dataset.userid;
     filters.fromResults = filterBar.dataset.results;
     filters.query = filterBar.dataset.query;
+    filters.tops = filterBar.dataset.tops;
 
     return filters;
   }
@@ -177,15 +178,24 @@ class Filters {
         if (film_container) {
           // update the film container with the filtered data
           film_container.innerHTML = "";
-          data.forEach((film) => {
-            film_container.innerHTML += `
+
+          if (!data) {
+            film_container.innerHTML = `
+            <div class="search-result__item">
+              <p class="search-result__item__title">Aucun résultat trouvé</p>
+            </div>
+            `;
+          } else {
+            data.forEach((film) => {
+              film_container.innerHTML += `
               <div class="gallery__item">
                 <a href="./?view&id=${film.mediaId}">
                   <img src="https://image.tmdb.org/t/p/w500${film.mediaCoverImage}" alt="${film.title}">
                 </a>
               </div>
           `;
-          });
+            });
+          }
         }
       }
     }

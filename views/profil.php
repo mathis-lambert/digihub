@@ -78,13 +78,18 @@ require_once './assets/includes/head.php';
                      <tbody>
                         <?php
                         foreach ($users as $user) { ?>
-                           <tr data-id="<?= $user['userId']; ?>" data-target="user">
-                              <td><input type="text" name="userId" value="<?= $user['userId']; ?>" disabled /></td>
+                           <tr data-userid="<?= $user['userId']; ?>" data-target="user">
+                              <td><input type="text" name="userId" class="userId" value="<?= $user['userId']; ?>" disabled /></td>
                               <td><input type="text" name="userLastname" value="<?= $user['userLastname']; ?>" disabled /></td>
                               <td><input type="text" name="userFirstname" value="<?= $user['userFirstname']; ?>" disabled /></td>
-                              <td><input type="datetime" name="userBirthdate" value="<?= date('d/m/Y', strtotime($user['userBirthdate'])); ?>" disabled /></td>
+                              <td><input type="datetime-local" name="userBirthdate" value="<?= $user['userBirthdate']; ?>" disabled /></td>
                               <td><input type="email" name="userMail" value="<?= $user['userMail']; ?>" disabled /></td>
-                              <td><input type="text" name="userRole" value="<?= $user['userRole']; ?>" disabled /></td>
+                              <td>
+                                 <select name="userRole" disabled>
+                                    <option value="0" <?php if ($user['userRole'] == 0) echo 'selected'; ?>>Utilisateur</option>
+                                    <option value="1" <?php if ($user['userRole'] == 1) echo 'selected'; ?>>Bibliothécaire</option>
+                                    <option value="2" <?php if ($user['userRole'] == 2) echo 'selected'; ?>>Administrateur</option>
+                                 </select>
                               <td class="action_links">
                                  <button class="btn btn-blue editButton" aria-label="modifier" title="modifier">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -136,7 +141,7 @@ require_once './assets/includes/head.php';
                      <tbody>
                         <?php
                         foreach ($comments as $comment) { ?>
-                           <tr data-id="<?= $comment['commentId']; ?>" data-target="comment">
+                           <tr data-commentid="<?= $comment['commentId']; ?>" data-target="comments">
                               <td>
                                  <?= $comment['commentId']; ?>
                               </td>
@@ -184,17 +189,10 @@ require_once './assets/includes/head.php';
                Vous pouvez modifier les informations d'un média directement depuis sa page.
             </em>
             <h4> Pour en ajouter un :</h4>
-            <button class="btn" onclick="window.location.href='./?addMedia'">Ajouter un média</button>
+            <button class="btn" onclick="alert('Cette fonction n\'est pas encore disponible')">Ajouter un média</button>
 
-            <br>
-            <h3>Genres</h3>
-            <div class="gallery" id="genre_container">
-            </div>
-            <br>
-            <h3>Acteurs</h3>
-            <div class="gallery" id="people_container">
-            </div>
          </div>
+         <br>
       <?php
       }
       ?>

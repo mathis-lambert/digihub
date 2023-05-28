@@ -15,7 +15,7 @@ class Db
     protected $username = null;
     protected $password = null;
 
-    private function __construct()
+    function __construct()
     {
         $this->host = $_ENV['DB_HOST'];
         $this->name = $_ENV['DB_NAME'];

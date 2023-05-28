@@ -8,13 +8,13 @@ $filterArray = [
     "favorite" => $favorite ?? false,
     "userId" => $userId ?? null,
     "results" => $results ?? false,
-    "query" => $query ?? null
-
+    "query" => $query ?? null,
+    "tops" => $tops ?? false,
 ];
 
 ?>
 
-<div class="filter_bar" id="filterBar" data-aimat="<?= $filter_aim_at; ?>" data-favorite="<?= boolval($filterArray['favorite']) ? "true" : "false"; ?>" data-userid="<?= $filterArray['userId']; ?>" data-results="<?= boolval($filterArray['results']) ? "true" : "false"; ?>" data-query="<?= $filterArray['query']; ?>">
+<div class="filter_bar" id="filterBar" data-aimat="<?= $filter_aim_at; ?>" data-favorite="<?= boolval($filterArray['favorite']) ? "true" : "false"; ?>" data-userid="<?= $filterArray['userId']; ?>" data-results="<?= boolval($filterArray['results']) ? "true" : "false"; ?>" data-query="<?= $filterArray['query']; ?>" data-tops="<?= boolval($filterArray['tops']) ? "true" : "false"; ?>">
     <div class="filter_bar__filter">
         <div class="filter_bar__filter__content">
             <fieldset id="publishing_date_filter">

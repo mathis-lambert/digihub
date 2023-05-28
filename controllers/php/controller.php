@@ -59,6 +59,9 @@ class Controller
                   header('Location: ./?404');
                }
                break;
+            case 'delete':
+               include 'controllers/php/delete.php';
+               break;
             case 'nouveautes':
                $currentPage = 'Nouveautés';
                include 'views/nouveautes.php';

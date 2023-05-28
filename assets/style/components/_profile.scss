@@ -67,6 +67,7 @@
     padding: 0.75rem 0.5rem;
     &:disabled {
       opacity: 0.7;
+      color: black;
     }
     &:not(:disabled) {
       cursor: pointer;
@@ -121,7 +122,7 @@
   }
 
   tr.editMode {
-    background-color: rgb(91, 65, 5);
+    background-color: rgb(180, 143, 59);
 
     .editButton {
       svg {

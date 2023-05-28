@@ -19,6 +19,7 @@ require_once './assets/includes/head.php';
         <h1>Les TOPS !</h1>
         <?php
         $filter_aim_at = "Film";
+        $tops = true;
         include_once './assets/includes/filterBar.php';
         ?>
         <div class="gallery" id="film_container">

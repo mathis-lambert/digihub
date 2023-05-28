@@ -75,6 +75,17 @@ require_once './assets/includes/head.php';
 
     </div>
     <div class="container">
+        <?php
+        if ($_SESSION['userRole'] == 2) {
+        ?>
+            <div class="admin">
+                <h2>Options administrateur</h2>
+                <a href="./?delete&id=<?= $media->id; ?>" class="btn">Supprimer</a>
+            </div>
+        <?php
+        }
+        ?>
+        <br>
         <div class="description">
             <h2>Synopsis</h2>
             <p><?= $mediaDescription; ?></p>

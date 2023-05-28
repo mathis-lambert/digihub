@@ -468,7 +468,6 @@ table tr {
 }
 table tr:hover {
   background-color: rgb(134, 134, 134);
-  cursor: pointer;
 }
 table th {
   text-align: center;
@@ -1252,6 +1251,7 @@ header .search-button:hover svg {
 .editTable select:disabled,
 .editTable textarea:disabled {
   opacity: 0.7;
+  color: black;
 }
 .editTable input:not(:disabled),
 .editTable select:not(:disabled),
@@ -1300,7 +1300,7 @@ header .search-button:hover svg {
   color: black;
 }
 .editTable tr.editMode {
-  background-color: rgb(91, 65, 5);
+  background-color: rgb(180, 143, 59);
 }
 .editTable tr.editMode .editButton {
   border: 1px solid rgb(255, 179, 0);

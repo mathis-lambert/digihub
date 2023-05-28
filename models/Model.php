@@ -244,6 +244,12 @@ class Model
          $sql .= " AND medias.mediaId IN (SELECT favoriteMediaId FROM favorites WHERE favoriteUserId = " . $filter["userid"] . ")";
       }
 
+      if (isset($filter['tops']) && $filter['tops'] == "true") {
+         $sql .= " AND medias.mediaId IN (SELECT mediaId FROM comments WHERE medias.mediaId = comments.commentMediaId GROUP BY medias.mediaId ORDER BY comments.commentRating DESC)";
+      }
+
+
+
       // If the publishing date filter is set, add it to the SQL query
       if (isset($filter['publishing_date']) && $filter['publishing_date'] != 'pertinence') {
          $sql .= " ORDER BY medias.mediaPublishingDate " . $filter['publishing_date'];
@@ -263,7 +269,7 @@ class Model
 
       // Return the results
       if (empty($medias)) {
-         return $sql;
+         return null;
       }
       return $medias;
    }
