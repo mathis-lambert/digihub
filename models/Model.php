@@ -304,4 +304,22 @@ class Model
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
       return $medias;
    }
+
+   public function getAllUsers()
+   {
+      $sql = "SELECT * FROM users";
+      $result = $this->getConn()->prepare($sql);
+      $result->execute();
+      $users = $result->fetchAll(PDO::FETCH_ASSOC);
+      return $users;
+   }
+
+   public function getAllComments()
+   {
+      $sql = "SELECT * FROM comments, users, medias WHERE comments.commentUserId = users.userId AND comments.commentMediaId = medias.mediaId";
+      $result = $this->getConn()->prepare($sql);
+      $result->execute();
+      $comments = $result->fetchAll(PDO::FETCH_ASSOC);
+      return $comments;
+   }
 }

@@ -31,10 +31,11 @@ if (!empty($firstname) && !empty($lastname) && !empty($birthdate) && !empty($ema
                User::create($firstname, $lastname, $birthdate, $email, $password, $userCreationDate, $userFavoriteMediaType, $userFavoriteBookTag, $userFavoriteMovieTag);
                // start the session and store the userFirstname in it
                session_start();
+               $user = Db::quickFetch('users', 'userMail', $email);
                $_SESSION['user'] = $firstname;
-               $_SESSION['userId'] = $result['userId'];
-               $_SESSION['userMail'] = $result['userMail'];
-               $_SESSION['userRole'] = $result['userRole'];
+               $_SESSION['userId'] = $user['userId'];
+               $_SESSION['userMail'] = $user['userMail'];
+               $_SESSION['userRole'] = $user['userRole'];
                $body = array(
                   "success" => "Votre compte a bien été créé"
                );

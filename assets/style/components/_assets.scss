@@ -11,9 +11,8 @@ h6 {
 }
 
 .container {
-  width: min(100%, 1500px);
+  width: min(100% - 2rem, 1500px);
   margin-inline: auto;
-  padding: 1rem;
   padding-top: 100px;
   min-height: 100vh;
 
@@ -133,4 +132,42 @@ button,
 
 .justify-center {
   justify-content: center;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(221, 221, 221, 0.331);
+  }
+
+  tr:nth-child(even) {
+    background-color: #d7d7d7;
+  }
+
+  tr {
+    background-color: #c3c3c3;
+  }
+
+  tr:hover {
+    background-color: rgb(134, 134, 134);
+    cursor: pointer;
+  }
+
+  th {
+    text-align: center;
+    background-color: #0e1624;
+    color: white;
+  }
 }

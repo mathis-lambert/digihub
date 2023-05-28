@@ -335,9 +335,8 @@ h6 {
 }
 
 .container {
-  width: min(100%, 1500px);
+  width: min(100% - 2rem, 1500px);
   margin-inline: auto;
-  padding: 1rem;
   padding-top: 100px;
   min-height: 100vh;
 }
@@ -442,6 +441,39 @@ button.no-style:hover,
 
 .justify-center {
   justify-content: center;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+table th,
+table td {
+  text-align: left;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(221, 221, 221, 0.331);
+}
+table tr:nth-child(even) {
+  background-color: #d7d7d7;
+}
+table tr {
+  background-color: #c3c3c3;
+}
+table tr:hover {
+  background-color: rgb(134, 134, 134);
+  cursor: pointer;
+}
+table th {
+  text-align: center;
+  background-color: #0e1624;
+  color: white;
 }
 
 header {
@@ -1187,6 +1219,114 @@ header .search-button:hover svg {
     margin-bottom: 1rem;
   }
 }
+.editTable {
+  margin-block: 3rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.editTable h2 {
+  margin-bottom: 1rem;
+}
+.editTable td:not(.action_links) {
+  padding: 5px;
+}
+.editTable .textarea_container {
+  width: 500px;
+}
+.editTable .textarea_container textarea {
+  width: 100%;
+  height: 100%;
+  resize: vertical;
+}
+.editTable input,
+.editTable select,
+.editTable textarea {
+  min-width: 100px;
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  padding: 0.75rem 0.5rem;
+}
+.editTable input:disabled,
+.editTable select:disabled,
+.editTable textarea:disabled {
+  opacity: 0.7;
+}
+.editTable input:not(:disabled),
+.editTable select:not(:disabled),
+.editTable textarea:not(:disabled) {
+  cursor: pointer;
+  outline: 1px solid rgba(255, 179, 0, 0.209);
+}
+.editTable input:focus,
+.editTable select:focus,
+.editTable textarea:focus {
+  outline: 1px solid rgb(255, 179, 0);
+}
+.editTable .action_links {
+  display: flex;
+  gap: 2rem;
+  border: none;
+}
+.editTable .action_links button {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.editTable .action_links button svg {
+  height: 1.25rem;
+}
+.editTable .action_links button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.editTable .action_links .editButton svg:first-child {
+  display: block;
+}
+.editTable .action_links .editButton svg:last-child {
+  display: none;
+}
+.editTable .action_links .validateButton {
+  display: none;
+  border: 1px solid rgb(255, 179, 0);
+  background-color: rgb(255, 179, 0);
+}
+.editTable .action_links .deleteButton {
+  display: flex;
+}
+.editTable select option {
+  color: black;
+}
+.editTable tr.editMode {
+  background-color: rgb(91, 65, 5);
+}
+.editTable tr.editMode .editButton {
+  border: 1px solid rgb(255, 179, 0);
+  background-color: rgb(255, 179, 0);
+  color: white;
+}
+.editTable tr.editMode .editButton svg:first-child {
+  display: none;
+}
+.editTable tr.editMode .editButton svg:last-child {
+  display: block;
+}
+.editTable tr.editMode .validateButton {
+  display: flex;
+}
+.editTable tr.editMode .validateButton svg {
+  transform: rotate(180deg);
+}
+.editTable tr.editMode .validateButton.validate {
+  background-color: rgb(0, 179, 0);
+  border: 1px solid rgb(0, 179, 0);
+}
+.editTable tr.editMode .deleteButton {
+  display: none;
+}
+
 footer {
   background-color: #050e1d;
   border-top: 1px solid rgb(14, 41, 58);

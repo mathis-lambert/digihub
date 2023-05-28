@@ -239,3 +239,188 @@ function toggleCatalogue() {
 /////////////////////
 // HEADER - end
 /////////////////////
+
+/////////////////////
+/* TABLE EDITING */
+////////////////////
+const editTable = document.querySelectorAll(".editTable");
+
+async function sendData(data) {
+  const response = await fetch("./controllers/php/editTable.php", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  const json = await response.json();
+
+  if (json.success) {
+    console.log(json);
+    return json;
+  } else {
+    console.error(json);
+    return json;
+  }
+}
+
+if (editTable) {
+  const editButtons = document.querySelectorAll(".editButton");
+  const deleteButtons = document.querySelectorAll(".deleteButton");
+
+  /* 
+    tempInputsValues is used to store inputs values to undo changes
+  */
+  let tempInputsValues = [];
+
+  /* 
+    edit buttons event listener
+  */
+  editButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      // get parent table row
+      let parentTableRow = button.parentElement.parentElement;
+
+      // get userid
+      let commentId = parentTableRow.dataset.commentid || null;
+      let userId = parentTableRow.dataset.userid || null;
+
+      // get all inputs in parent table row
+      let inputs = parentTableRow.querySelectorAll(
+        "input:not(.userId), select, textarea"
+      );
+
+      // get target table
+      let target = button.parentElement.parentElement.dataset.target;
+
+      let inputsValues = [];
+
+      inputs.forEach((input) => {
+        inputsValues.push(input.value);
+      });
+
+      console.log(target, userId, articleId, inputsValues);
+
+      parentTableRow
+        .querySelector(".deleteButton")
+        .classList.toggle("disabled");
+
+      if (parentTableRow.classList.contains("editMode")) {
+        parentTableRow.classList.toggle("editMode");
+
+        inputs.forEach((input) => {
+          //reset inputs values
+          input.value = tempInputsValues.shift();
+          input.toggleAttribute("disabled");
+          input.classList.remove("invalid");
+        });
+      } else {
+        let data = {};
+        if (target == "user") {
+          data = {
+            edit: {
+              target: target,
+              id: userId,
+              nom: inputsValues[0],
+              prenom: inputsValues[1],
+              email: inputsValues[2],
+              role: inputsValues[3],
+            },
+          };
+        } else if (target == "article") {
+          data = {
+            edit: {
+              target: target,
+              id: articleId,
+              titre: inputsValues[0],
+              contenu: inputsValues[1],
+              auteur: inputsValues[2],
+              statut: inputsValues[3],
+            },
+          };
+        }
+
+        parentTableRow.classList.toggle("editMode");
+        inputs.forEach((input) => {
+          input.toggleAttribute("disabled");
+          tempInputsValues.push(input.value);
+
+          /* if value of input changes */
+          input.addEventListener("input", (e) => {
+            parentTableRow
+              .querySelector(".validateButton")
+              .classList.add("validate");
+            inputsValues = [];
+            inputs.forEach((input) => {
+              inputsValues.push(input.value);
+            });
+
+            if (target == "user") {
+              data = {
+                edit: {
+                  target: target,
+                  id: userId,
+                  nom: inputsValues[0],
+                  prenom: inputsValues[1],
+                  email: inputsValues[2],
+                  role: inputsValues[3],
+                },
+              };
+            } else if (target == "comments") {
+              data = {
+                edit: {
+                  target: target,
+                  id: articleId,
+                  titre: inputsValues[0],
+                  contenu: inputsValues[1],
+                  auteur: inputsValues[2],
+                  statut: inputsValues[3],
+                },
+              };
+            }
+
+            parentTableRow.querySelector(".validateButton").onclick = () => {
+              xhr(data);
+              parentTableRow
+                .querySelector(".validateButton")
+                .classList.remove("validate");
+              parentTableRow
+                .querySelector(".validateButton")
+                .classList.add("loading");
+            };
+          });
+        });
+      }
+    });
+  });
+
+  let test = {
+    edit: {
+      target: "user",
+      id: "18",
+      nom: "test",
+      prenom: "test",
+      email: "mail.mail@mail.com",
+      role: "2",
+    },
+  };
+
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      if (!button.classList.contains("disabled")) {
+        let parentTableRow = button.parentElement.parentElement;
+        let target = parentTableRow.dataset.target;
+
+        let id =
+          target == "user"
+            ? parentTableRow.dataset.userid
+            : parentTableRow.dataset.articleid;
+
+        let data = {
+          delete: {
+            target: target,
+            id: id,
+          },
+        };
+      }
+    });
+  });
+}
