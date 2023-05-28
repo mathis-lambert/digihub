@@ -245,7 +245,7 @@ class Model
       }
 
       // If the publishing date filter is set, add it to the SQL query
-      if (isset($filter['publishing_date'])) {
+      if (isset($filter['publishing_date']) && $filter['publishing_date'] != 'pertinence') {
          $sql .= " ORDER BY medias.mediaPublishingDate " . $filter['publishing_date'];
       }
 
