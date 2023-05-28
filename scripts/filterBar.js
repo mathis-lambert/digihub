@@ -45,12 +45,11 @@ class Filters {
       filters.genre = genreValue;
     }
 
+    // Set the filters to be used by the query
     filters.favorite = filterBar.dataset.favorite;
     filters.userid = filterBar.dataset.userid;
     filters.fromResults = filterBar.dataset.results;
     filters.query = filterBar.dataset.query;
-
-    console.log(filters);
 
     return filters;
   }

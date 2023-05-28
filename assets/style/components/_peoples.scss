@@ -1,0 +1,21 @@
+.people_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  place-items: center;
+  position: relative;
+
+  & .people_picture {
+    width: 200px;
+    height: 300px;
+    border-radius: 9px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 9px;
+    }
+  }
+}

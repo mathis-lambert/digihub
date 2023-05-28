@@ -79,6 +79,14 @@ a {
       color: grey;
     }
   }
+
+  &.no-style {
+    padding: 0;
+    color: $color-primary;
+    &:hover {
+      color: grey;
+    }
+  }
 }
 
 button,

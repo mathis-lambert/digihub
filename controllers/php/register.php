@@ -32,6 +32,9 @@ if (!empty($firstname) && !empty($lastname) && !empty($birthdate) && !empty($ema
                // start the session and store the userFirstname in it
                session_start();
                $_SESSION['user'] = $firstname;
+               $_SESSION['userId'] = $result['userId'];
+               $_SESSION['userMail'] = $result['userMail'];
+               $_SESSION['userRole'] = $result['userRole'];
                $body = array(
                   "success" => "Votre compte a bien été créé"
                );

@@ -1,4 +1,5 @@
 <?php
+include_once 'Db.php';
 
 class People
 {
@@ -30,5 +31,16 @@ class People
     public function getPeopleId()
     {
         return $this->peopleId;
+    }
+
+    public function getFilms()
+    {
+        $db = Db::getInstance();
+        $sql = "SELECT * FROM medias, appartient_media, peoples WHERE medias.mediaId = appartient_media._mediaId AND appartient_media._peopleId = peoples.peopleId AND peoples.peopleId = :peopleId GROUP BY medias.mediaId";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':peopleId', $this->peopleId);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
     }
 }

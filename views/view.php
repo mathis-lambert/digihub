@@ -79,17 +79,22 @@ require_once './assets/includes/head.php';
             <h2>Synopsis</h2>
             <p><?= $mediaDescription; ?></p>
         </div>
+        <br>
         <?php
-        if (!is_null($mediaTrailer)) { ?>
+        if (!is_null($mediaTrailer)) {
+        ?>
             <div class="trailer">
                 <h2>Trailer</h2>
                 <iframe width="100%" height="500px" src="https://www.youtube.com/embed/<?= $mediaTrailer; ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
-        <?php } ?>
+        <?php
+        }
+        ?>
+        <br>
 
         <div class="cast">
-            <h2>Cast</h2>
+            <h2>Distribution</h2>
             <br>
             <button class="btn" onclick="toggleCast(this)">Afficher tout</button>
             <div class="gallery cast_container">
@@ -97,7 +102,7 @@ require_once './assets/includes/head.php';
                 $mediaActors = json_decode($media->actors);
                 foreach ($mediaActors as $actor) {
                     echo '<div class="actor">';
-                    echo '<a href="./?people&id=' . $actor->peopleId . '">';
+                    echo '<a href="./?people&id=' . $actor->peopleId . '" class="no-style">';
                     if ($actor->peoplePicture != null) {
                         echo '<img src="https://image.tmdb.org/t/p/w500' . $actor->peoplePicture . '" alt="actor" width="100px">';
                     } else {
@@ -112,7 +117,7 @@ require_once './assets/includes/head.php';
                 ?>
             </div>
         </div>
-
+        <br>
         <div id="comments">
             <h2>Commentaires</h2>
             <!-- <div class="comments_container" style="background-color:white;padding:1rem;">
