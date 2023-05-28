@@ -47,6 +47,18 @@ require_once './assets/includes/head.php';
       <div class="gallery" id="film_container">
       </div>
 
+      <br>
+      <?php
+      if ($_SESSION['userRole'] == 2) {
+      ?>
+         <h2>Tableau d'administration</h2>
+         <br>
+
+
+      <?php
+      }
+      ?>
+
    </div>
 
    <?php require_once './assets/includes/footer.php'; ?>

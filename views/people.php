@@ -42,7 +42,7 @@ require_once './assets/includes/head.php';
         <br>
 
         <div class="people_biography">
-            <h2>Biography</h2>
+            <h2>Biographie</h2>
 
             <p><?= $peopleBiography ? $peopleBiography : 'Aucune biographie à afficher'; ?></p>
         </div>

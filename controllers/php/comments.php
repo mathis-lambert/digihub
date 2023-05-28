@@ -24,7 +24,7 @@ if (!empty($commentMediaId) && !empty($commentUserId) && !empty($commentText) &&
         );
     } catch (Exception $e) {
         $body = array(
-            "error" => "Une erreur inconnue est survenue"
+            "error" => "Une erreur inconnue est survenue" . $e->getMessage()
         );
     }
 } else {
