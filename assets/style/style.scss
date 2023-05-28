@@ -1,4 +1,5 @@
 @import "components/fonts";
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
 /* reset */
 *,
@@ -44,6 +45,8 @@ body {
 @import "components/filterBar";
 @import "components/gallery";
 @import "components/peoples";
+@import "components/stars";
+@import "components/comments";
 @import "components/auth";
 @import "components/profile";
 @import "components/footer";

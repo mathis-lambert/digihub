@@ -64,7 +64,7 @@ class Comments
     public static function add($commentMediaId, $commentUserId, $commentText, $commentRating, $commentStatus, $commentDate)
     {
         $db = Db::getInstance();
-        $req = $db->prepare('INSERT INTO comments (commentMediaId, commentUserId, commentText, commentRating, commentStatus, commentDate) VALUES (:commentMediaId, :commentUserId, :commentTitle, :commentText, :commentRating, :commentStatus, :commentDate)');
+        $req = $db->prepare('INSERT INTO comments (commentMediaId, commentUserId, commentText, commentRating, commentStatus, commentDate) VALUES (:commentMediaId, :commentUserId, :commentText, :commentRating, :commentStatus, :commentDate)');
         $req->execute(array('commentMediaId' => $commentMediaId, 'commentUserId' => $commentUserId, 'commentText' => $commentText, 'commentRating' => $commentRating, 'commentStatus' => $commentStatus, 'commentDate' => $commentDate));
         $comment = Comments::find($commentMediaId, $commentUserId);
         return $comment;

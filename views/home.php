@@ -66,7 +66,7 @@ require_once './assets/includes/head.php';
          </div>
       </div>
 
-      <h1>Les plus populaires</h1>
+      <!-- <h1>Les plus populaires</h1> -->
 
       <h1>Les mieux notés</h1>
       <div class="search-result-container no-height">
@@ -75,14 +75,21 @@ require_once './assets/includes/head.php';
             <?php
             $mediasRating = $this->model->getTopRatingMedias();
 
-            foreach ($mediasRating as $mediaRating) {
+            if (empty($mediasRating)) {
             ?>
-               <div class="search-result__item">
-                  <a href="./?view&id=<?= $mediaRating['mediaId'] ?>" class="cover">
-                     <img src="https://image.tmdb.org/t/p/w500<?= $mediaRating['mediaCoverImage'] ?>" alt="cover" class="search-result__item__image">
-                  </a>
-               </div>
+               <p>Aucun média n'a été noté pour le moment</p>
+               <?php
+            } else {
+
+               foreach ($mediasRating as $mediaRating) {
+               ?>
+                  <div class="search-result__item">
+                     <a href="./?view&id=<?= $mediaRating['mediaId'] ?>" class="cover">
+                        <img src="https://image.tmdb.org/t/p/w500<?= $mediaRating['mediaCoverImage'] ?>" alt="cover" class="search-result__item__image">
+                     </a>
+                  </div>
             <?php
+               }
             }
             ?>
          </div>
@@ -138,10 +145,6 @@ require_once './assets/includes/head.php';
       const next = document.querySelector('#_next');
       const prev = document.querySelector('#_prev');
 
-      suggestions.addEventListener('scroll', () => {
-         console.log(suggestions.scrollLeft);
-      });
-
       const scrollSuggestions = (index) => {
          scrollToPoint = (window.innerWidth - content[index].offsetWidth * (index + 1)) - ((window.innerWidth - content[index].offsetWidth) / 2);
          container.style.transform = `translateX(${scrollToPoint}px)`;
@@ -167,7 +170,6 @@ require_once './assets/includes/head.php';
          } else {
             counter--;
          }
-         console.log(counter);
          scrollSuggestions(counter);
       });
 
@@ -176,7 +178,6 @@ require_once './assets/includes/head.php';
          if (counter > content.length - 1) {
             counter = 0;
          }
-         console.log(counter);
          scrollSuggestions(counter);
          counter++;
       }, 5000);
