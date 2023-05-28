@@ -2,34 +2,50 @@
 $timeFilter = "publishingDate";
 ## Default config of filters
 $filterArray = [
-    "publishingDate" => "DESC",
+    "publishingDate" => $sort ?? "DESC",
     "year" => "",
     "genre" => "all",
     "favorite" => $favorite ?? false,
-    "userId" => $userId ?? null
+    "userId" => $userId ?? null,
+    "results" => $results ?? false,
+    "query" => $query ?? null
+
 ];
 
 ?>
 
-<div class="filter_bar" id="filterBar" data-aimat="<?= $filter_aim_at; ?>" data-favorite="<?= boolval($filterArray['favorite']) ? "true" : "false"; ?>" data-userid="<?= $filterArray['userId']; ?>">
+<div class="filter_bar" id="filterBar" data-aimat="<?= $filter_aim_at; ?>" data-favorite="<?= boolval($filterArray['favorite']) ? "true" : "false"; ?>" data-userid="<?= $filterArray['userId']; ?>" data-results="<?= boolval($filterArray['results']) ? "true" : "false"; ?>" data-query="<?= $filterArray['query']; ?>">
     <div class="filter_bar__filter">
         <div class="filter_bar__filter__content">
             <fieldset id="publishing_date_filter">
 
-                <legend>Ordre de publication</legend>
+                <legend>Ordre</legend>
+
+                <?php
+                if ($filterArray['results']) {
+                ?>
+                    <div class="radio">
+                        <input type="radio" class="filter-input" name="publishingDate" id="pertinence" value="pertinence" <?php if ($filterArray['publishingDate'] == "popularity") {
+                                                                                                                                echo "checked";
+                                                                                                                            } ?>>
+                        <label for="pertinence">Pertinence&nbsp; </label>
+                    </div>
+                <?php
+                }
+                ?>
 
                 <div class="radio">
                     <input type="radio" class="filter-input" name="publishingDate" id="desc" value="DESC" <?php if ($filterArray['publishingDate'] == "DESC") {
                                                                                                                 echo "checked";
                                                                                                             } ?>>
-                    <label for="desc">Décroissant</label>
+                    <label for="desc">Plus récent&nbsp; </label>
                 </div>
 
                 <div class="radio">
                     <input type="radio" class="filter-input" name="publishingDate" id="asc" value="ASC" <?php if ($filterArray['publishingDate'] == "ASC") {
                                                                                                             echo "checked";
                                                                                                         } ?>>
-                    <label for="asc">Croissant</label>
+                    <label for="asc">Plus ancien&nbsp; </label>
                 </div>
             </fieldset>
 

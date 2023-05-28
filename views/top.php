@@ -12,15 +12,17 @@ require_once './assets/includes/head.php';
     require_once './assets/includes/header.php';
     ?>
 
-    <h1 class="container">Les TOPS !</h1>
-    <h2 class="container">Films</h2>
 
 
-    <?php
-    $filter_aim_at = "Film";
-    include_once './assets/includes/filterBar.php';
-    ?>
-    <div class="gallery container" id="film_container">
+
+    <div class="container">
+        <h1>Les TOPS !</h1>
+        <?php
+        $filter_aim_at = "Film";
+        include_once './assets/includes/filterBar.php';
+        ?>
+        <div class="gallery" id="film_container">
+        </div>
     </div>
 
     <?php

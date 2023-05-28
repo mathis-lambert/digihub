@@ -47,6 +47,8 @@ class Filters {
 
     filters.favorite = filterBar.dataset.favorite;
     filters.userid = filterBar.dataset.userid;
+    filters.fromResults = filterBar.dataset.results;
+    filters.query = filterBar.dataset.query;
 
     console.log(filters);
 
@@ -65,34 +67,127 @@ class Filters {
   }
 
   async getFilteredData() {
-    // get the filtered data from the API
-    const response = await fetch(`./controllers/php/filter.php`, {
-      method: "POST",
-      body: JSON.stringify({
-        aim_at: filterBar.dataset.aimat,
-        filterArray: this.options,
-      }),
-    });
-    const data = await response.json();
-    return data;
+    if (this.options.fromResults == "true") {
+      if (this.options.query) {
+        let q = this.options.query;
+
+        const response = await fetch(
+          "./controllers/php/normalizeQuery.php?method=searching&q=" + q
+        );
+        const data = await response.json();
+        let query = data.url;
+
+        const response2 = await fetch("./controllers/php/" + query);
+        const data2 = await response2.json();
+
+        if (data2.medias.length == 0) {
+          return [];
+        }
+        return data2.medias;
+      }
+    } else {
+      // get the filtered data from the API
+      const response = await fetch(`./controllers/php/filter.php`, {
+        method: "POST",
+        body: JSON.stringify({
+          aim_at: filterBar.dataset.aimat,
+          filterArray: this.options,
+        }),
+      });
+      const data = await response.json();
+      return data;
+    }
   }
 
-  updateView(data) {
+  async updateView(data) {
     if (filterBar.dataset.aimat == "Film") {
       const film_container = document.getElementById("film_container");
 
-      if (film_container) {
-        // update the film container with the filtered data
-        film_container.innerHTML = "";
-        data.forEach((film) => {
-          film_container.innerHTML += `
+      if (this.options.fromResults == "true") {
+        if (data.length == 0) {
+          film_container.innerHTML = `
+          <div class="search-result__item">
+            <h1 class="search-result__item__title">Aucun résultat trouvé</h1>
+          </div>
+          `;
+        } else {
+          let medias = data.map((film) => film.media);
+
+          /* Sort medias from current filters */
+          if (this.options.publishing_date == "DESC") {
+            medias.sort((a, b) => {
+              return (
+                new Date(b.mediaPublishingDate) -
+                new Date(a.mediaPublishingDate)
+              );
+            });
+          } else if (this.options.publishing_date == "ASC") {
+            medias.sort((a, b) => {
+              return (
+                new Date(a.mediaPublishingDate) -
+                new Date(b.mediaPublishingDate)
+              );
+            });
+          }
+
+          if (this.options.year) {
+            medias = medias.filter((media) => {
+              return media.mediaPublishingDate.includes(this.options.year);
+            });
+          }
+
+          if (this.options.genre != "all") {
+            console.log(this.options.genre);
+            const genres = await fetch("./controllers/php/get_genres.php");
+            const genresData = await genres.json();
+
+            let genreName = genresData.find(
+              (genre) => genre.genreId == this.options.genre
+            ).genreName;
+
+            medias = medias.filter((media) => {
+              return media.genreName.includes(genreName);
+            });
+          }
+
+          console.log(medias);
+
+          if (film_container) {
+            if (medias.length == 0) {
+              film_container.innerHTML = `
+              <div class="search-result__item">
+                <h1 class="search-result__item__title">Aucun résultat trouvé</h1>
+              </div>
+              `;
+            } else {
+              // update the film container with the filtered data
+              film_container.innerHTML = "";
+              medias.forEach((film) => {
+                film_container.innerHTML += `
+                <div class="search-result__item">
+                  <a href="./?view&id=${film.mediaId}" class="cover">
+                    <img src="https://image.tmdb.org/t/p/w500${film.mediaCoverImage}" alt="${film.mediaName}" class="search-result__item__image">
+                  </a>
+                </div>
+            `;
+              });
+            }
+          }
+        }
+      } else {
+        if (film_container) {
+          // update the film container with the filtered data
+          film_container.innerHTML = "";
+          data.forEach((film) => {
+            film_container.innerHTML += `
               <div class="gallery__item">
                 <a href="./?view&id=${film.mediaId}">
                   <img src="https://image.tmdb.org/t/p/w500${film.mediaCoverImage}" alt="${film.title}">
                 </a>
               </div>
           `;
-        });
+          });
+        }
       }
     }
   }

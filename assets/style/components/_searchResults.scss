@@ -1,5 +1,8 @@
 .search-result-container {
   min-height: 100vh;
+  &.no-height {
+    min-height: 0;
+  }
 }
 .search-result {
   display: flex;

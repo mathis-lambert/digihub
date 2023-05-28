@@ -824,6 +824,9 @@ header .search-button:hover svg {
 .search-result-container {
   min-height: 100vh;
 }
+.search-result-container.no-height {
+  min-height: 0;
+}
 
 .search-result {
   display: flex;
@@ -891,6 +894,7 @@ header .search-button:hover svg {
   padding-top: 0 !important;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  place-items: center;
 }
 .gallery .gallery__item {
   max-width: 200px;

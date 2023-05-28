@@ -2,7 +2,8 @@
   padding-top: 0 !important;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-  //align-items: center;
+  place-items: center;
+
   .gallery__item {
     max-width: 200px;
     img {

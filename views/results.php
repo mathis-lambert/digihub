@@ -20,7 +20,14 @@ $words = $_GET['q'];
             <div id="try_with"></div>
         </div>
         <div class="search-result-container">
-            <div class="search-result">
+            <?php
+            $filter_aim_at = "Film";
+            $results = true;
+            $query = $words;
+            $sort = "popularity";
+            include_once './assets/includes/filterBar.php';
+            ?>
+            <div class="search-result" id="film_container">
             </div>
         </div>
 
@@ -28,7 +35,6 @@ $words = $_GET['q'];
             <h2>D'autres résultats pourraient vous intéresser !</h2>
         </div>
     </div>
-    <script src="./scripts/search_result.js"></script>
 
 
     <?php require_once './assets/includes/footer.php'; ?>

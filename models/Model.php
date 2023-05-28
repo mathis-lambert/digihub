@@ -289,7 +289,7 @@ class Model
    public function getTopRatingMedias()
    {
       // join the tables medias and comments
-      $sql = "SELECT * FROM medias, comments WHERE medias.mediaId = comments.commentMediaId ORDER BY comments.commentRating DESC LIMIT 9";
+      $sql = "SELECT * FROM medias, comments WHERE medias.mediaId = comments.commentMediaId GROUP BY medias.mediaId ORDER BY comments.commentRating DESC LIMIT 9 ";
       $result = $this->getConn()->prepare($sql);
       $result->execute();
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -298,7 +298,7 @@ class Model
 
    public function getMediaByDateSortie()
    {
-      $sql = "SELECT * FROM medias ORDER BY mediaPublishingDate DESC LIMIT 9";
+      $sql = "SELECT * FROM medias, types WHERE medias.mediaTypeId = types.typeId ORDER BY mediaPublishingDate DESC LIMIT 14";
       $result = $this->getConn()->prepare($sql);
       $result->execute();
       $medias = $result->fetchAll(PDO::FETCH_ASSOC);
